@@ -1,0 +1,9 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;
+  &lt;Assembly Path="/Users/leinoil/Development/dotnet/github/Frends.Community.SecurityThreatDiagnostics/Frends.Community.SecurityThreatDiagnostics/bin/Release/net471/Frends.Community.SecurityThreatDiagnostics.dll" /&gt;
+  &lt;Assembly Path="/usr/local/share/dotnet/shared/Microsoft.NETCore.App/3.1.7/System.Xml.dll" /&gt;
+  &lt;Assembly Path="/usr/local/share/dotnet/shared/Microsoft.NETCore.App/3.1.7/System.Private.Xml.dll" /&gt;
+&lt;/AssemblyExplorer&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=70037198_002D7f6d_002D42ad_002Dbfa8_002D22120ff223ed/@EntryIndexedValue">&lt;SessionState ContinuousTestingIsOn="False" ContinuousTestingMode="0" FrameworkVersion="{x:Null}" IsLocked="False" Name="All tests from Frends.Community.SecurityThreatDiagnostics.Tests.cs" PlatformMonoPreference="{x:Null}" PlatformType="{x:Null}" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+  &lt;ProjectFile&gt;8CA92187-8E4F-4414-803B-EC899479022E/f:Frends.Community.SecurityThreatDiagnostics.Tests.cs&lt;/ProjectFile&gt;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

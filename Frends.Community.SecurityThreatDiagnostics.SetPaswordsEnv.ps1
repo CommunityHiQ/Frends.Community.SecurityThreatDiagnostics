@@ -1,0 +1,1 @@
+[System.Environment]::SetEnvironmentVariable('SECURITY_THREAD_DIAGNOSTICS_VERSION','1.0.0')

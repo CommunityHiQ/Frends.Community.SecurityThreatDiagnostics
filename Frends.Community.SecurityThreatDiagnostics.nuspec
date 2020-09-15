@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Frends.Community.SecurityThreatDiagnostics</id>
+    <version>1.0.19</version>
+    <title>Frends frendstask client</title>
+    <authors>HiQ Finland</authors>
+    <contentFiles>
+      <files include="/Filters.xml" />
+    </contentFiles>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Task for challenging and validating input parameters against standard script based attacks.</description>
+    <summary />
+    <dependencies>
+        <group targetFramework=".NETFramework4.7.1" >
+        </group>
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System" targetFramework="net471" />
+    </frameworkAssemblies>
+  </metadata>
+  <files>
+    <file src="./Frends.Community.SecurityThreatDiagnostics/bin/Release/net471/Frends.Community.SecurityThreatDiagnostics.dll" target="lib\net471\Frends.Community.SecurityThreatDiagnostics.dll" />
+  </files>
+</package>
