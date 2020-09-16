@@ -19,10 +19,13 @@ namespace Frends.Community.SecurityThreatDiagnostics
         public string Payload { get; set; }
     }
     
-    public class WhiteListedIPs
+    /// <summary>
+    /// Challenge against allowed IP addresses
+    /// </summary>
+    public class AllowedIPAddresses
     {
         /// <summary>
-        /// Current HTTP url
+        /// Current HTTP url where the message is coming from
         /// </summary>
         [DisplayFormat(DataFormatString = "Text")] 
         [DefaultValue("Current HTTP url")]
@@ -33,11 +36,20 @@ namespace Frends.Community.SecurityThreatDiagnostics
         /// </summary>
         [DisplayFormat(DataFormatString = "Text")] 
         [DefaultValue("Whitelisted IP addresses to bypass validation")]
-        public IPAddress[] IpAddress { get; set; }
+        //public IPAddress[] WhiteListedIpAddress { get; set; }
+        public string[] WhiteListedIpAddress { get; set; }
+
+        /// <summary>
+        /// Blacklisted IP addresses and ranges 
+        /// </summary>
+        [DisplayFormat(DataFormatString = "Text")] 
+        [DefaultValue("Whitelisted IP addresses to bypass validation")]
+        //public IPAddress[] BlackListedIpAddresses { get; set; }
+        public string[] BlackListedIpAddresses { get; set; }
     }
 
     /// <summary>
-    /// Current HTTP white listed headers
+    /// Challenge against allowed HTTP headers
     /// </summary>
     //[DisplayFormat(DataFormatString = "Text")] 
     [DefaultValue("#trigger.data.httpHeaders")]

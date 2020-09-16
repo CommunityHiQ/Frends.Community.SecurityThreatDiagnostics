@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -15,7 +17,6 @@ using SecurityHeadersMiddleware.OwinAppBuilder;
 
 namespace Frends.Community.SecurityThreatDiagnostics
 {
-    
     using BuildFunc =
         Action<Func<IDictionary<string, object>,
             Func<Func<IDictionary<string, object>, Task>, Func<IDictionary<string, object>, Task>>>>;
@@ -25,13 +26,12 @@ namespace Frends.Community.SecurityThreatDiagnostics
             lazy = 
                 new Lazy<XmlReader>
                 (() => {
-                    SecurityFilters securityFilters = new SecurityFilters();
-                    XmlReader reader = new XmlTextReader(securityFilters.ToString());
+                    XmlReader reader = new XmlTextReader(SecurityFilters.SecurityRules);
                     return reader;
                 });
         public static XmlReader Instance { get { return lazy.Value; } }
     }
-    
+
     public static class SecurityThreatDiagnostics
     {
         /// <summary>
@@ -52,6 +52,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
                 .Append(validation.Payload)
                 .Append("] \n\n");
 
+            // Read from resources with a singleton pattern (read once in the memory)
             XmlReader reader = SecurityFilterReader.Instance;
             
             while (reader.Read())
@@ -71,6 +72,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
                                 .Append(reader.Value).Append("]");
                             dictionary.Add(id, validationChallengeMessage.ToString());
                         }
+
                         break;
                 }
             }
@@ -80,20 +82,57 @@ namespace Frends.Community.SecurityThreatDiagnostics
             {
                 throw new ApplicationException(validationChallengeMessage.ToString());
             }
+
             return false;
         }
-        
+
         /// <summary>
         ///  Verifies the whitelist of known IP addresses
         /// </summary>
-        /// <param name="whiteListedIPs">Define IP addresses which can bypass the validation.</param>
+        /// <param name="allowedIpAddresses">Define IP addresses which can bypass the validation.</param>
         /// <param name="cancellationToken"></param>
-        public static bool ChallengeIPAddresses([PropertyTab] WhiteListedIPs whiteListedIPs, CancellationToken cancellationToken)
+        public static bool ChallengeIPAddresses(
+            [PropertyTab] AllowedIPAddresses allowedIpAddresses,
+            CancellationToken cancellationToken)
         {
-            Uri uri = new Uri (whiteListedIPs.Host);
-            return whiteListedIPs.IpAddress.ToList().Select(
-                entry => 
-                    entry.ToString().Equals(uri.Host)) != null ? true : false;
+            // TODO: https://help.hotjar.com/hc/en-us/articles/115012727628-How-to-Use-Regular-Expressions-for-Page-Targeting-and-IP-Blocking
+            // 127\.76\.111\.(6[4-9]|7[1-9])
+            // 0000:0000:0000:0000:0000:0000:0000:0001
+            // \d{1,4}\.\d{1,4}\.\d{1,4}\.\d{1,4}\d{1,4}\.\d{1,4}\.\d{1,4}\.\d{1,4}
+            // \d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}
+
+            IEnumerable<bool> isValidIPAddress = new List<bool>();
+
+            //allowedIpAddresses.BlackListedIpAddresses
+            //Uri uri = new Uri(allowedIpAddresses.Host);
+            
+            // HTTP GET only URL max length is 2048 marks.
+            // if (allowedIpAddresses.Host.Length <= 2048)
+            
+            isValidIPAddress = allowedIpAddresses.WhiteListedIpAddress.ToList().Select(
+                entry =>
+                {
+                    Uri inboundHost = new Uri(entry.ToString());
+                    Regex allowedInboundTrafficRule = new Regex(inboundHost.Host);
+                    return allowedInboundTrafficRule.IsMatch(allowedIpAddresses.Host);
+                });
+            
+            isValidIPAddress = allowedIpAddresses.BlackListedIpAddresses.ToList().Select(
+                entry =>
+                {
+                    Uri inboundHost = new Uri(entry.ToString());
+                    Regex allowedInboundTrafficRule = new Regex(inboundHost.Host);
+                    return allowedInboundTrafficRule.IsMatch(allowedIpAddresses.Host);
+                });
+
+            foreach (var b in isValidIPAddress.ToList())
+            {
+                if (b == true) return false;
+                {
+                    throw new ApplicationException("Invalid IP Address or range [" + b.ToString() + "]");
+                }
+            }
+            return true;
         }
         
         /// <summary>
@@ -127,6 +166,11 @@ namespace Frends.Community.SecurityThreatDiagnostics
                 .ContentTypeOptions()
                 .StrictTransportSecurity(config)
                 .XssProtectionHeader(true);//.ContentSecurityPolicyReportOnly(appbuilder, config);
+            
+            //if (b == true) return false;
+            {
+                //throw new ApplicationException("Invalid HTTP header [" + b.ToString() + "]");
+            }
 
             return null;
         }
