@@ -1,6 +1,6 @@
+using System;
 using NUnit.Framework;
 using System.Threading;
-using Frends.Community.SecurityThreatDiagnostics;
 
 namespace Frends.Community.SecurityThreatDiagnostics.Tests
 {
@@ -14,9 +14,10 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         [Test]
         public void GivenValidTextWhenChallengingValidationThenSecurityThreatDiagnosticsMustReturnFalse()
         {
-            string validXml = "This is a valid content.;'  temp.txt";
+            string validXml = "This is a valid content.;function ' <script>  temp.txt";
             validation.Payload = validXml;
-            Assert.IsFalse(SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, cancellationToken)) ;
+            Assert.Throws<ApplicationException>(
+                delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, cancellationToken); } );
         }
         
         [Test]
@@ -24,7 +25,8 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         {
             string validXml = "<xml><entity>1</entity></xml>";
             validation.Payload = validXml;
-            Assert.IsTrue(SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, cancellationToken)) ;
+            Assert.Throws<ApplicationException>(
+                delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, cancellationToken); } );
         }
         
         [Test]
@@ -32,7 +34,8 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         {
             string invalidXml = "<xml><entity><script>function xss() { alert('injection'); } xss();</script></entity></xml>";
             validation.Payload = invalidXml;
-            Assert.IsTrue(SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, cancellationToken)) ;
+            Assert.Throws<ApplicationException>(
+                delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, cancellationToken); } );
         }
         
         [Test]
@@ -40,7 +43,8 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         {
             string unsecureUrl = "http://victim/cgi/%252E%252E%252F%252E%252E%252Fwinnt/system32/cmd.exe?/c+dir+c:\";";
             validation.Payload = unsecureUrl;
-            Assert.IsFalse(SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, cancellationToken)) ;
+            Assert.Throws<ApplicationException>(
+                delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, cancellationToken); } );
         }
         
         [Test]
@@ -48,7 +52,8 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         {
             string unsecureUrl = "select * from Customers;`insert into";
             validation.Payload = unsecureUrl;
-            Assert.IsFalse(SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, cancellationToken)) ;
+            Assert.Throws<ApplicationException>(
+                delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, cancellationToken); } );
         }
     }
 }

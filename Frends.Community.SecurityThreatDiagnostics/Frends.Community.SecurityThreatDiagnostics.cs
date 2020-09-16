@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Linq;
 using Owin;
 using SecurityHeadersMiddleware;
 using SecurityHeadersMiddleware.OwinAppBuilder;
@@ -20,16 +23,49 @@ namespace Frends.Community.SecurityThreatDiagnostics
     using BuildFunc =
         Action<Func<IDictionary<string, object>,
             Func<Func<IDictionary<string, object>, Task>, Func<IDictionary<string, object>, Task>>>>;
+    
     public sealed class SecurityFilterReader
     {
-        private static readonly Lazy<XmlReader>
-            lazy = 
-                new Lazy<XmlReader>
-                (() => {
-                    XmlReader reader = new XmlTextReader(SecurityFilters.SecurityRules);
-                    return reader;
+        private static readonly object PadLock = new object();
+        private static readonly Lazy<ConcurrentDictionary<string, Regex>>
+            
+            Lazy = 
+                new Lazy<ConcurrentDictionary<string, Regex>>
+                (() =>
+                {
+                    XDocument xdoc = XDocument.Parse(SecurityFilters.SecurityRules);
+                    XmlReader reader = new XmlTextReader(new StringReader(xdoc.ToString()));
+                    try
+                    {
+                        ConcurrentDictionary<string, Regex> concurrentRules = new ConcurrentDictionary<string, Regex>();
+                        while (reader.Read())
+                        {
+                            switch (reader.NodeType)
+                            {
+                                case XmlNodeType.CDATA:
+                                    string id = Guid.NewGuid().ToString();
+                                    concurrentRules.TryAdd(id, new Regex(reader.Value, RegexOptions.IgnoreCase));
+                                    break;
+                            }
+                        }
+                        return concurrentRules;
+                    }
+                    finally
+                    {
+                        if (reader != null)
+                            reader.Dispose();
+                    }
                 });
-        public static XmlReader Instance { get { return lazy.Value; } }
+        
+        public static ConcurrentDictionary<string, Regex> Instance
+        {
+            get
+            {
+                lock(PadLock)
+                    return Lazy.Value;
+            }
+        }
+
     }
 
     public static class SecurityThreatDiagnostics
@@ -52,38 +88,29 @@ namespace Frends.Community.SecurityThreatDiagnostics
                 .Append(validation.Payload)
                 .Append("] \n\n");
 
-            // Read from resources with a singleton pattern (read once in the memory)
-            XmlReader reader = SecurityFilterReader.Instance;
-            
-            while (reader.Read())
-            {
-                string id = Guid.NewGuid().ToString();
-                switch (reader.NodeType)
-                {
-                    case XmlNodeType.CDATA:
-                        Regex validationPattern = new Regex(reader.Value, RegexOptions.IgnoreCase);
-                        if (validationPattern.Matches(validation.Payload).Count > 0)
-                        {
-                            validationChallengeMessage
-                                .Append("id [")
-                                .Append(id)
-                                .Append("]")
-                                .Append(" contains vulnerability [")
-                                .Append(reader.Value).Append("]");
-                            dictionary.Add(id, validationChallengeMessage.ToString());
-                        }
+            ConcurrentDictionary<string, Regex> ruleDictionary = SecurityFilterReader.Instance;
 
-                        break;
+            foreach (var entry in ruleDictionary)
+            {
+                if (entry.Value.IsMatch(validation.Payload))
+                {
+                    validationChallengeMessage
+                        .Append("id [")
+                        .Append(entry.Key)
+                        .Append("]")
+                        .Append(" contains vulnerability [")
+                        .Append(entry.Value).Append("]");
+                    dictionary.Add(entry.Key, validationChallengeMessage.ToString());
                 }
             }
 
-            dictionary.ToList().ForEach(entry => Console.Out.WriteLine(entry.ToString()));
+            //dictionary.ToList().ForEach(entry => Console.Out.WriteLine(entry.ToString()));
             if (dictionary.Count > 0)
             {
                 throw new ApplicationException(validationChallengeMessage.ToString());
             }
 
-            return false;
+            return true;
         }
 
         /// <summary>

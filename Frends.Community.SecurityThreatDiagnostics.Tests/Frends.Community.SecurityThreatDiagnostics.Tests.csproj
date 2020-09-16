@@ -1,33 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net471</TargetFramework>
+    <TargetFrameworks>net471</TargetFrameworks>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="nunit" Version="3.12.0" />
+    <PackageReference Include="nunit" Version="3.10.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.1" />
-    <PackageReference Include="SecurityCodeScan" Version="3.5.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Frends.Community.SecurityThreatDiagnostics\Frends.Community.SecurityThreatDiagnostics.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Frends.Community.SecurityThreatDiagnostics.Tests.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Frends.Community.SecurityThreatDiagnostics, Version=0.0.1.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\Frends.Community.SecurityThreatDiagnostics\bin\Release\net471\Frends.Community.SecurityThreatDiagnostics.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
