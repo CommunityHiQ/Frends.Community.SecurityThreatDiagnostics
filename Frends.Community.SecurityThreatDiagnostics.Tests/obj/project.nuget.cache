@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "dgSpecHash": "cxVHMyMyRX4uznq4PiIztNxcRSqfGCoP/6E4FmyzACSyQXld1NKa5MfAtYgyJNDQTJucEEyeHwNvcYSz5ccwBA==",
+  "success": true,
+  "projectFilePath": "/Users/leinoil/Development/dotnet/github/Frends.Community.SecurityThreatDiagnostics/Frends.Community.SecurityThreatDiagnostics.Tests/Frends.Community.SecurityThreatDiagnostics.Tests.csproj",
+  "expectedPackageFiles": [
+    "/Users/leinoil/.nuget/packages/microsoft.codecoverage/16.6.1/microsoft.codecoverage.16.6.1.nupkg.sha512",
+    "/Users/leinoil/.nuget/packages/microsoft.csharp/4.7.0/microsoft.csharp.4.7.0.nupkg.sha512",
+    "/Users/leinoil/.nuget/packages/microsoft.net.test.sdk/16.6.1/microsoft.net.test.sdk.16.6.1.nupkg.sha512",
+    "/Users/leinoil/.nuget/packages/microsoft.netcore.platforms/1.1.0/microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "/Users/leinoil/.nuget/packages/microsoft.owin/2.1.0/microsoft.owin.2.1.0.nupkg.sha512",
+    "/Users/leinoil/.nuget/packages/netstandard.library/2.0.3/netstandard.library.2.0.3.nupkg.sha512",
+    "/Users/leinoil/.nuget/packages/nunit/3.10.0/nunit.3.10.0.nupkg.sha512",
+    "/Users/leinoil/.nuget/packages/nunit3testadapter/3.17.0/nunit3testadapter.3.17.0.nupkg.sha512",
+    "/Users/leinoil/.nuget/packages/owin/1.0.0/owin.1.0.0.nupkg.sha512",
+    "/Users/leinoil/.nuget/packages/securityheadersmiddleware/2.0.0/securityheadersmiddleware.2.0.0.nupkg.sha512",
+    "/Users/leinoil/.nuget/packages/securityheadersmiddleware.appbuilder/2.0.0/securityheadersmiddleware.appbuilder.2.0.0.nupkg.sha512",
+    "/Users/leinoil/.nuget/packages/system.componentmodel.annotations/4.7.0/system.componentmodel.annotations.4.7.0.nupkg.sha512"
+  ],
+  "logs": []
+}

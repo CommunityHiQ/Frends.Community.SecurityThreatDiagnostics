@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Frends.Community.SecurityThreatDiagnostics</name>
+    </assembly>
+    <members>
+        <member name="T:Frends.Community.SecurityThreatDiagnostics.Validation">
+            <summary>
+            Parameters class usually requires parameters that are required.
+            </summary>
+        </member>
+        <member name="P:Frends.Community.SecurityThreatDiagnostics.Validation.Payload">
+            <summary>
+            Something that will be repeated.
+            </summary>
+        </member>
+        <member name="T:Frends.Community.SecurityThreatDiagnostics.AllowedIPAddresses">
+            <summary>
+            Challenge against allowed IP addresses
+            </summary>
+        </member>
+        <member name="P:Frends.Community.SecurityThreatDiagnostics.AllowedIPAddresses.Host">
+            <summary>
+            Current HTTP url where the message is coming from
+            </summary>
+        </member>
+        <member name="P:Frends.Community.SecurityThreatDiagnostics.AllowedIPAddresses.WhiteListedIpAddress">
+            <summary>
+            Whitelisted IP addresses to be bypassed 
+            </summary>
+        </member>
+        <member name="P:Frends.Community.SecurityThreatDiagnostics.AllowedIPAddresses.BlackListedIpAddresses">
+            <summary>
+            Blacklisted IP addresses and ranges 
+            </summary>
+        </member>
+        <member name="T:Frends.Community.SecurityThreatDiagnostics.WhiteListedHeaders">
+            <summary>
+            Challenge against allowed HTTP headers
+            </summary>
+        </member>
+        <member name="P:Frends.Community.SecurityThreatDiagnostics.WhiteListedHeaders.HttpRedirectUri">
+            <summary>
+            Define the HTTP(S) redirect url   
+            </summary>
+        </member>
+        <member name="P:Frends.Community.SecurityThreatDiagnostics.WhiteListedHeaders.HttpHeader">
+            <summary>
+            Define the domain uri
+            </summary>
+        </member>
+        <member name="T:Frends.Community.SecurityThreatDiagnostics.Options">
+            <summary>
+            Options class provides additional parameters.
+            </summary>
+        </member>
+        <member name="P:Frends.Community.SecurityThreatDiagnostics.Options.Encoding">
+            <summary>
+            Which encoding should be used, default UTF-8.
+            </summary>
+        </member>
+        <member name="P:Frends.Community.SecurityThreatDiagnostics.Result.ICollection">
+            <summary>
+            Contains input .
+            </summary>
+        </member>
+        <member name="M:Frends.Community.SecurityThreatDiagnostics.SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(Frends.Community.SecurityThreatDiagnostics.Validation,Frends.Community.SecurityThreatDiagnostics.Options,System.Threading.CancellationToken)">
+            <summary>
+            This is task which validates data 
+            Documentation: https://github.com/CommunityHiQ/Frends.Community.SecurityThreatDiagnostics
+            </summary>
+            <param name="validation">What to repeat.</param>
+            <param name="options">Define if repeated multiple times. </param>
+            <param name="cancellationToken"></param>
+            <returns>{bool Replication} </returns>
+        </member>
+        <member name="M:Frends.Community.SecurityThreatDiagnostics.SecurityThreatDiagnostics.ChallengeIPAddresses(Frends.Community.SecurityThreatDiagnostics.AllowedIPAddresses,System.Threading.CancellationToken)">
+            <summary>
+             Verifies the whitelist of known IP addresses
+            </summary>
+            <param name="allowedIpAddresses">Define IP addresses which can bypass the validation.</param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:Frends.Community.SecurityThreatDiagnostics.SecurityThreatDiagnostics.ChallengeSecurityHeaders(Frends.Community.SecurityThreatDiagnostics.WhiteListedHeaders,System.Threading.CancellationToken)">
+            <summary>
+             Verifies the header content and validates data.
+            </summary>
+            <param name="WhiteListedHeaders">Known HTTP headers to be bypassed in validation.</param>
+            <param name="cancellationToken"></param>
+            <returns>{string Result} </returns>
+        </member>
+    </members>
+</doc>

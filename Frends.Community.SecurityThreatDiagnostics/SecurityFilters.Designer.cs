@@ -44,5 +44,11 @@ namespace Frends.Community.SecurityThreatDiagnostics {
                 resourceCulture = value;
             }
         }
+        
+        internal static string SecurityRules {
+            get {
+                return ResourceManager.GetString("SecurityRules", resourceCulture);
+            }
+        }
     }
 }

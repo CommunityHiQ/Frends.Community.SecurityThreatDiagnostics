@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,17 +10,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
-using Owin;
 using SecurityHeadersMiddleware;
-using SecurityHeadersMiddleware.OwinAppBuilder;
 
 #pragma warning disable 1591
 
 namespace Frends.Community.SecurityThreatDiagnostics
 {
-    using BuildFunc =
-        Action<Func<IDictionary<string, object>,
-            Func<Func<IDictionary<string, object>, Task>, Func<IDictionary<string, object>, Task>>>>;
+    using BuildFunc = Action<Func<IDictionary<string, object>, Func<Func<IDictionary<string, object>, Task>, Func<IDictionary<string, object>, Task>>>>;
     
     public sealed class SecurityFilterReader
     {
@@ -122,43 +116,32 @@ namespace Frends.Community.SecurityThreatDiagnostics
             [PropertyTab] AllowedIPAddresses allowedIpAddresses,
             CancellationToken cancellationToken)
         {
-            // TODO: https://help.hotjar.com/hc/en-us/articles/115012727628-How-to-Use-Regular-Expressions-for-Page-Targeting-and-IP-Blocking
-            // 127\.76\.111\.(6[4-9]|7[1-9])
-            // 0000:0000:0000:0000:0000:0000:0000:0001
-            // \d{1,4}\.\d{1,4}\.\d{1,4}\.\d{1,4}\d{1,4}\.\d{1,4}\.\d{1,4}\.\d{1,4}
-            // \d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}
-
-            IEnumerable<bool> isValidIPAddress = new List<bool>();
-
-            //allowedIpAddresses.BlackListedIpAddresses
-            //Uri uri = new Uri(allowedIpAddresses.Host);
-            
-            // HTTP GET only URL max length is 2048 marks.
-            // if (allowedIpAddresses.Host.Length <= 2048)
-            
-            isValidIPAddress = allowedIpAddresses.WhiteListedIpAddress.ToList().Select(
+            List<string> invalidIPAddresses = new List<string>();
+            allowedIpAddresses.WhiteListedIpAddress?.ToList().ForEach(
                 entry =>
                 {
-                    Uri inboundHost = new Uri(entry.ToString());
-                    Regex allowedInboundTrafficRule = new Regex(inboundHost.Host);
-                    return allowedInboundTrafficRule.IsMatch(allowedIpAddresses.Host);
+                    Regex allowedInboundTrafficRule = new Regex(entry);
+                    if  (!allowedInboundTrafficRule.IsMatch(allowedIpAddresses.Host)) 
+                    {
+                        invalidIPAddresses.Append(entry);
+                    }
                 });
             
-            isValidIPAddress = allowedIpAddresses.BlackListedIpAddresses.ToList().Select(
+            allowedIpAddresses.BlackListedIpAddresses?.ToList().ForEach(
                 entry =>
                 {
-                    Uri inboundHost = new Uri(entry.ToString());
-                    Regex allowedInboundTrafficRule = new Regex(inboundHost.Host);
-                    return allowedInboundTrafficRule.IsMatch(allowedIpAddresses.Host);
+                    Regex allowedInboundTrafficRule = new Regex(entry);
+                    if (allowedInboundTrafficRule.IsMatch(allowedIpAddresses.Host))
+                    {
+                        invalidIPAddresses.Append(entry);
+                    }
                 });
-
-            foreach (var b in isValidIPAddress.ToList())
+            
+            if (invalidIPAddresses.Count > 0)
             {
-                if (b == true) return false;
-                {
-                    throw new ApplicationException("Invalid IP Address or range [" + b.ToString() + "]");
-                }
+                throw new ApplicationException("Invalid IP Address or range [" + allowedIpAddresses.Host + "]");
             }
+            
             return true;
         }
         
@@ -170,8 +153,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
         /// <returns>{string Result} </returns>
         public static Result ChallengeSecurityHeaders([PropertyTab] WhiteListedHeaders whiteListedHeaders, CancellationToken cancellationToken)
         {
-            IAppBuilder appbuilder = null;
-            BuildFunc buildFunc = null;
+            //BuildFunc buildFunc = BuildFunc;
 
             // Add Strict-Transport-Security with the configured settings
             var config = new StrictTransportSecurityOptions {
@@ -181,24 +163,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
                 RedirectUriBuilder = uri => whiteListedHeaders.HttpRedirectUri, // Only do this, when you want to replace the default behavior (from http to https).
                 RedirectReasonPhrase = statusCode => "303 See Other"
             };
-
-            buildFunc
-                .AntiClickjackingHeader(new Uri(whiteListedHeaders.HttpUri), new Uri(whiteListedHeaders.HttpUri))
-                .ContentTypeOptions()
-                .StrictTransportSecurity(config)
-                .XssProtectionHeader(true);//.ContentSecurityPolicyReportOnly(appbuilder, config);
-            
-            appbuilder
-                .AntiClickjackingHeader(new Uri(whiteListedHeaders.HttpUri), new Uri(whiteListedHeaders.HttpUri))
-                .ContentTypeOptions()
-                .StrictTransportSecurity(config)
-                .XssProtectionHeader(true);//.ContentSecurityPolicyReportOnly(appbuilder, config);
-            
-            //if (b == true) return false;
-            {
-                //throw new ApplicationException("Invalid HTTP header [" + b.ToString() + "]");
-            }
-
+            // TODO : Logic for verifying HTTP headers
             return null;
         }
     }

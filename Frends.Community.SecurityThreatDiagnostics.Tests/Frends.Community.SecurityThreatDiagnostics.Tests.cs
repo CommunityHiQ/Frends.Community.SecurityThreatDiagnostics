@@ -55,5 +55,40 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             Assert.Throws<ApplicationException>(
                 delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, cancellationToken); } );
         }
+        
+        [Test]
+        [Ignore("Not yet implemented")]
+        public void GivenInjectedHeaderInWhenChallengingHeadersForValidationThenSecurityThreatDiagnosticsMustRaiseException()
+        {
+            WhiteListedHeaders whiteListedHeaders = new WhiteListedHeaders();
+            whiteListedHeaders.HttpUri = "http://localhost:8080";
+            string[] headers =
+                {"Authorization: Bearer=<script>function aha(){ alert(\"i created XSS\"); } aha();</script>"};
+            whiteListedHeaders.HttpHeader = headers;
+            Assert.Throws<ApplicationException>(delegate { SecurityThreatDiagnostics.ChallengeSecurityHeaders(whiteListedHeaders, cancellationToken); } );
+        }
+        
+        [Test]
+        public void GivenAllowdIPAddressWhenChallengingIPForValidationThenSecurityThreatDiagnosticsMustRaiseException() {
+            AllowedIPAddresses allowedIpAddresses = new AllowedIPAddresses();
+            //IPV4 and IPV6
+            string[] allowedIPAddressesRegex =
+            {
+                "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}",
+                "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3},\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}"
+            };
+
+            
+            string[] denyBroadcastIPAddressesRegex =                                                        
+            {                                                                                         
+                "255.255.255.255"
+            };                                                                                        
+            
+            allowedIpAddresses.WhiteListedIpAddress = allowedIPAddressesRegex;
+            allowedIpAddresses.BlackListedIpAddresses = denyBroadcastIPAddressesRegex;
+            allowedIpAddresses.Host = "127.0.0.1";
+            Assert.DoesNotThrow(delegate { SecurityThreatDiagnostics.ChallengeIPAddresses(allowedIpAddresses, cancellationToken); } );
+        }
+        
     }
 }

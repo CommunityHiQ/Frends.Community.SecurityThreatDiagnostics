@@ -1,0 +1,172 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/leinoil/Development/dotnet/github/Frends.Community.SecurityThreatDiagnostics/Frends.Community.SecurityThreatDiagnostics.Tests/Frends.Community.SecurityThreatDiagnostics.Tests.csproj": {}
+  },
+  "projects": {
+    "/Users/leinoil/Development/dotnet/github/Frends.Community.SecurityThreatDiagnostics/Frends.Community.SecurityThreatDiagnostics.Tests/Frends.Community.SecurityThreatDiagnostics.Tests.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/leinoil/Development/dotnet/github/Frends.Community.SecurityThreatDiagnostics/Frends.Community.SecurityThreatDiagnostics.Tests/Frends.Community.SecurityThreatDiagnostics.Tests.csproj",
+        "projectName": "Frends.Community.SecurityThreatDiagnostics.Tests",
+        "projectPath": "/Users/leinoil/Development/dotnet/github/Frends.Community.SecurityThreatDiagnostics/Frends.Community.SecurityThreatDiagnostics.Tests/Frends.Community.SecurityThreatDiagnostics.Tests.csproj",
+        "packagesPath": "/Users/leinoil/.nuget/packages/",
+        "outputPath": "/Users/leinoil/Development/dotnet/github/Frends.Community.SecurityThreatDiagnostics/Frends.Community.SecurityThreatDiagnostics.Tests/obj/",
+        "projectStyle": "PackageReference",
+        "crossTargeting": true,
+        "configFilePaths": [
+          "/Users/leinoil/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net471"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net471": {
+            "projectReferences": {
+              "/Users/leinoil/Development/dotnet/github/Frends.Community.SecurityThreatDiagnostics/Frends.Community.SecurityThreatDiagnostics/Frends.Community.SecurityThreatDiagnostics.csproj": {
+                "projectPath": "/Users/leinoil/Development/dotnet/github/Frends.Community.SecurityThreatDiagnostics/Frends.Community.SecurityThreatDiagnostics/Frends.Community.SecurityThreatDiagnostics.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net471": {
+          "dependencies": {
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[16.6.1, )"
+            },
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )"
+            },
+            "NUnit3TestAdapter": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.17.0, )"
+            },
+            "nunit": {
+              "target": "Package",
+              "version": "[3.10.0, )"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.301/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/leinoil/Development/dotnet/github/Frends.Community.SecurityThreatDiagnostics/Frends.Community.SecurityThreatDiagnostics/Frends.Community.SecurityThreatDiagnostics.csproj": {
+      "version": "0.0.1",
+      "restore": {
+        "projectUniqueName": "/Users/leinoil/Development/dotnet/github/Frends.Community.SecurityThreatDiagnostics/Frends.Community.SecurityThreatDiagnostics/Frends.Community.SecurityThreatDiagnostics.csproj",
+        "projectName": "Frends.Community.SecurityThreatDiagnostics",
+        "projectPath": "/Users/leinoil/Development/dotnet/github/Frends.Community.SecurityThreatDiagnostics/Frends.Community.SecurityThreatDiagnostics/Frends.Community.SecurityThreatDiagnostics.csproj",
+        "packagesPath": "/Users/leinoil/.nuget/packages/",
+        "outputPath": "/Users/leinoil/Development/dotnet/github/Frends.Community.SecurityThreatDiagnostics/Frends.Community.SecurityThreatDiagnostics/obj/",
+        "projectStyle": "PackageReference",
+        "crossTargeting": true,
+        "configFilePaths": [
+          "/Users/leinoil/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net471",
+          "netstandard2.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net471": {
+            "projectReferences": {}
+          },
+          "netstandard2.0": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net471": {
+          "dependencies": {
+            "Microsoft.CSharp": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            },
+            "Owin": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "SecurityHeadersMiddleware": {
+              "target": "Package",
+              "version": "[2.0.0, )"
+            },
+            "SecurityHeadersMiddleware.AppBuilder": {
+              "target": "Package",
+              "version": "[2.0.0, )"
+            },
+            "System.ComponentModel.Annotations": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.301/RuntimeIdentifierGraph.json"
+        },
+        "netstandard2.0": {
+          "dependencies": {
+            "Microsoft.CSharp": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            },
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            },
+            "Owin": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "SecurityHeadersMiddleware": {
+              "target": "Package",
+              "version": "[2.0.0, )"
+            },
+            "SecurityHeadersMiddleware.AppBuilder": {
+              "target": "Package",
+              "version": "[2.0.0, )"
+            },
+            "System.ComponentModel.Annotations": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.301/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

@@ -2,7 +2,6 @@
 
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Net;
 
 namespace Frends.Community.SecurityThreatDiagnostics
 {
@@ -69,6 +68,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
         [DisplayFormat(DataFormatString = "Text")] 
         [DefaultValue("http://somedomain.com")]
         public string[] HttpHeader { get; set; }
+        
     }
 
     /// <summary>
