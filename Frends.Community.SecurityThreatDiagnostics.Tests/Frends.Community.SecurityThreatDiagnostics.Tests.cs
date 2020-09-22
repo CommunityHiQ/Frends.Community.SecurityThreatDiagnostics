@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using System.Threading;
 
@@ -16,6 +17,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         {
             string validXml = "This is a valid content.;function ' <script>  temp.txt";
             validation.Payload = validXml;
+            options.Encoding = "UTF-8";
             Assert.Throws<ApplicationException>(
                 delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, cancellationToken); } );
         }
@@ -25,6 +27,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         {
             string validXml = "<xml><entity>1</entity></xml>";
             validation.Payload = validXml;
+            options.Encoding = "UTF-8";
             Assert.Throws<ApplicationException>(
                 delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, cancellationToken); } );
         }
@@ -34,6 +37,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         {
             string invalidXml = "<xml><entity><script>function xss() { alert('injection'); } xss();</script></entity></xml>";
             validation.Payload = invalidXml;
+            options.Encoding = "UTF-8";
             Assert.Throws<ApplicationException>(
                 delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, cancellationToken); } );
         }
@@ -43,6 +47,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         {
             string unsecureUrl = "http://victim/cgi/%252E%252E%252F%252E%252E%252Fwinnt/system32/cmd.exe?/c+dir+c:\";";
             validation.Payload = unsecureUrl;
+            options.Encoding = "UTF-8";
             Assert.Throws<ApplicationException>(
                 delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, cancellationToken); } );
         }
@@ -52,19 +57,20 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         {
             string unsecureUrl = "select * from Customers;`insert into";
             validation.Payload = unsecureUrl;
+            options.Encoding = "UTF-8";
             Assert.Throws<ApplicationException>(
                 delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, cancellationToken); } );
         }
         
         [Test]
-        [Ignore("Not yet implemented")]
+        [Ignore("Ignore a test")]
         public void GivenInjectedHeaderInWhenChallengingHeadersForValidationThenSecurityThreatDiagnosticsMustRaiseException()
         {
             WhiteListedHeaders whiteListedHeaders = new WhiteListedHeaders();
             whiteListedHeaders.HttpUri = "http://localhost:8080";
-            string[] headers =
-                {"Authorization: Bearer=<script>function aha(){ alert(\"i created XSS\"); } aha();</script>"};
-            whiteListedHeaders.HttpHeader = headers;
+            whiteListedHeaders.AllowedHttpHeaders = new [] {"Authorization"};
+            whiteListedHeaders.HttpHeaders = new Dictionary<string, string>();
+            whiteListedHeaders.HttpHeaders.Add("Authorization: ", "Bearer=<script>function attack(){ alert(\"i created XSS\"); } attack();</script>");
             Assert.Throws<ApplicationException>(delegate { SecurityThreatDiagnostics.ChallengeSecurityHeaders(whiteListedHeaders, cancellationToken); } );
         }
         

@@ -10,7 +10,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
-using SecurityHeadersMiddleware;
 
 #pragma warning disable 1591
 
@@ -64,6 +63,27 @@ namespace Frends.Community.SecurityThreatDiagnostics
 
     public static class SecurityThreatDiagnostics
     {
+        private static string encode(string encoding, string payload)
+        {
+            {
+                // Create two different encodings.
+                Encoding ascii = Encoding.GetEncoding(encoding);
+                Encoding unicode = Encoding.Unicode;
+
+                // Convert the string into a byte array.
+                byte[] unicodeBytes = unicode.GetBytes(payload);
+
+                // Perform the conversion from one encoding to the other.
+                byte[] asciiBytes = Encoding.Convert(unicode, ascii, unicodeBytes);
+         
+                char[] asciiChars = new char[ascii.GetCharCount(asciiBytes, 0, asciiBytes.Length)];
+                ascii.GetChars(asciiBytes, 0, asciiBytes.Length, asciiChars, 0);
+                string asciiString = new string(asciiChars);
+
+                return asciiString;
+            }
+        }
+        
         /// <summary>
         /// This is task which validates data 
         /// Documentation: https://github.com/CommunityHiQ/Frends.Community.SecurityThreatDiagnostics
@@ -71,7 +91,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
         /// <param name="validation">What to repeat.</param>
         /// <param name="options">Define if repeated multiple times. </param>
         /// <param name="cancellationToken"></param>
-        /// <returns>{bool Replication} </returns>
+        /// <returns>{bool challenges} </returns>
         public static bool ChallengeAgainstSecurityThreats([PropertyTab] Validation validation,
             [PropertyTab] Options options, CancellationToken cancellationToken)
         {
@@ -86,19 +106,23 @@ namespace Frends.Community.SecurityThreatDiagnostics
 
             foreach (var entry in ruleDictionary)
             {
-                if (entry.Value.IsMatch(validation.Payload))
+                string encoded = encode(options.Encoding ?? "UTF-8", validation.Payload);
+                if (entry.Value.IsMatch(validation.Payload) || encoded.Length > 0 &&
+                    entry.Value.IsMatch(encoded))
                 {
                     validationChallengeMessage
                         .Append("id [")
                         .Append(entry.Key)
                         .Append("]")
                         .Append(" contains vulnerability [")
-                        .Append(entry.Value).Append("]");
+                        .Append(entry.Value).Append("], ")
+                        .Append("encoded value [")
+                        .Append(encoded)
+                        .Append("]");
                     dictionary.Add(entry.Key, validationChallengeMessage.ToString());
                 }
             }
-
-            //dictionary.ToList().ForEach(entry => Console.Out.WriteLine(entry.ToString()));
+            
             if (dictionary.Count > 0)
             {
                 throw new ApplicationException(validationChallengeMessage.ToString());
@@ -112,6 +136,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
         /// </summary>
         /// <param name="allowedIpAddresses">Define IP addresses which can bypass the validation.</param>
         /// <param name="cancellationToken"></param>
+        /// <returns>{bool challanges}</returns>
         public static bool ChallengeIPAddresses(
             [PropertyTab] AllowedIPAddresses allowedIpAddresses,
             CancellationToken cancellationToken)
@@ -150,21 +175,57 @@ namespace Frends.Community.SecurityThreatDiagnostics
         /// </summary>
         /// <param name="WhiteListedHeaders">Known HTTP headers to be bypassed in validation.</param>
         /// <param name="cancellationToken"></param>
-        /// <returns>{string Result} </returns>
-        public static Result ChallengeSecurityHeaders([PropertyTab] WhiteListedHeaders whiteListedHeaders, CancellationToken cancellationToken)
+        /// <returns>{bool challanges}</returns>
+        public static bool ChallengeSecurityHeaders([PropertyTab] WhiteListedHeaders whiteListedHeaders, CancellationToken cancellationToken)
         {
-            //BuildFunc buildFunc = BuildFunc;
-
-            // Add Strict-Transport-Security with the configured settings
-            var config = new StrictTransportSecurityOptions {
-                IncludeSubDomains = true,
-                MaxAge = 31536000,
-                RedirectToSecureTransport = true,
-                RedirectUriBuilder = uri => whiteListedHeaders.HttpRedirectUri, // Only do this, when you want to replace the default behavior (from http to https).
-                RedirectReasonPhrase = statusCode => "303 See Other"
-            };
-            // TODO : Logic for verifying HTTP headers
-            return null;
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            ConcurrentDictionary<string, Regex> ruleDictionary = SecurityFilterReader.Instance;
+            
+            StringBuilder validationChallengeMessage = new StringBuilder();
+            validationChallengeMessage
+                .Append("HTTP headers challenged for input validation ");
+            
+            foreach (KeyValuePair<string, string> kvp in whiteListedHeaders.HttpHeaders)
+            {
+                whiteListedHeaders?.AllowedHttpHeaders?.ToList().Select(allowedHeader =>
+                {
+                    if (kvp.Key.Equals(allowedHeader))
+                    {
+                        foreach (var rule in ruleDictionary)
+                        {
+                            if (rule.Value.IsMatch(kvp.Value))
+                            {
+                                validationChallengeMessage
+                                    .Append("Header [")
+                                    .Append(rule.Key)
+                                    .Append("]")
+                                    .Append(" contains vulnerability [")
+                                    .Append(rule.Value)
+                                    .Append("]");
+                                dictionary.Add(rule.Key, validationChallengeMessage.ToString());
+                            }
+                        }
+                    }
+                    else
+                    {
+                        StringBuilder builder = new StringBuilder("Invalid Header name [");
+                        builder
+                            .Append(kvp.Key)
+                            .Append("] found.");
+                    }
+                    return allowedHeader;
+                });
+            }
+            
+            if (dictionary.Count > 0)
+            {
+                StringBuilder builder = new StringBuilder("Invalid Header information contains [");
+                builder.Append(dictionary.Count).Append("]\n\n");
+                builder.Append(validationChallengeMessage.ToString());
+                throw new ApplicationException(builder.ToString());
+            }
+            
+            return true;
         }
     }
  

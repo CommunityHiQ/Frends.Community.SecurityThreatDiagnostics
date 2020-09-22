@@ -1,5 +1,6 @@
 ﻿#pragma warning disable 1591
 
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -35,7 +36,6 @@ namespace Frends.Community.SecurityThreatDiagnostics
         /// </summary>
         [DisplayFormat(DataFormatString = "Text")] 
         [DefaultValue("Whitelisted IP addresses to bypass validation")]
-        //public IPAddress[] WhiteListedIpAddress { get; set; }
         public string[] WhiteListedIpAddress { get; set; }
 
         /// <summary>
@@ -43,7 +43,6 @@ namespace Frends.Community.SecurityThreatDiagnostics
         /// </summary>
         [DisplayFormat(DataFormatString = "Text")] 
         [DefaultValue("Whitelisted IP addresses to bypass validation")]
-        //public IPAddress[] BlackListedIpAddresses { get; set; }
         public string[] BlackListedIpAddresses { get; set; }
     }
 
@@ -63,12 +62,17 @@ namespace Frends.Community.SecurityThreatDiagnostics
         public string HttpRedirectUri { get; set; }
         
         /// <summary>
-        /// Define the domain uri
+        /// Define the allowed http headers
         /// </summary>
         [DisplayFormat(DataFormatString = "Text")] 
-        [DefaultValue("http://somedomain.com")]
-        public string[] HttpHeader { get; set; }
-        
+        [DefaultValue("Cookie")]
+        public string[] AllowedHttpHeaders { get; set; }
+
+        /// <summary>
+        /// Request based http headers with a key value pair
+        /// </summary>
+        public Dictionary<string, string> HttpHeaders { get; set; }
+
     }
 
     /// <summary>
@@ -80,7 +84,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
         /// Which encoding should be used, default UTF-8.
         /// </summary>
         [DisplayFormat(DataFormatString = "Text")]
-        [DefaultValue(" ")]
+        [DefaultValue("UTF-8")]
         public string Encoding { get; set; }
     }
 
