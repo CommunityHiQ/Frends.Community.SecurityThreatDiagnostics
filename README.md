@@ -32,8 +32,7 @@ Challenging message payload attributes for input validation and known attack vec
 
 | Property | Type | Description | Example |
 | -------- | -------- | -------- | -------- |
-| Amount | `int` | Amount how many times message is repeated. | `3` |
-| Delimiter | `string` | Character(s) used between replications. | `, ` |
+| Encoding | `string` | Encoding of the character set. | `UTF-8` |
 
 ### Returns
 
@@ -41,7 +40,7 @@ A result object with parameters.
 
 | Property | Type | Description | Example |
 | -------- | -------- | -------- | -------- |
-| Replication | `string` | Repeated string. | `foo, foo, foo` |
+| bool | `bool` | Challenged threats | `true, true, true` |
 
 Usage:
 To fetch result use syntax:
