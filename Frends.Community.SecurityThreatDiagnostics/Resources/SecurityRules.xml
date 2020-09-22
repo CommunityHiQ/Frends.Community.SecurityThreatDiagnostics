@@ -883,9 +883,6 @@
                 </xsd:list></xsd:simpleType>
                 <xsd:attribute name="impact">4</xsd:attribute>
             </xsd:element>
-
-
-            2,048 characters
         </xsd:element>
     </xsd:schema>
 </root>
