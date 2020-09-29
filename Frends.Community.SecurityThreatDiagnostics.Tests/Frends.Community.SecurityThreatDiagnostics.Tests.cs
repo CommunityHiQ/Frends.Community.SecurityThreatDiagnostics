@@ -79,7 +79,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             whiteListedHeaders.HttpUri = "http://localhost:8080";
             whiteListedHeaders.AllowedHttpHeaders = new [] {"Authorization"};
             whiteListedHeaders.HttpHeaders = new Dictionary<string, string>();
-            whiteListedHeaders.HttpHeaders.Add("Authorization: ", "Bearer=<script>function attack(){ alert(\"i created XSS\"); } attack();</script>");
+            whiteListedHeaders.HttpHeaders.Add("Authorization: ", "Bearer <script>function attack(){ alert(\"i created XSS\"); } attack();</script>");
             Assert.Throws<ApplicationException>(
                 delegate { SecurityThreatDiagnostics.ChallengeSecurityHeaders(whiteListedHeaders, options, CancellationToken.None); } );
         }
