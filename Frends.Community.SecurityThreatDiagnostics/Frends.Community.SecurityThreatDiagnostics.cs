@@ -83,6 +83,11 @@ namespace Frends.Community.SecurityThreatDiagnostics
 
     }
 
+    /// <summary>
+    /// This is task which validates the common attack patterns against the underlying system.
+    /// Documentation: https://github.com/CommunityHiQ/Frends.Community.SecurityThreatDiagnostics
+    /// Throws application exception if diagnostics find vulnerability from the payload challenge.
+    /// </summary>
     public static class SecurityThreatDiagnostics
     {
         private static string encode(string payload, Options options)
@@ -118,11 +123,12 @@ namespace Frends.Community.SecurityThreatDiagnostics
         /// <summary>
         /// This is task which validates data 
         /// Documentation: https://github.com/CommunityHiQ/Frends.Community.SecurityThreatDiagnostics
+        /// Throws application exception if diagnostics find vulnerability from the payload challenge.
         /// </summary>
-        /// <param name="validation">What to repeat.</param>
-        /// <param name="options">Define if repeated multiple times. </param>
+        /// <param name="validation">Runtime element to be diagnosted.</param>
+        /// <param name="options">Options for the runtime validation.</param>
         /// <param name="cancellationToken"></param>
-        /// <returns>{bool challenges} </returns>
+        /// <returns>{bool challenges for validation} </returns>
         public static bool ChallengeAgainstSecurityThreats(
             [PropertyTab] Validation validation,
             [PropertyTab] Options options, 
@@ -182,9 +188,11 @@ namespace Frends.Community.SecurityThreatDiagnostics
 
             return true;
         }
-
+        
         /// <summary>
-        ///  Verifies the whitelist of known IP addresses
+        ///  Verifies that the IP is in given whitelist of known IP addresses.
+        /// Documentation: https://github.com/CommunityHiQ/Frends.Community.SecurityThreatDiagnostics
+        /// Throws application exception if diagnostics find that IP address is not valid.
         /// </summary>
         /// <param name="allowedIpAddresses">Define IP addresses which can bypass the validation.</param>
         /// <param name="cancellationToken"></param>
@@ -224,6 +232,8 @@ namespace Frends.Community.SecurityThreatDiagnostics
         
         /// <summary>
         ///  Verifies the header content and validates data.
+        /// Documentation: https://github.com/CommunityHiQ/Frends.Community.SecurityThreatDiagnostics
+        /// Throws application exception if diagnostics find that header data is not valid.
         /// </summary>
         /// <param name="WhiteListedHeaders">Known HTTP headers to be bypassed in validation.</param>
         /// <param name="cancellationToken"></param>
@@ -301,6 +311,15 @@ namespace Frends.Community.SecurityThreatDiagnostics
             return true;
         }
         
+        
+        /// <summary>
+        ///  Challenges character encoding of the given data.
+        /// Documentation: https://github.com/CommunityHiQ/Frends.Community.SecurityThreatDiagnostics
+        /// Throws application exception if diagnostics find that character is not part of the encoding set.
+        /// </summary>
+        /// <param name="WhiteListedHeaders">Known HTTP headers to be bypassed in validation.</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>{bool challanges}</returns>
         public static bool ChallengeCharacterEncoding(
             [PropertyTab] Validation validation,     
             [PropertyTab] Options options, 
@@ -323,5 +342,4 @@ namespace Frends.Community.SecurityThreatDiagnostics
         }
     }
     
-   
 }

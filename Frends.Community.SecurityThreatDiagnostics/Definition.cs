@@ -7,12 +7,12 @@ using System.ComponentModel.DataAnnotations;
 namespace Frends.Community.SecurityThreatDiagnostics
 {
     /// <summary>
-    /// Parameters class usually requires parameters that are required.
+    /// This class is responsible for transmitting the validation parameters from the runtime configuration into process phase execution.
     /// </summary>
     public class Validation
     {
         /// <summary>
-        /// Something that will be repeated.
+        /// The payload or the attribute value to be validated.
         /// </summary>
         [DisplayFormat(DataFormatString = "Text")] 
         [DefaultValue("#var.")]
@@ -32,17 +32,17 @@ namespace Frends.Community.SecurityThreatDiagnostics
         public string Host { get; set; }
 
         /// <summary>
-        /// Whitelisted IP addresses to be bypassed 
+        /// Whitelisted IP addresses to be bypassed by the process engine's validation
         /// </summary>
         [DisplayFormat(DataFormatString = "Text")] 
-        [DefaultValue("Whitelisted IP addresses to bypass validation")]
+        [DefaultValue("\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}")]
         public string[] WhiteListedIpAddress { get; set; }
 
         /// <summary>
-        /// Blacklisted IP addresses and ranges 
+        /// Blacklisted IP addresses and ranges which will be blocked by the process execution engine 
         /// </summary>
         [DisplayFormat(DataFormatString = "Text")] 
-        [DefaultValue("Whitelisted IP addresses to bypass validation")]
+        [DefaultValue("\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}")]
         public string[] BlackListedIpAddresses { get; set; }
     }
 
@@ -94,13 +94,5 @@ namespace Frends.Community.SecurityThreatDiagnostics
         [DefaultValue("UTF-8")]
         public string Encoding { get; set; }
     }
-
-    public class Result
-    {
-        /// <summary>
-        /// Contains input .
-        /// </summary>
-        [DisplayFormat(DataFormatString = "Text")]
-        public string ICollection { get; set; }
-    }
+    
 }
