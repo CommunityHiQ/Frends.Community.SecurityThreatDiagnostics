@@ -15,7 +15,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
         /// Something that will be repeated.
         /// </summary>
         [DisplayFormat(DataFormatString = "Text")] 
-        [DefaultValue("Payload to be challenged against vulnerabilities")]
+        [DefaultValue("#var.")]
         public string Payload { get; set; }
     }
     
@@ -80,6 +80,13 @@ namespace Frends.Community.SecurityThreatDiagnostics
     /// </summary>
     public class Options
     {
+        /// <summary>
+        /// How many iteration round for decoding of the payloadx.
+        /// </summary>
+        [DisplayFormat(DataFormatString = "Text")]
+        [DefaultValue("2")]
+        public int MaxIterations { get; set; }
+        
         /// <summary>
         /// Which encoding should be used, default UTF-8.
         /// </summary>

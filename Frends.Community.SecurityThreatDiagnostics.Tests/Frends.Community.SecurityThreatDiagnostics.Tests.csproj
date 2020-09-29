@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFrameworks>net471</TargetFrameworks>
-
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 

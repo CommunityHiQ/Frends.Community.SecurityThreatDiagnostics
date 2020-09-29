@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -16,30 +17,51 @@ using System.Xml.Linq;
 namespace Frends.Community.SecurityThreatDiagnostics
 {
     using BuildFunc = Action<Func<IDictionary<string, object>, Func<Func<IDictionary<string, object>, Task>, Func<IDictionary<string, object>, Task>>>>;
-    
+
+    public class SecurityRuleFilter
+    {
+        public string Id  { get; set; }
+        
+        public Regex Rule { get; set; }
+        
+        public string Description  { get; set; }
+    }
+
     public sealed class SecurityFilterReader
     {
         private static readonly object PadLock = new object();
-        private static readonly Lazy<ConcurrentDictionary<string, Regex>>
-            
+        private static readonly Lazy<ConcurrentDictionary<string, SecurityRuleFilter>>
+
             Lazy = 
-                new Lazy<ConcurrentDictionary<string, Regex>>
+                new Lazy<ConcurrentDictionary<string, SecurityRuleFilter>>
                 (() =>
                 {
                     XDocument xdoc = XDocument.Parse(SecurityFilters.SecurityRules);
                     XmlReader reader = new XmlTextReader(new StringReader(xdoc.ToString()));
                     try
                     {
-                        ConcurrentDictionary<string, Regex> concurrentRules = new ConcurrentDictionary<string, Regex>();
+                        ConcurrentDictionary<string, SecurityRuleFilter> concurrentRules = new ConcurrentDictionary<string, SecurityRuleFilter>();
                         while (reader.Read())
                         {
+                            SecurityRuleFilter securityRuleFilter = new SecurityRuleFilter();
+                            string id = Guid.NewGuid().ToString();
                             switch (reader.NodeType)
                             {
                                 case XmlNodeType.CDATA:
-                                    string id = Guid.NewGuid().ToString();
-                                    concurrentRules.TryAdd(id, new Regex(reader.Value, RegexOptions.IgnoreCase));
+                                    securityRuleFilter.Id = id;
+                                    securityRuleFilter.Rule = new Regex(reader.Value, RegexOptions.IgnoreCase);
                                     break;
-                            }
+                                case XmlNodeType.Element:
+                                {
+                                    //if (reader.Name.Equals("Description"))
+                                    //    securityRuleFilter.Description = reader.Value;
+                                    securityRuleFilter.Description = reader.GetAttribute("Description");
+                                    break;
+                                } 
+                           } 
+                           if (securityRuleFilter.Id != null) {
+                                concurrentRules.TryAdd(id, securityRuleFilter);
+                           }
                         }
                         return concurrentRules;
                     }
@@ -50,7 +72,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
                     }
                 });
         
-        public static ConcurrentDictionary<string, Regex> Instance
+        public static ConcurrentDictionary<string, SecurityRuleFilter> Instance
         {
             get
             {
@@ -63,7 +85,16 @@ namespace Frends.Community.SecurityThreatDiagnostics
 
     public static class SecurityThreatDiagnostics
     {
-        private static string encode(string encoding, string payload)
+        private static string encode(string payload, Options options)
+        {
+            for (int i = 0; i < options.MaxIterations; i++)
+            {
+                payload = WebUtility.UrlDecode(payload);
+            }
+            return payload;
+        }
+        
+        private static string encode(string encoding, Options options, string payload)
         {
             {
                 // Create two different encodings.
@@ -75,11 +106,11 @@ namespace Frends.Community.SecurityThreatDiagnostics
 
                 // Perform the conversion from one encoding to the other.
                 byte[] asciiBytes = Encoding.Convert(unicode, ascii, unicodeBytes);
-         
+     
                 char[] asciiChars = new char[ascii.GetCharCount(asciiBytes, 0, asciiBytes.Length)];
                 ascii.GetChars(asciiBytes, 0, asciiBytes.Length, asciiChars, 0);
                 string asciiString = new string(asciiChars);
-
+                
                 return asciiString;
             }
         }
@@ -92,8 +123,10 @@ namespace Frends.Community.SecurityThreatDiagnostics
         /// <param name="options">Define if repeated multiple times. </param>
         /// <param name="cancellationToken"></param>
         /// <returns>{bool challenges} </returns>
-        public static bool ChallengeAgainstSecurityThreats([PropertyTab] Validation validation,
-            [PropertyTab] Options options, CancellationToken cancellationToken)
+        public static bool ChallengeAgainstSecurityThreats(
+            [PropertyTab] Validation validation,
+            [PropertyTab] Options options, 
+            CancellationToken cancellationToken)
         {
             Dictionary<string, string> dictionary = new Dictionary<string, string>();
             StringBuilder validationChallengeMessage = new StringBuilder();
@@ -102,30 +135,49 @@ namespace Frends.Community.SecurityThreatDiagnostics
                 .Append(validation.Payload)
                 .Append("] \n\n");
 
-            ConcurrentDictionary<string, Regex> ruleDictionary = SecurityFilterReader.Instance;
+            StringBuilder innerExceptionMessage = new StringBuilder();
+            innerExceptionMessage
+                .Append("Payload challenged for input validation [")
+                .Append(validation.Payload)
+                .Append("] \n\n");
+            
+            ConcurrentDictionary<string, SecurityRuleFilter> ruleDictionary = SecurityFilterReader.Instance;
 
             foreach (var entry in ruleDictionary)
             {
-                string encoded = encode(options.Encoding ?? "UTF-8", validation.Payload);
-                if (entry.Value.IsMatch(validation.Payload) || encoded.Length > 0 &&
-                    entry.Value.IsMatch(encoded))
+                string encoded = encode(validation.Payload, options);
+                if (entry.Value.Rule.IsMatch(validation.Payload) ||
+                    entry.Value.Rule.IsMatch(encoded))
                 {
                     validationChallengeMessage
                         .Append("id [")
                         .Append(entry.Key)
                         .Append("]")
                         .Append(" contains vulnerability [")
-                        .Append(entry.Value).Append("], ")
+                        .Append(entry.Value.Description)
+                        .Append("], ")
                         .Append("encoded value [")
                         .Append(encoded)
                         .Append("]");
                     dictionary.Add(entry.Key, validationChallengeMessage.ToString());
+                    innerExceptionMessage
+                        .Append("id [")
+                        .Append(entry.Key)
+                        .Append("] ")
+                        .Append("Validation pattern [")
+                        .Append(entry.Value.Rule.ToString())
+                        .Append("], ")
+                        .Append("encoded value [")
+                        .Append(encoded)
+                        .Append("]");
                 }
             }
             
             if (dictionary.Count > 0)
             {
-                throw new ApplicationException(validationChallengeMessage.ToString());
+                ArgumentException argumentException = new ArgumentException("Invalid argument information " + innerExceptionMessage.ToString());
+                ApplicationException applicationException = new ApplicationException(validationChallengeMessage.ToString(), argumentException);
+                throw applicationException;
             }
 
             return true;
@@ -176,33 +228,53 @@ namespace Frends.Community.SecurityThreatDiagnostics
         /// <param name="WhiteListedHeaders">Known HTTP headers to be bypassed in validation.</param>
         /// <param name="cancellationToken"></param>
         /// <returns>{bool challanges}</returns>
-        public static bool ChallengeSecurityHeaders([PropertyTab] WhiteListedHeaders whiteListedHeaders, CancellationToken cancellationToken)
+        public static bool ChallengeSecurityHeaders(
+            [PropertyTab] WhiteListedHeaders whiteListedHeaders, 
+            [PropertyTab] Options options, 
+            CancellationToken cancellationToken)
         {
             Dictionary<string, string> dictionary = new Dictionary<string, string>();
-            ConcurrentDictionary<string, Regex> ruleDictionary = SecurityFilterReader.Instance;
+            ConcurrentDictionary<string, SecurityRuleFilter> ruleDictionary = SecurityFilterReader.Instance;
             
             StringBuilder validationChallengeMessage = new StringBuilder();
             validationChallengeMessage
                 .Append("HTTP headers challenged for input validation ");
             
-            foreach (KeyValuePair<string, string> kvp in whiteListedHeaders.HttpHeaders)
+            StringBuilder innerExceptionMessage = new StringBuilder();
+            innerExceptionMessage
+                .Append("HTTP headers challenged for input validation, \n");
+            
+            foreach (KeyValuePair<string, string> HttpHeaderPair in whiteListedHeaders.HttpHeaders)
             {
                 whiteListedHeaders?.AllowedHttpHeaders?.ToList().Select(allowedHeader =>
                 {
-                    if (kvp.Key.Equals(allowedHeader))
+                    if (HttpHeaderPair.Key.Equals(allowedHeader))
                     {
                         foreach (var rule in ruleDictionary)
                         {
-                            if (rule.Value.IsMatch(kvp.Value))
+                            //string encoded = encode(options.Encoding ?? "UTF-8", HttpHeaderPair.Value);
+                            string encoded = encode(HttpHeaderPair.Value, options);
+                            if (rule.Value.Rule.IsMatch(HttpHeaderPair.Value) || encoded.Length > 0 &&
+                                rule.Value.Rule.IsMatch(encoded))
+                            if (rule.Value.Rule.IsMatch(HttpHeaderPair.Value))
                             {
                                 validationChallengeMessage
                                     .Append("Header [")
                                     .Append(rule.Key)
                                     .Append("]")
                                     .Append(" contains vulnerability [")
-                                    .Append(rule.Value)
+                                    .Append(rule.Value.Description)
                                     .Append("]");
-                                dictionary.Add(rule.Key, validationChallengeMessage.ToString());
+                                dictionary.Add(rule.Value.Id, innerExceptionMessage.ToString());
+                                innerExceptionMessage
+                                    .Append("id [")
+                                    .Append(HttpHeaderPair.Key)
+                                    .Append("]")
+                                    .Append(HttpHeaderPair.Value)
+                                    .Append("], ")
+                                    .Append("encoded value [")
+                                    .Append(encoded)
+                                    .Append("]");
                             }
                         }
                     }
@@ -210,7 +282,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
                     {
                         StringBuilder builder = new StringBuilder("Invalid Header name [");
                         builder
-                            .Append(kvp.Key)
+                            .Append(HttpHeaderPair.Key)
                             .Append("] found.");
                     }
                     return allowedHeader;
@@ -219,14 +291,37 @@ namespace Frends.Community.SecurityThreatDiagnostics
             
             if (dictionary.Count > 0)
             {
+                ArgumentException argumentException = new ArgumentException("Invalid argument information " + innerExceptionMessage.ToString());
                 StringBuilder builder = new StringBuilder("Invalid Header information contains [");
                 builder.Append(dictionary.Count).Append("]\n\n");
                 builder.Append(validationChallengeMessage.ToString());
-                throw new ApplicationException(builder.ToString());
+                throw new ApplicationException(builder.ToString(), argumentException);
             }
             
             return true;
         }
+        
+        public static bool ChallengeCharacterEncoding(
+            [PropertyTab] Validation validation,     
+            [PropertyTab] Options options, 
+            CancellationToken cancellationToken)
+        {
+            try
+            {
+                encode(options.Encoding, options, validation.Payload);
+            }
+            catch (Exception exception)
+            {
+                StringBuilder builder = new StringBuilder("Invalid encoding in character set [");
+                builder
+                    .Append(validation.Payload)
+                    .Append("]");
+                ArgumentException argumentException = new ArgumentException("Invalid encoding information "  + exception.ToString(), exception);
+                throw new ApplicationException(builder.ToString(), argumentException);                
+            }
+            return true;
+        }
     }
- 
+    
+   
 }
