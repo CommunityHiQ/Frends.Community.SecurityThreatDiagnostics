@@ -10,8 +10,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
     {
         Validation validation = new Validation();
         Options options = new Options();
-        CancellationToken cancellationToken = new CancellationToken();
-        
+
         [Test]
         public void GivenValidTextWhenChallengingValidationThenSecurityThreatDiagnosticsMustReturnFalse()
         {
@@ -19,7 +18,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             validation.Payload = validXml;
             options.MaxIterations = 2;
             Assert.Throws<ApplicationException>(
-                delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, cancellationToken); } );
+                delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, CancellationToken.None); } );
         }
         
         [Test]
@@ -29,7 +28,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             validation.Payload = validXml;
             options.MaxIterations = 2;
             Assert.Throws<ApplicationException>(
-                delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, cancellationToken); } );
+                delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, CancellationToken.None); } );
         }
         
         [Test]
@@ -39,7 +38,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             validation.Payload = invalidXml;
             options.MaxIterations = 2;
             Assert.Throws<ApplicationException>(
-                delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, cancellationToken); } );
+                delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, CancellationToken.None); } );
         }
         
         [Test]
@@ -49,7 +48,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             validation.Payload = invalidXml;
             options.MaxIterations = 2;
             Assert.Throws<ApplicationException>(
-                delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, cancellationToken); } );
+                delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, CancellationToken.None); } );
         }
         
         [Test]
@@ -59,7 +58,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             validation.Payload = unsecureUrl;
             options.MaxIterations = 2;
             Assert.Throws<ApplicationException>(
-                delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, cancellationToken); } );
+                delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, CancellationToken.None); } );
         }
         
         [Test]
@@ -69,7 +68,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             validation.Payload = unsecureUrl;
             options.MaxIterations = 2;
             Assert.Throws<ApplicationException>(
-                delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, cancellationToken); } );
+                delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, CancellationToken.None); } );
         }
         
         [Test]
@@ -82,7 +81,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             whiteListedHeaders.HttpHeaders = new Dictionary<string, string>();
             whiteListedHeaders.HttpHeaders.Add("Authorization: ", "Bearer=<script>function attack(){ alert(\"i created XSS\"); } attack();</script>");
             Assert.Throws<ApplicationException>(
-                delegate { SecurityThreatDiagnostics.ChallengeSecurityHeaders(whiteListedHeaders, options, cancellationToken); } );
+                delegate { SecurityThreatDiagnostics.ChallengeSecurityHeaders(whiteListedHeaders, options, CancellationToken.None); } );
         }
         
         [Test]
@@ -105,7 +104,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             allowedIpAddresses.BlackListedIpAddresses = denyBroadcastIPAddressesRegex;
             allowedIpAddresses.Host = "127.0.0.1";
             Assert.DoesNotThrow(
-                delegate { SecurityThreatDiagnostics.ChallengeIPAddresses(allowedIpAddresses, cancellationToken); } );
+                delegate { SecurityThreatDiagnostics.ChallengeIPAddresses(allowedIpAddresses, CancellationToken.None); } );
         }
         
     }
