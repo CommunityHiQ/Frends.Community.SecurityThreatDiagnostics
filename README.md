@@ -42,6 +42,49 @@ A result object with parameters.
 | -------- | -------- | -------- | -------- |
 | bool | `bool` | Challenged threats | `true, true, true` |
 
+Challenge known IP adresses against request based information about IP addresses. Challenge against known IP addresses (whitelist) and blocked IP addresses (blacklisted).
+
+### Allowed IP Addresses
+
+| Property | Type | Description | Example |
+| -------- | -------- | -------- | -------- |
+| Host | `string` | Known ip address. | `192.16.8.2` |
+| Whitelisted IP addresses | `item` | Known ip address to be passed. | `\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}` |
+| Blacklisted IP addresses | `item` | Known ip address to be blocked. | `\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}` |
+
+### Returns
+
+A result object with parameters.
+
+| Property | Type | Description | Example |
+| -------- | -------- | -------- | -------- |
+| bool | `bool` | Challenged threats | `true` |
+
+### Challenge known HTTP based security headers
+| Property | Type | Description | Example |
+| -------- | -------- | -------- | -------- |
+| Allowed http headers | `string` | Known ip address. | `Authrozation` |
+| HttpHeaders | `Collection` | Known ip headers to be passed. | `#trigger.data.httpHeaders` |
+
+### Returns
+
+A result object with parameters.
+
+| Property | Type | Description | Example |
+| -------- | -------- | -------- | -------- |
+| bool | `bool` | Challenged threats | `true` |
+
+### Validate known encoding character set
+| Property | Type | Description | Example |
+| -------- | -------- | -------- | -------- |
+| Payload | `string` | Known ip address. | `Authrozation` |
+### Options
+
+| Property | Type | Description | Example |
+| -------- | -------- | -------- | -------- |
+| MaxIterations | `number` | Number of itertion rounds for hex tranformation to ascii. | 2 |
+| Encoding | `string` | Encoding of the character set. | `UTF-8` |
+
 Usage:
 To fetch result use syntax:
 
