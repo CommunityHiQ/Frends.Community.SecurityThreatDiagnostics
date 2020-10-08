@@ -883,6 +883,16 @@
                 </xsd:list></xsd:simpleType>
                 <xsd:attribute name="impact">4</xsd:attribute>
             </xsd:element>
+            <xsd:element name="Filter">
+                <xsd:attribute name="id">81</xsd:attribute>
+                <xsd:attribute name="rule"><![CDATA[(\".*\")]]></xsd:attribute>
+                <xsd:attribute name="description">Double quotes which breaks the underlying conversion systems</xsd:attribute>
+                <xsd:simpleType name="tag">
+                    <xsd:list>
+                        <xsd:element name="tag" type="xsd:string">files</xsd:element>
+                    </xsd:list></xsd:simpleType>
+                <xsd:attribute name="impact">4</xsd:attribute>
+            </xsd:element>
         </xsd:element>
     </xsd:schema>
 </root>

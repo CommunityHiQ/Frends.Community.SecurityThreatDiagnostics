@@ -53,9 +53,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
                                     break;
                                 case XmlNodeType.Element:
                                 {
-                                    //if (reader.Name.Equals("Description"))
-                                    //    securityRuleFilter.Description = reader.Value;
-                                    securityRuleFilter.Description = reader.GetAttribute("Description");
+                                    securityRuleFilter.Description = reader.GetAttribute("description");
                                     break;
                                 } 
                            } 
@@ -254,7 +252,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
             innerExceptionMessage
                 .Append("HTTP headers challenged for input validation, \n");
             
-            foreach (KeyValuePair<string, string> HttpHeaderPair in whiteListedHeaders.HttpHeaders)
+            foreach (KeyValuePair<string, string> HttpHeaderPair in whiteListedHeaders?.HttpHeaders)
             {
                 whiteListedHeaders?.AllowedHttpHeaders?.ToList().Select(allowedHeader =>
                 {
