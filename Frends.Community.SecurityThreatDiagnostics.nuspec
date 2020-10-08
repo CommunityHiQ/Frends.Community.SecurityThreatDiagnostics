@@ -2,11 +2,11 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Frends.Community.SecurityThreatDiagnostics</id>
-    <version>1.0.19</version>
+    <version>1.0.35</version>
     <title>Frends frendstask client</title>
     <authors>HiQ Finland</authors>
     <contentFiles>
-      <files include="/Filters.xml" />
+      <files include="/SecurityFilters.xml" />
     </contentFiles>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Task for challenging and validating input parameters against standard script based attacks.</description>

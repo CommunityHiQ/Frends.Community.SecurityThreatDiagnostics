@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1c002ed1-e2ed-40e0-b0cb-10ebedffa109" name="Default Changelist" comment="New rule addon.">
+      <change afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.1.0.29.nupkg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.1.0.32.nupkg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.1.0.33.nupkg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.1.0.35.nupkg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Debug/net471/Frends.Community.SecurityThreatDiagnostics.Tests.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Debug/net471/Frends.Community.SecurityThreatDiagnostics.Tests.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Debug/net471/Frends.Community.SecurityThreatDiagnostics.Tests.dll.config" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Debug/net471/Frends.Community.SecurityThreatDiagnostics.Tests.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Debug/net471/Frends.Community.SecurityThreatDiagnostics.Tests.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Debug/net471/Frends.Community.SecurityThreatDiagnostics.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Debug/net471/Frends.Community.SecurityThreatDiagnostics.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Debug/net471/Frends.Community.SecurityThreatDiagnostics.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Debug/net471/Frends.Community.SecurityThreatDiagnostics.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Debug/net471/Frends.Community.SecurityThreatDiagnostics.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Debug/net471/Frends.Community.SecurityThreatDiagnostics.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Debug/net471/FrendsTaskMetadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Debug/net471/FrendsTaskMetadata.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Debug/net471/Microsoft.Owin.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Debug/net471/Microsoft.VisualStudio.CodeCoverage.Shim.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Debug/net471/Owin.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Debug/net471/SecurityHeadersMiddleware.OwinAppBuilder.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Debug/net471/SecurityHeadersMiddleware.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Release/net471/Frends.Community.SecurityThreatDiagnostics.Tests.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Release/net471/Frends.Community.SecurityThreatDiagnostics.Tests.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Release/net471/Frends.Community.SecurityThreatDiagnostics.Tests.dll.config" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Release/net471/Frends.Community.SecurityThreatDiagnostics.Tests.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Release/net471/Frends.Community.SecurityThreatDiagnostics.Tests.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Release/net471/Frends.Community.SecurityThreatDiagnostics.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Release/net471/Frends.Community.SecurityThreatDiagnostics.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Release/net471/Frends.Community.SecurityThreatDiagnostics.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Release/net471/Frends.Community.SecurityThreatDiagnostics.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Release/net471/Frends.Community.SecurityThreatDiagnostics.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Release/net471/Frends.Community.SecurityThreatDiagnostics.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Release/net471/FrendsTaskMetadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Release/net471/FrendsTaskMetadata.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Release/net471/Microsoft.Owin.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Release/net471/Microsoft.VisualStudio.CodeCoverage.Shim.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Release/net471/Owin.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Release/net471/SecurityHeadersMiddleware.OwinAppBuilder.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/bin/Release/net471/SecurityHeadersMiddleware.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Debug/net471/Frends.Community.SecurityThreatDiagnostics.Tests.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Debug/net471/Frends.Community.SecurityThreatDiagnostics.Tests.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Debug/net471/Frends.Community.SecurityThreatDiagnostics.Tests.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Debug/net471/Frends.Community.SecurityThreatDiagnostics.Tests.csproj.CoreCompileInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Debug/net471/Frends.Community.SecurityThreatDiagnostics.Tests.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Debug/net471/Frends.Community.SecurityThreatDiagnostics.Tests.csproj.FileListAbsolute.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Debug/net471/Frends.Community.SecurityThreatDiagnostics.Tests.csprojAssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Debug/net471/Frends.Community.SecurityThreatDiagnostics.Tests.csprojAssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Debug/net471/Frends.Community.SecurityThreatDiagnostics.Tests.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Debug/net471/Frends.Community.SecurityThreatDiagnostics.Tests.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Debug/net471/Frends.Community.SecurityThreatDiagnostics.Tests.dll.config" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Debug/net471/Frends.Community.SecurityThreatDiagnostics.Tests.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Debug/net471/Frends.Community.SecurityThreatDiagnostics.Tests.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Frends.Community.SecurityThreatDiagnostics.Tests.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Frends.Community.SecurityThreatDiagnostics.Tests.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Frends.Community.SecurityThreatDiagnostics.Tests.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Frends.Community.SecurityThreatDiagnostics.Tests.csproj.nuget.g.props" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Frends.Community.SecurityThreatDiagnostics.Tests.csproj.nuget.g.targets" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Frends.Community.SecurityThreatDiagnostics.Tests.csproj.nuget.g.targets" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Release/net471/Frends.Community.SecurityThreatDiagnostics.Tests.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Release/net471/Frends.Community.SecurityThreatDiagnostics.Tests.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Release/net471/Frends.Community.SecurityThreatDiagnostics.Tests.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Release/net471/Frends.Community.SecurityThreatDiagnostics.Tests.csproj.CoreCompileInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Release/net471/Frends.Community.SecurityThreatDiagnostics.Tests.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Release/net471/Frends.Community.SecurityThreatDiagnostics.Tests.csproj.FileListAbsolute.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Release/net471/Frends.Community.SecurityThreatDiagnostics.Tests.csprojAssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Release/net471/Frends.Community.SecurityThreatDiagnostics.Tests.csprojAssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Release/net471/Frends.Community.SecurityThreatDiagnostics.Tests.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Release/net471/Frends.Community.SecurityThreatDiagnostics.Tests.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Release/net471/Frends.Community.SecurityThreatDiagnostics.Tests.dll.config" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Release/net471/Frends.Community.SecurityThreatDiagnostics.Tests.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/Release/net471/Frends.Community.SecurityThreatDiagnostics.Tests.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/obj/project.packagespec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.nuspec" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.nuspec" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.sln.DotSettings.user" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="XML File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics/SecurityFilters.Designer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics/SecurityFilters.resx" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DADD22E-0197-42CE-80AA-EFEF99855BE0/5d/6175979c/UTF8Encoding.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DADD22E-0197-42CE-80AA-EFEF99855BE0/58/6acf49a1/Stream.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8D310642-25A0-43CD-9E6A-D7C89DCC4902/27/73e4c23d/SourceListKeyword.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DADD22E-0197-42CE-80AA-EFEF99855BE0/f3/af22a553/Func`2.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DADD22E-0197-42CE-80AA-EFEF99855BE0/02/5e0ae46e/Type.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8D310642-25A0-43CD-9E6A-D7C89DCC4902/36/4c750d24/SandboxKeyword.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/D540E01D-4276-4791-9CE1-649A9514EA9E/70/e170ca04/HttpRequestHeader.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9FCAADD9-58A4-4900-9D68-546D5ECFE219/11/Array.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8D310642-25A0-43CD-9E6A-D7C89DCC4902/02/6aa1c3f7/OwinEnvironmentExtension.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FD7B99F9-669E-4A8B-A44E-88D7593262A1/ba/ae1d7688/CancellationToken.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9FCAADD9-58A4-4900-9D68-546D5ECFE219/10/Array.CoreCLR.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/AA861BF3-9638-4050-BF1A-37C1F94CA260/A0/HttpHeaders.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DADD22E-0197-42CE-80AA-EFEF99855BE0/af/d55a6b03/TextReader.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8D310642-25A0-43CD-9E6A-D7C89DCC4902/eb/8eab76ff/HostSourceCollection.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DADD22E-0197-42CE-80AA-EFEF99855BE0/b4/bc10ebc5/XmlTextReader.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8D310642-25A0-43CD-9E6A-D7C89DCC4902/b3/5d82f5d7/HostSource.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/Frends.Community.SecurityThreatDiagnostics.Tests.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8D310642-25A0-43CD-9E6A-D7C89DCC4902/51/ae5fc263/CspSourceList.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/.local/share/Symbols/src/nunit/nunit/7e4cad49154c9cb35385d8deae87f50c42d2956d/src/NUnitFramework/framework/Internal/Reflect.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8D310642-25A0-43CD-9E6A-D7C89DCC4902/2d/bd2951bd/CspAncestorSourceList.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8D310642-25A0-43CD-9E6A-D7C89DCC4902/1d/274a4270/ContenTypeOptionsHeaderMiddleware.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/.local/share/Symbols/src/nunit/nunit/7e4cad49154c9cb35385d8deae87f50c42d2956d/src/NUnitFramework/framework/Assert.Exceptions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9FCAADD9-58A4-4900-9D68-546D5ECFE219/2EB/Stream.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8D310642-25A0-43CD-9E6A-D7C89DCC4902/81/b23a155d/ContentSecurityPolicyReportOnlyMiddleware.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/F0F88FD4-5D29-49EB-B7A6-91AC8A126284/92/XmlReader.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8D310642-25A0-43CD-9E6A-D7C89DCC4902/d7/d55d29c8/ContentSecurityPolicyConfiguration.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8D310642-25A0-43CD-9E6A-D7C89DCC4902/80/bfc8ef98/AntiClickjackingMiddleware.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DADD22E-0197-42CE-80AA-EFEF99855BE0/32/a6a4ff89/XmlReader.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/.local/share/Symbols/src/nunit/nunit/7e4cad49154c9cb35385d8deae87f50c42d2956d/src/NUnitFramework/framework/Internal/Execution/SimpleWorkItem.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/.local/share/Symbols/src/nunit/nunit/7e4cad49154c9cb35385d8deae87f50c42d2956d/src/NUnitFramework/framework/Internal/Commands/TestMethodCommand.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/B18E5763-EC3F-41E6-8A8F-E16D7F5E0BEE/15A/thread.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/.local/share/Symbols/src/nunit/nunit/7e4cad49154c9cb35385d8deae87f50c42d2956d/src/NUnitFramework/framework/Internal/Execution/TestWorker.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/.local/share/Symbols/src/nunit/nunit/7e4cad49154c9cb35385d8deae87f50c42d2956d/src/NUnitFramework/framework/Internal/Execution/CompositeWorkItem.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics/FrendsTaskMetadata.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics/Definition.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/F4162D30-B8A2-4CAF-9F8C-13E5E9EED15F/2D/DataSet.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/54045C89-2166-4FF1-A407-48341332EB50/31/d412b1e4/AppBuilderExtensions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics/Frends.Community.SecurityThreatDiagnostics.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5A6B1071-BBFB-4473-8D83-2C04873AC41E/31/b29af138/TestDelegate.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/F0F88FD4-5D29-49EB-B7A6-91AC8A126284/c8/9ad08c23/SR.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/CB51DA4C-0BB4-4C7A-A71F-7E57BBA4FA50/10/Regex.Match.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DADD22E-0197-42CE-80AA-EFEF99855BE0/61/f78829b0/ResourceManager.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8D310642-25A0-43CD-9E6A-D7C89DCC4902/f4/4fe1da28/SecurityHeaders.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8D310642-25A0-43CD-9E6A-D7C89DCC4902/4a/2ca0348d/StrictTransportSecurityOptions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/E29ECF3D-3582-4FF7-A1F2-BD0510C7C5E6/2E/ToCollection.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DADD22E-0197-42CE-80AA-EFEF99855BE0/36/5cf99a0d/Action`1.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8D310642-25A0-43CD-9E6A-D7C89DCC4902/64/a9eaee3b/HeaderConstants.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/Downloads/Example-of-Using-the-Try-Catch-Activity-Final/Example of Using the Try Catch Activity Final/Main.xaml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8D310642-25A0-43CD-9E6A-D7C89DCC4902/09/603e09d0/XssProtectionHeaderMiddleware.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6DADD22E-0197-42CE-80AA-EFEF99855BE0/d9/9e4623e0/Encoding.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8D310642-25A0-43CD-9E6A-D7C89DCC4902/43/737da838/StrictTransportSecurityHeaderMiddleware.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics/Filters.xml" />
+        <option value="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics/Testing.Designer.cs" />
+        <option value="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics/Test.Designer.cs" />
+        <option value="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics/Test.resx" />
+        <option value="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.SetPaswordsEnv.ps1" />
+        <option value="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/Tests.cs" />
+        <option value="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics/SecurityFilters.Designer.cs" />
+        <option value="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics/SecurityFilters.resx" />
+        <option value="$USER_HOME$/Downloads/New Swagger Spec.yaml" />
+        <option value="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics/Frends.Community.SecurityThreatDiagnostics.csproj" />
+        <option value="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/Frends.Community.SecurityThreatDiagnostics.Tests.csproj" />
+        <option value="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics/.gitignore" />
+        <option value="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics/FrendsTaskMetadata.json" />
+        <option value="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics/Definition.cs" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics/Frends.Community.SecurityThreatDiagnostics.cs" />
+        <option value="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.nuspec" />
+        <option value="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics/Resources/SecurityRules.xml" />
+        <option value="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics.Tests/Frends.Community.SecurityThreatDiagnostics.Tests.cs" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1h2jNeWYhcN9gBEQUROLXmwDSea" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.34971997" />
+    <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.29993778" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="CustomToolsOptionsPageId" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="DotNetStaticMethod" factoryName=".NET Static Method">
+      <option name="EXE_PATH" value="$APPLICATION_HOME_DIR$/lib/ReSharperHost/JetLauncherILc.exe" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics/bin/Debug/net472" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/Frends.Community.SecurityThreatDiagnostics/Frends.Community.SecurityThreatDiagnostics.csproj" />
+      <option name="PROJECT_TFM" value=".NETFramework,Version=v4.7.2" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1c002ed1-e2ed-40e0-b0cb-10ebedffa109" name="Default Changelist" comment="" />
+      <created>1599216042445</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1599216042445</updated>
+      <workItem from="1599216049598" duration="805000" />
+      <workItem from="1599219370573" duration="76482000" />
+      <workItem from="1600160763981" duration="43854000" />
+      <workItem from="1600679709323" duration="22858000" />
+      <workItem from="1600866125152" duration="2647000" />
+      <workItem from="1600928293551" duration="32338000" />
+      <workItem from="1601457112663" duration="13512000" />
+      <workItem from="1602148060088" duration="1066000" />
+    </task>
+    <task id="LOCAL−00001" summary="Thread safe rule regex pattern matching against security threats. High end optimisation of the validation.">
+      <created>1600259541473</created>
+      <option name="number" value="LOCAL−00001" />
+      <option name="presentableId" value="LOCAL−00001" />
+      <updated>1600259541474</updated>
+    </task>
+    <task id="LOCAL−00002" summary="IP addresses verification using white and black lists with regular expression check">
+      <created>1600433431945</created>
+      <option name="number" value="LOCAL−00002" />
+      <option name="presentableId" value="LOCAL−00002" />
+      <updated>1600433431945</updated>
+    </task>
+    <task id="LOCAL−00003" summary="Added support for HTTP header injections.">
+      <created>1600759766717</created>
+      <option name="number" value="LOCAL−00003" />
+      <option name="presentableId" value="LOCAL−00003" />
+      <updated>1600759766717</updated>
+    </task>
+    <task id="LOCAL−00004" summary="Added support for HTTP header injections.">
+      <created>1600759816955</created>
+      <option name="number" value="LOCAL−00004" />
+      <option name="presentableId" value="LOCAL−00004" />
+      <updated>1600759816955</updated>
+    </task>
+    <task id="LOCAL−00005" summary="Example values.">
+      <created>1600760304156</created>
+      <option name="number" value="LOCAL−00005" />
+      <option name="presentableId" value="LOCAL−00005" />
+      <updated>1600760304156</updated>
+    </task>
+    <task id="LOCAL−00006" summary="Added data validation for security headers and content encoding.">
+      <created>1601372116534</created>
+      <option name="number" value="LOCAL−00006" />
+      <option name="presentableId" value="LOCAL−00006" />
+      <updated>1601372116534</updated>
+    </task>
+    <task id="LOCAL−00007" summary="Documentation refactorings">
+      <created>1601373391330</created>
+      <option name="number" value="LOCAL−00007" />
+      <option name="presentableId" value="LOCAL−00007" />
+      <updated>1601373391330</updated>
+    </task>
+    <task id="LOCAL−00008" summary="Removed unnecessary import">
+      <created>1601373460093</created>
+      <option name="number" value="LOCAL−00008" />
+      <option name="presentableId" value="LOCAL−00008" />
+      <updated>1601373460093</updated>
+    </task>
+    <task id="LOCAL−00009" summary="&quot;Refactoring of the cancellation token&quot;">
+      <created>1601381912786</created>
+      <option name="number" value="LOCAL−00009" />
+      <option name="presentableId" value="LOCAL−00009" />
+      <updated>1601381912786</updated>
+    </task>
+    <task id="LOCAL−00010" summary="&quot;Refactoring of the cancellation token&quot;">
+      <created>1601382405646</created>
+      <option name="number" value="LOCAL−00010" />
+      <option name="presentableId" value="LOCAL−00010" />
+      <updated>1601382405646</updated>
+    </task>
+    <task id="LOCAL−00011" summary="Removed unnecessary files.">
+      <created>1601897510815</created>
+      <option name="number" value="LOCAL−00011" />
+      <option name="presentableId" value="LOCAL−00011" />
+      <updated>1601897510815</updated>
+    </task>
+    <task id="LOCAL−00012" summary="Added important metadata to the Task execution.">
+      <created>1601897798331</created>
+      <option name="number" value="LOCAL−00012" />
+      <option name="presentableId" value="LOCAL−00012" />
+      <updated>1601897798331</updated>
+    </task>
+    <task id="LOCAL−00013" summary="Added important metadata of the Task execution.">
+      <created>1601901222995</created>
+      <option name="number" value="LOCAL−00013" />
+      <option name="presentableId" value="LOCAL−00013" />
+      <updated>1601901222995</updated>
+    </task>
+    <task id="LOCAL−00014" summary="New rule addon.">
+      <created>1602148177017</created>
+      <option name="number" value="LOCAL−00014" />
+      <option name="presentableId" value="LOCAL−00014" />
+      <updated>1602148177017</updated>
+    </task>
+    <task id="LOCAL−00015" summary="New rule addon.">
+      <created>1602148213647</created>
+      <option name="number" value="LOCAL−00015" />
+      <option name="presentableId" value="LOCAL−00015" />
+      <updated>1602148213647</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="Thread safe rule regex pattern matching against security threats. High end optimisation of the validation." />
+    <MESSAGE value="IP addresses verification using white and black lists with regular expression check" />
+    <MESSAGE value="Added support for HTTP header injections." />
+    <MESSAGE value="Example values." />
+    <MESSAGE value="Added data validation for security headers and content encoding." />
+    <MESSAGE value="Documentation refactorings" />
+    <MESSAGE value="Removed unnecessary import" />
+    <MESSAGE value="&quot;Refactoring of the cancellation token&quot;" />
+    <MESSAGE value="Removed unnecessary files." />
+    <MESSAGE value="Added important metadata to the Task execution." />
+    <MESSAGE value="Added important metadata of the Task execution." />
+    <MESSAGE value="New rule addon." />
+    <option name="LAST_COMMIT_MESSAGE" value="New rule addon." />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="312" y="158" width="1135" height="809" key="#Notifications" timestamp="1600248087290">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="312" y="158" width="1135" height="809" key="#Notifications/0.0.1680.1050@0.0.1680.1050" timestamp="1600248087290" />
+    <state x="304" y="187" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1600867979740">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="304" y="187" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1680.1050@0.0.1680.1050" timestamp="1600867979740" />
+    <state x="435" y="320" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1600866775844">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="435" y="320" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1680.1050@0.0.1680.1050" timestamp="1600866775844" />
+    <state x="435" y="323" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1680.984@0.23.1680.984" timestamp="1599634656721" />
+    <state x="435" y="324" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1680.986@0.23.1680.986" timestamp="1599567174150" />
+    <state x="435" y="324" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1680.987@0.23.1680.987" timestamp="1600065805502" />
+    <state x="599" y="402" key="ANALYSIS_DLG_com.jetbrains.rider.actions.impl.cleanup.RiderCodeCleanupAction$actionPerformed$dlg$1" timestamp="1600161662081">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="599" y="402" key="ANALYSIS_DLG_com.jetbrains.rider.actions.impl.cleanup.RiderCodeCleanupAction$actionPerformed$dlg$1/0.0.1680.1050@0.0.1680.1050" timestamp="1600161662081" />
+    <state width="1638" height="389" key="GridCell.Tab.0.bottom" timestamp="1601459067423">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="389" key="GridCell.Tab.0.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1601459067423" />
+    <state width="1638" height="354" key="GridCell.Tab.0.bottom/0.23.1680.982@0.23.1680.982" timestamp="1600953217137" />
+    <state width="1638" height="356" key="GridCell.Tab.0.bottom/0.23.1680.986@0.23.1680.986" timestamp="1599567568967" />
+    <state width="1638" height="354" key="GridCell.Tab.0.bottom/0.23.1680.990@0.23.1680.990" timestamp="1601030597562" />
+    <state width="1638" height="354" key="GridCell.Tab.0.bottom/0.23.1680.993@0.23.1680.993" timestamp="1601039130446" />
+    <state width="1638" height="354" key="GridCell.Tab.0.bottom/0.23.1680.994@0.23.1680.994" timestamp="1601450455403" />
+    <state width="1638" height="389" key="GridCell.Tab.0.center" timestamp="1601459067421">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="389" key="GridCell.Tab.0.center/0.0.1680.1050@0.0.1680.1050" timestamp="1601459067421" />
+    <state width="1638" height="354" key="GridCell.Tab.0.center/0.23.1680.982@0.23.1680.982" timestamp="1600953217135" />
+    <state width="1638" height="356" key="GridCell.Tab.0.center/0.23.1680.986@0.23.1680.986" timestamp="1599567568966" />
+    <state width="1638" height="354" key="GridCell.Tab.0.center/0.23.1680.990@0.23.1680.990" timestamp="1601030597561" />
+    <state width="1638" height="354" key="GridCell.Tab.0.center/0.23.1680.993@0.23.1680.993" timestamp="1601039130445" />
+    <state width="1638" height="354" key="GridCell.Tab.0.center/0.23.1680.994@0.23.1680.994" timestamp="1601450455402" />
+    <state width="1638" height="389" key="GridCell.Tab.0.left" timestamp="1601459067420">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="389" key="GridCell.Tab.0.left/0.0.1680.1050@0.0.1680.1050" timestamp="1601459067420" />
+    <state width="1638" height="354" key="GridCell.Tab.0.left/0.23.1680.982@0.23.1680.982" timestamp="1600953217135" />
+    <state width="1638" height="356" key="GridCell.Tab.0.left/0.23.1680.986@0.23.1680.986" timestamp="1599567568965" />
+    <state width="1638" height="354" key="GridCell.Tab.0.left/0.23.1680.990@0.23.1680.990" timestamp="1601030597561" />
+    <state width="1638" height="354" key="GridCell.Tab.0.left/0.23.1680.993@0.23.1680.993" timestamp="1601039130444" />
+    <state width="1638" height="354" key="GridCell.Tab.0.left/0.23.1680.994@0.23.1680.994" timestamp="1601450455401" />
+    <state width="1638" height="389" key="GridCell.Tab.0.right" timestamp="1601459067422">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="389" key="GridCell.Tab.0.right/0.0.1680.1050@0.0.1680.1050" timestamp="1601459067422" />
+    <state width="1638" height="354" key="GridCell.Tab.0.right/0.23.1680.982@0.23.1680.982" timestamp="1600953217136" />
+    <state width="1638" height="356" key="GridCell.Tab.0.right/0.23.1680.986@0.23.1680.986" timestamp="1599567568967" />
+    <state width="1638" height="354" key="GridCell.Tab.0.right/0.23.1680.990@0.23.1680.990" timestamp="1601030597562" />
+    <state width="1638" height="354" key="GridCell.Tab.0.right/0.23.1680.993@0.23.1680.993" timestamp="1601039130446" />
+    <state width="1638" height="354" key="GridCell.Tab.0.right/0.23.1680.994@0.23.1680.994" timestamp="1601450455402" />
+    <state width="1638" height="389" key="GridCell.Tab.1.bottom" timestamp="1601459067425">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="389" key="GridCell.Tab.1.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1601459067425" />
+    <state width="1638" height="354" key="GridCell.Tab.1.bottom/0.23.1680.982@0.23.1680.982" timestamp="1600953217140" />
+    <state width="1638" height="356" key="GridCell.Tab.1.bottom/0.23.1680.986@0.23.1680.986" timestamp="1599567568970" />
+    <state width="1638" height="354" key="GridCell.Tab.1.bottom/0.23.1680.990@0.23.1680.990" timestamp="1601030597565" />
+    <state width="1638" height="354" key="GridCell.Tab.1.bottom/0.23.1680.993@0.23.1680.993" timestamp="1601039130448" />
+    <state width="1638" height="354" key="GridCell.Tab.1.bottom/0.23.1680.994@0.23.1680.994" timestamp="1601450455405" />
+    <state width="1638" height="389" key="GridCell.Tab.1.center" timestamp="1601459067424">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="389" key="GridCell.Tab.1.center/0.0.1680.1050@0.0.1680.1050" timestamp="1601459067424" />
+    <state width="1638" height="354" key="GridCell.Tab.1.center/0.23.1680.982@0.23.1680.982" timestamp="1600953217138" />
+    <state width="1638" height="356" key="GridCell.Tab.1.center/0.23.1680.986@0.23.1680.986" timestamp="1599567568969" />
+    <state width="1638" height="354" key="GridCell.Tab.1.center/0.23.1680.990@0.23.1680.990" timestamp="1601030597564" />
+    <state width="1638" height="354" key="GridCell.Tab.1.center/0.23.1680.993@0.23.1680.993" timestamp="1601039130447" />
+    <state width="1638" height="354" key="GridCell.Tab.1.center/0.23.1680.994@0.23.1680.994" timestamp="1601450455403" />
+    <state width="1638" height="389" key="GridCell.Tab.1.left" timestamp="1601459067423">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="389" key="GridCell.Tab.1.left/0.0.1680.1050@0.0.1680.1050" timestamp="1601459067423" />
+    <state width="1638" height="354" key="GridCell.Tab.1.left/0.23.1680.982@0.23.1680.982" timestamp="1600953217137" />
+    <state width="1638" height="356" key="GridCell.Tab.1.left/0.23.1680.986@0.23.1680.986" timestamp="1599567568968" />
+    <state width="1638" height="354" key="GridCell.Tab.1.left/0.23.1680.990@0.23.1680.990" timestamp="1601030597563" />
+    <state width="1638" height="354" key="GridCell.Tab.1.left/0.23.1680.993@0.23.1680.993" timestamp="1601039130447" />
+    <state width="1638" height="354" key="GridCell.Tab.1.left/0.23.1680.994@0.23.1680.994" timestamp="1601450455403" />
+    <state width="1638" height="389" key="GridCell.Tab.1.right" timestamp="1601459067425">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="389" key="GridCell.Tab.1.right/0.0.1680.1050@0.0.1680.1050" timestamp="1601459067425" />
+    <state width="1638" height="354" key="GridCell.Tab.1.right/0.23.1680.982@0.23.1680.982" timestamp="1600953217139" />
+    <state width="1638" height="356" key="GridCell.Tab.1.right/0.23.1680.986@0.23.1680.986" timestamp="1599567568969" />
+    <state width="1638" height="354" key="GridCell.Tab.1.right/0.23.1680.990@0.23.1680.990" timestamp="1601030597564" />
+    <state width="1638" height="354" key="GridCell.Tab.1.right/0.23.1680.993@0.23.1680.993" timestamp="1601039130448" />
+    <state width="1638" height="354" key="GridCell.Tab.1.right/0.23.1680.994@0.23.1680.994" timestamp="1601450455404" />
+    <state width="1638" height="389" key="GridCell.Tab.2.bottom" timestamp="1601459067427">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="389" key="GridCell.Tab.2.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1601459067427" />
+    <state width="1638" height="354" key="GridCell.Tab.2.bottom/0.23.1680.982@0.23.1680.982" timestamp="1600953217141" />
+    <state width="1638" height="356" key="GridCell.Tab.2.bottom/0.23.1680.986@0.23.1680.986" timestamp="1599567568972" />
+    <state width="1638" height="354" key="GridCell.Tab.2.bottom/0.23.1680.990@0.23.1680.990" timestamp="1601030597566" />
+    <state width="1638" height="354" key="GridCell.Tab.2.bottom/0.23.1680.993@0.23.1680.993" timestamp="1601039130450" />
+    <state width="1638" height="354" key="GridCell.Tab.2.bottom/0.23.1680.994@0.23.1680.994" timestamp="1601450455406" />
+    <state width="1638" height="389" key="GridCell.Tab.2.center" timestamp="1601459067426">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="389" key="GridCell.Tab.2.center/0.0.1680.1050@0.0.1680.1050" timestamp="1601459067426" />
+    <state width="1638" height="354" key="GridCell.Tab.2.center/0.23.1680.982@0.23.1680.982" timestamp="1600953217141" />
+    <state width="1638" height="356" key="GridCell.Tab.2.center/0.23.1680.986@0.23.1680.986" timestamp="1599567568971" />
+    <state width="1638" height="354" key="GridCell.Tab.2.center/0.23.1680.990@0.23.1680.990" timestamp="1601030597565" />
+    <state width="1638" height="354" key="GridCell.Tab.2.center/0.23.1680.993@0.23.1680.993" timestamp="1601039130449" />
+    <state width="1638" height="354" key="GridCell.Tab.2.center/0.23.1680.994@0.23.1680.994" timestamp="1601450455405" />
+    <state width="1638" height="389" key="GridCell.Tab.2.left" timestamp="1601459067426">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="389" key="GridCell.Tab.2.left/0.0.1680.1050@0.0.1680.1050" timestamp="1601459067426" />
+    <state width="1638" height="354" key="GridCell.Tab.2.left/0.23.1680.982@0.23.1680.982" timestamp="1600953217140" />
+    <state width="1638" height="356" key="GridCell.Tab.2.left/0.23.1680.986@0.23.1680.986" timestamp="1599567568970" />
+    <state width="1638" height="354" key="GridCell.Tab.2.left/0.23.1680.990@0.23.1680.990" timestamp="1601030597565" />
+    <state width="1638" height="354" key="GridCell.Tab.2.left/0.23.1680.993@0.23.1680.993" timestamp="1601039130449" />
+    <state width="1638" height="354" key="GridCell.Tab.2.left/0.23.1680.994@0.23.1680.994" timestamp="1601450455405" />
+    <state width="1638" height="389" key="GridCell.Tab.2.right" timestamp="1601459067427">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="389" key="GridCell.Tab.2.right/0.0.1680.1050@0.0.1680.1050" timestamp="1601459067427" />
+    <state width="1638" height="354" key="GridCell.Tab.2.right/0.23.1680.982@0.23.1680.982" timestamp="1600953217141" />
+    <state width="1638" height="356" key="GridCell.Tab.2.right/0.23.1680.986@0.23.1680.986" timestamp="1599567568971" />
+    <state width="1638" height="354" key="GridCell.Tab.2.right/0.23.1680.990@0.23.1680.990" timestamp="1601030597566" />
+    <state width="1638" height="354" key="GridCell.Tab.2.right/0.23.1680.993@0.23.1680.993" timestamp="1601039130450" />
+    <state width="1638" height="354" key="GridCell.Tab.2.right/0.23.1680.994@0.23.1680.994" timestamp="1601450455406" />
+    <state width="1638" height="389" key="GridCell.Tab.3.bottom" timestamp="1601459067430">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="389" key="GridCell.Tab.3.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1601459067430" />
+    <state width="1638" height="354" key="GridCell.Tab.3.bottom/0.23.1680.982@0.23.1680.982" timestamp="1600953217143" />
+    <state width="1638" height="356" key="GridCell.Tab.3.bottom/0.23.1680.986@0.23.1680.986" timestamp="1599567568974" />
+    <state width="1638" height="354" key="GridCell.Tab.3.bottom/0.23.1680.990@0.23.1680.990" timestamp="1601030597567" />
+    <state width="1638" height="354" key="GridCell.Tab.3.bottom/0.23.1680.993@0.23.1680.993" timestamp="1601039130452" />
+    <state width="1638" height="354" key="GridCell.Tab.3.bottom/0.23.1680.994@0.23.1680.994" timestamp="1601450455407" />
+    <state width="1638" height="389" key="GridCell.Tab.3.center" timestamp="1601459067428">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="389" key="GridCell.Tab.3.center/0.0.1680.1050@0.0.1680.1050" timestamp="1601459067428" />
+    <state width="1638" height="354" key="GridCell.Tab.3.center/0.23.1680.982@0.23.1680.982" timestamp="1600953217142" />
+    <state width="1638" height="356" key="GridCell.Tab.3.center/0.23.1680.986@0.23.1680.986" timestamp="1599567568973" />
+    <state width="1638" height="354" key="GridCell.Tab.3.center/0.23.1680.990@0.23.1680.990" timestamp="1601030597567" />
+    <state width="1638" height="354" key="GridCell.Tab.3.center/0.23.1680.993@0.23.1680.993" timestamp="1601039130451" />
+    <state width="1638" height="354" key="GridCell.Tab.3.center/0.23.1680.994@0.23.1680.994" timestamp="1601450455407" />
+    <state width="1638" height="389" key="GridCell.Tab.3.left" timestamp="1601459067428">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="389" key="GridCell.Tab.3.left/0.0.1680.1050@0.0.1680.1050" timestamp="1601459067428" />
+    <state width="1638" height="354" key="GridCell.Tab.3.left/0.23.1680.982@0.23.1680.982" timestamp="1600953217142" />
+    <state width="1638" height="356" key="GridCell.Tab.3.left/0.23.1680.986@0.23.1680.986" timestamp="1599567568972" />
+    <state width="1638" height="354" key="GridCell.Tab.3.left/0.23.1680.990@0.23.1680.990" timestamp="1601030597566" />
+    <state width="1638" height="354" key="GridCell.Tab.3.left/0.23.1680.993@0.23.1680.993" timestamp="1601039130451" />
+    <state width="1638" height="354" key="GridCell.Tab.3.left/0.23.1680.994@0.23.1680.994" timestamp="1601450455406" />
+    <state width="1638" height="389" key="GridCell.Tab.3.right" timestamp="1601459067429">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1638" height="389" key="GridCell.Tab.3.right/0.0.1680.1050@0.0.1680.1050" timestamp="1601459067429" />
+    <state width="1638" height="354" key="GridCell.Tab.3.right/0.23.1680.982@0.23.1680.982" timestamp="1600953217143" />
+    <state width="1638" height="356" key="GridCell.Tab.3.right/0.23.1680.986@0.23.1680.986" timestamp="1599567568974" />
+    <state width="1638" height="354" key="GridCell.Tab.3.right/0.23.1680.990@0.23.1680.990" timestamp="1601030597567" />
+    <state width="1638" height="354" key="GridCell.Tab.3.right/0.23.1680.993@0.23.1680.993" timestamp="1601039130451" />
+    <state width="1638" height="354" key="GridCell.Tab.3.right/0.23.1680.994@0.23.1680.994" timestamp="1601450455407" />
+    <state x="467" y="241" key="RollbackChangesDialog" timestamp="1600176742349">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="467" y="241" key="RollbackChangesDialog/0.0.1680.1050@0.0.1680.1050" timestamp="1600176742349" />
+    <state x="341" y="140" key="SettingsEditor" timestamp="1600151965432">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="341" y="140" key="SettingsEditor/0.0.1680.1050@0.0.1680.1050" timestamp="1600151965432" />
+    <state x="341" y="154" key="SettingsEditor/0.23.1680.986@0.23.1680.986" timestamp="1599571670165" />
+    <state x="100" y="117" width="1480" height="795" key="VCS.FileHistoryDialog" timestamp="1600949773482">
+      <screen x="0" y="23" width="1680" height="982" />
+    </state>
+    <state x="100" y="100" width="1480" height="850" key="VCS.FileHistoryDialog/0.0.1680.1050@0.0.1680.1050" timestamp="1600685855456" />
+    <state x="100" y="117" width="1480" height="795" key="VCS.FileHistoryDialog/0.23.1680.982@0.23.1680.982" timestamp="1600949773482" />
+    <state x="440" y="265" key="Vcs.Push.Dialog.v2" timestamp="1600259545799">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="440" y="265" key="Vcs.Push.Dialog.v2/0.0.1680.1050@0.0.1680.1050" timestamp="1600259545799" />
+    <state width="840" height="492" key="XDebugger.FullValuePopup" timestamp="1599567458117">
+      <screen x="0" y="23" width="1680" height="986" />
+    </state>
+    <state width="840" height="492" key="XDebugger.FullValuePopup/0.23.1680.986@0.23.1680.986" timestamp="1599567458117" />
+    <state x="628" y="446" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1600757255861">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="628" y="446" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1680.1050@0.0.1680.1050" timestamp="1600757255861" />
+    <state x="391" y="280" width="897" height="490" key="find.popup" timestamp="1600100988154">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="391" y="280" width="897" height="490" key="find.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1600100988154" />
+    <state x="496" y="421" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1600759988479">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="496" y="421" key="git4idea.remote.GitConfigureRemotesDialog/0.0.1680.1050@0.0.1680.1050" timestamp="1600759988479" />
+    <state width="600" height="428" key="javadoc.popup" timestamp="1600691154207">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="600" height="428" key="javadoc.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1600691154207" />
+    <state x="505" y="238" key="run.anything.popup" timestamp="1599572415964">
+      <screen x="0" y="23" width="1680" height="987" />
+    </state>
+    <state x="505" y="238" key="run.anything.popup/0.23.1680.987@0.23.1680.987" timestamp="1599572415964" />
+    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup" timestamp="1600861793842">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="505" y="233" width="670" height="676" key="search.everywhere.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1600861793842" />
+    <state x="505" y="242" width="670" height="635" key="search.everywhere.popup/0.23.1680.986@0.23.1680.986" timestamp="1599565786693" />
+  </component>
+  <component name="XDebuggerManager">
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo typeName="System.Collections.Generic.KeyValuePair`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]" fieldName="Key" />
+      </pinned-members>
+    </pin-to-top-manager>
+  </component>
+</project>

@@ -31,10 +31,6 @@
   "frameworks": {
     "net471": {
       "dependencies": {
-        "Microsoft.NET.Test.Sdk": {
-          "target": "Package",
-          "version": "[16.6.1, )"
-        },
         "NETStandard.Library": {
           "suppressParent": "All",
           "target": "Package",

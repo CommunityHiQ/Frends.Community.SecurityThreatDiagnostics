@@ -41,10 +41,6 @@
       "frameworks": {
         "net471": {
           "dependencies": {
-            "Microsoft.NET.Test.Sdk": {
-              "target": "Package",
-              "version": "[16.6.1, )"
-            },
             "NETStandard.Library": {
               "suppressParent": "All",
               "target": "Package",
@@ -66,7 +62,7 @@
       }
     },
     "/Users/leinoil/Development/dotnet/github/Frends.Community.SecurityThreatDiagnostics/Frends.Community.SecurityThreatDiagnostics/Frends.Community.SecurityThreatDiagnostics.csproj": {
-      "version": "0.0.1",
+      "version": "1.0.0",
       "restore": {
         "projectUniqueName": "/Users/leinoil/Development/dotnet/github/Frends.Community.SecurityThreatDiagnostics/Frends.Community.SecurityThreatDiagnostics/Frends.Community.SecurityThreatDiagnostics.csproj",
         "projectName": "Frends.Community.SecurityThreatDiagnostics",
@@ -106,18 +102,6 @@
               "target": "Package",
               "version": "[4.7.0, )"
             },
-            "Owin": {
-              "target": "Package",
-              "version": "[1.0.0, )"
-            },
-            "SecurityHeadersMiddleware": {
-              "target": "Package",
-              "version": "[2.0.0, )"
-            },
-            "SecurityHeadersMiddleware.AppBuilder": {
-              "target": "Package",
-              "version": "[2.0.0, )"
-            },
             "System.ComponentModel.Annotations": {
               "target": "Package",
               "version": "[4.7.0, )"
@@ -136,18 +120,6 @@
               "target": "Package",
               "version": "[2.0.3, )",
               "autoReferenced": true
-            },
-            "Owin": {
-              "target": "Package",
-              "version": "[1.0.0, )"
-            },
-            "SecurityHeadersMiddleware": {
-              "target": "Package",
-              "version": "[2.0.0, )"
-            },
-            "SecurityHeadersMiddleware.AppBuilder": {
-              "target": "Package",
-              "version": "[2.0.0, )"
             },
             "System.ComponentModel.Annotations": {
               "target": "Package",
