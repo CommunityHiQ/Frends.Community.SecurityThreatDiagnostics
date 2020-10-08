@@ -42,6 +42,16 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         }
         
         [Test]
+        public void GivenScriptInjectedXMLWithDoubleQuatesWhenChallengingValidationThenSecurityThreatDiagnosticsMustReturnTrue()
+        {
+            string invalidXml = "<xml><entity><script>function xss() { alert(\"injection\"); } xss();</script></entity></xml>";
+            validation.Payload = invalidXml;
+            options.MaxIterations = 2;
+            Assert.Throws<ApplicationException>(
+                delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, CancellationToken.None); } );
+        }
+        
+        [Test]
         public void GivenXSScriptAttackScriptAsAnAttributeWhenChallengingValidationThenSecurityThreatDiagnosticsMustReturnTrue()
         {
             string invalidXml = "function xss() { alert('injection'); } xss();";
@@ -72,20 +82,19 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         }
         
         [Test]
-        [Ignore("Ignore a test")]
+        //[Ignore("Ignore a test")]
         public void GivenInjectedHeaderInWhenChallengingHeadersForValidationThenSecurityThreatDiagnosticsMustRaiseException()
         {
             WhiteListedHeaders whiteListedHeaders = new WhiteListedHeaders();
             whiteListedHeaders.HttpUri = "http://localhost:8080";
             whiteListedHeaders.AllowedHttpHeaders = new [] {"Authorization"};
             whiteListedHeaders.HttpHeaders = new Dictionary<string, string>();
-            whiteListedHeaders.HttpHeaders.Add("Authorization: ", "Bearer <script>function attack(){ alert(\"i created XSS\"); } attack();</script>");
-            Assert.Throws<ApplicationException>(
-                delegate { SecurityThreatDiagnostics.ChallengeSecurityHeaders(whiteListedHeaders, options, CancellationToken.None); } );
+            whiteListedHeaders.HttpHeaders.Add("Authorization: ", "Bearer <script>function attack(){ alert(\"i created XSS\"); } attack();</script>"); 
+            Assert.Throws<ApplicationException>(delegate { SecurityThreatDiagnostics.ChallengeSecurityHeaders(whiteListedHeaders, options, CancellationToken.None); });
         }
         
         [Test]
-        public void GivenAllowdIPAddressWhenChallengingIPForValidationThenSecurityThreatDiagnosticsMustRaiseException() {
+        public void GivenAllowedIPAddressWhenChallengingIPForValidationThenSecurityThreatDiagnosticsMustRaiseException() {
             AllowedIPAddresses allowedIpAddresses = new AllowedIPAddresses();
             //IPV4 and IPV6
             string[] allowedIPAddressesRegex =
@@ -93,7 +102,6 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
                 "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}",
                 "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3},\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}"
             };
-
             
             string[] denyBroadcastIPAddressesRegex =                                                        
             {                                                                                         
