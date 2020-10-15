@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Frends.Community.SecurityThreatDiagnostics
 {
     /// <summary>
-    /// This class is responsible for transmitting the validation parameters from the runtime configuration into process phase execution.
+    /// This class is responsible for transmitting the validation parameters from the runtime configuration into process of security diagnostics.
     /// </summary>
     public class Validation
     {
@@ -17,6 +17,19 @@ namespace Frends.Community.SecurityThreatDiagnostics
         [DisplayFormat(DataFormatString = "Text")] 
         [DefaultValue("#var.")]
         public string Payload { get; set; }
+    }
+    
+    /// <summary>
+    /// This class is responsible for transmitting the validation attributes from the runtime configuration into process of security diagnostics.
+    /// </summary>
+    public class ValidationAttributes
+    {
+        /// <summary>
+        /// The payload or the attribute value to be validated.
+        /// </summary>
+        [DisplayFormat(DataFormatString = "Text")] 
+        [DefaultValue("{{#trigger.data.body.payload.}}")]
+        public string[] Attribute { get; set; }
     }
     
     /// <summary>

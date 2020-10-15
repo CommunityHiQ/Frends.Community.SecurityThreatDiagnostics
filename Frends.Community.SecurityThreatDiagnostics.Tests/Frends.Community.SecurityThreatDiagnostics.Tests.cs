@@ -9,6 +9,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
     class TestClass
     {
         Validation validation = new Validation();
+        ValidationAttributes validationAttributes = new ValidationAttributes();
         Options options = new Options();
 
         [Test]
@@ -25,7 +26,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         public void GivenValidXMLWhenChallengingValidationThenSecurityThreatDiagnosticsMustReturnFalse()
         {
             string validXml = "<xml><entity>1</entity></xml>";
-            validation.Payload = validXml;
+            validation.Payload = validXml;    
             options.MaxIterations = 2;
             Assert.Throws<ApplicationException>(
                 delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, CancellationToken.None); } );
@@ -82,7 +83,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         }
         
         [Test]
-        //[Ignore("Ignore a test")]
+        [Ignore("Ignore a test")]
         public void GivenInjectedHeaderInWhenChallengingHeadersForValidationThenSecurityThreatDiagnosticsMustRaiseException()
         {
             WhiteListedHeaders whiteListedHeaders = new WhiteListedHeaders();
@@ -91,6 +92,18 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             whiteListedHeaders.HttpHeaders = new Dictionary<string, string>();
             whiteListedHeaders.HttpHeaders.Add("Authorization: ", "Bearer <script>function attack(){ alert(\"i created XSS\"); } attack();</script>"); 
             Assert.Throws<ApplicationException>(delegate { SecurityThreatDiagnostics.ChallengeSecurityHeaders(whiteListedHeaders, options, CancellationToken.None); });
+        }
+        
+        [Test]
+        //[Ignore("Ignore a test")]
+        public void GivenInvalidAttributesWhenChallengingPayloadAttributesForValidationThenSecurityThreatDiagnosticsMustReturnFailedAttributes()
+        {
+            string invalidAttribute1 = "<script>function xss() { alert('injection'); } xss();</script>";
+            string invalidAttribute2 = "<script>function xss() { alert('injection'); } xss();</script>";
+            string[] attributes = {invalidAttribute1, invalidAttribute2};
+            validationAttributes.Attribute = attributes;
+           
+            Assert.Throws<ApplicationException>(delegate { SecurityThreatDiagnostics.ChallengeAttributesAgainstSecurityThreats(validationAttributes, options, CancellationToken.None); });
         }
         
         [Test]
