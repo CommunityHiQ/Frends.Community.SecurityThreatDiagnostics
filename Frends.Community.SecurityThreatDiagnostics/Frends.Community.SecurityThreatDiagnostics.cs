@@ -16,8 +16,6 @@ using System.Xml.Linq;
 
 namespace Frends.Community.SecurityThreatDiagnostics
 {
-    using BuildFunc = Action<Func<IDictionary<string, object>, Func<Func<IDictionary<string, object>, Task>, Func<IDictionary<string, object>, Task>>>>;
-
     public class SecurityRuleFilter
     {
         public string Id  { get; set; }
@@ -35,7 +33,8 @@ namespace Frends.Community.SecurityThreatDiagnostics
             Lazy = 
                 new Lazy<ConcurrentDictionary<string, SecurityRuleFilter>>
                 (() =>
-                {
+                 {
+                    lock (PadLock);
                     XDocument xdoc = XDocument.Parse(SecurityFilters.SecurityRules);
                     XmlReader reader = new XmlTextReader(new StringReader(xdoc.ToString()));
                     try
@@ -74,8 +73,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
         {
             get
             {
-                lock(PadLock)
-                    return Lazy.Value;
+                return Lazy.Value;
             }
         }
 
@@ -123,7 +121,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
         /// Documentation: https://github.com/CommunityHiQ/Frends.Community.SecurityThreatDiagnostics
         /// Throws application exception if diagnostics find vulnerability from the payload challenge.
         /// </summary>
-        public static bool ChallengeAttributesAgainstSecurityThreats(
+        public static SecurityThreatDiagnosticsResult ChallengeAttributesAgainstSecurityThreats(
             [PropertyTab] ValidationAttributes validationAttributes,
             [PropertyTab] Options options,
             CancellationToken cancellationToken)
@@ -175,7 +173,10 @@ namespace Frends.Community.SecurityThreatDiagnostics
                     }
                 }
             }
-            return true;
+            SecurityThreatDiagnosticsResult securityThreatDiagnosticsResult = new SecurityThreatDiagnosticsResult();
+            securityThreatDiagnosticsResult.IsValid = true;
+            
+            return securityThreatDiagnosticsResult;
         }
 
         /// <summary>
@@ -187,7 +188,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
         /// <param name="options">Options for the runtime validation.</param>
         /// <param name="cancellationToken"></param>
         /// <returns>{bool challenges for validation} </returns>
-        public static bool ChallengeAgainstSecurityThreats(
+        public static SecurityThreatDiagnosticsResult ChallengeAgainstSecurityThreats(
             [PropertyTab] Validation validation,
             [PropertyTab] Options options, 
             CancellationToken cancellationToken)
@@ -244,7 +245,10 @@ namespace Frends.Community.SecurityThreatDiagnostics
                 throw applicationException;
             }
 
-            return true;
+            SecurityThreatDiagnosticsResult securityThreatDiagnosticsResult = new SecurityThreatDiagnosticsResult();
+            securityThreatDiagnosticsResult.IsValid = true;
+            
+            return securityThreatDiagnosticsResult;
         }
         
         /// <summary>
@@ -255,7 +259,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
         /// <param name="allowedIpAddresses">Define IP addresses which can bypass the validation.</param>
         /// <param name="cancellationToken"></param>
         /// <returns>{bool challanges}</returns>
-        public static bool ChallengeIPAddresses(
+        public static SecurityThreatDiagnosticsResult ChallengeIPAddresses(
             [PropertyTab] AllowedIPAddresses allowedIpAddresses,
             CancellationToken cancellationToken)
         {
@@ -285,7 +289,10 @@ namespace Frends.Community.SecurityThreatDiagnostics
                 throw new ApplicationException("Invalid IP Address or range [" + allowedIpAddresses.Host + "]");
             }
             
-            return true;
+            SecurityThreatDiagnosticsResult securityThreatDiagnosticsResult = new SecurityThreatDiagnosticsResult();
+            securityThreatDiagnosticsResult.IsValid = true;
+            
+            return securityThreatDiagnosticsResult;
         }
         
         /// <summary>
@@ -296,7 +303,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
         /// <param name="WhiteListedHeaders">Known HTTP headers to be bypassed in validation.</param>
         /// <param name="cancellationToken"></param>
         /// <returns>{bool challanges}</returns>
-        public static bool ChallengeSecurityHeaders(
+        public static SecurityThreatDiagnosticsResult ChallengeSecurityHeaders(
             [PropertyTab] WhiteListedHeaders whiteListedHeaders, 
             [PropertyTab] Options options, 
             CancellationToken cancellationToken)
@@ -366,7 +373,10 @@ namespace Frends.Community.SecurityThreatDiagnostics
                 throw new ApplicationException(builder.ToString(), argumentException);
             }
             
-            return true;
+            SecurityThreatDiagnosticsResult securityThreatDiagnosticsResult = new SecurityThreatDiagnosticsResult();
+            securityThreatDiagnosticsResult.IsValid = true;
+            
+            return securityThreatDiagnosticsResult;
         }
         
         
@@ -378,7 +388,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
         /// <param name="WhiteListedHeaders">Known HTTP headers to be bypassed in validation.</param>
         /// <param name="cancellationToken"></param>
         /// <returns>{bool challanges}</returns>
-        public static bool ChallengeCharacterEncoding(
+        public static SecurityThreatDiagnosticsResult ChallengeCharacterEncoding(
             [PropertyTab] Validation validation,     
             [PropertyTab] Options options, 
             CancellationToken cancellationToken)
@@ -396,7 +406,10 @@ namespace Frends.Community.SecurityThreatDiagnostics
                 ArgumentException argumentException = new ArgumentException("Invalid encoding information "  + exception.ToString(), exception);
                 throw new ApplicationException(builder.ToString(), argumentException);                
             }
-            return true;
+            SecurityThreatDiagnosticsResult securityThreatDiagnosticsResult = new SecurityThreatDiagnosticsResult();
+            securityThreatDiagnosticsResult.IsValid = true;
+            
+            return securityThreatDiagnosticsResult;;
         }
     }
     
