@@ -409,7 +409,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
             SecurityThreatDiagnosticsResult securityThreatDiagnosticsResult = new SecurityThreatDiagnosticsResult();
             securityThreatDiagnosticsResult.IsValid = true;
             
-            return securityThreatDiagnosticsResult;;
+            return securityThreatDiagnosticsResult;
         }
     }
     
