@@ -11,6 +11,13 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         Validation validation = new Validation();
         ValidationAttributes validationAttributes = new ValidationAttributes();
         Options options = new Options();
+        
+        [SetUp]
+        public void SetUp()
+        {
+            options.SourceEncoding = "ISO-8859-1";
+            options.DestinationEncoding = "ISO-8859-1";
+        }
 
         [Test]
         public void GivenValidTextWhenChallengingValidationThenSecurityThreatDiagnosticsMustReturnIsValidStatus()
@@ -18,8 +25,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             string validXml = "This is a valid content.;function ' <script>  temp.txt";
             validation.Payload = validXml;
             options.MaxIterations = 2;
-            Assert.Throws<ApplicationException>(
-                delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, CancellationToken.None); } );
+            Assert.Throws<ApplicationException>(() => SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, CancellationToken.None) );
         }
         
         [Test]
@@ -28,8 +34,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             string validXml = "<xml><entity>1</entity></xml>";
             validation.Payload = validXml;    
             options.MaxIterations = 2;
-            Assert.Throws<ApplicationException>(
-                delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, CancellationToken.None); } );
+            Assert.Throws<ApplicationException>(() => SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, CancellationToken.None));
         }
         
         [Test]
@@ -38,8 +43,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             string invalidXml = "<xml><entity><script>function xss() { alert('injection'); } xss();</script></entity></xml>";
             validation.Payload = invalidXml;
             options.MaxIterations = 2;
-            Assert.Throws<ApplicationException>(
-                delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, CancellationToken.None); } );
+            Assert.Throws<ApplicationException>(() => SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, CancellationToken.None) );
         }
         
         [Test]
@@ -48,8 +52,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             string invalidXml = "<xml><entity><script>function xss() { alert(\"injection\"); } xss();</script></entity></xml>";
             validation.Payload = invalidXml;
             options.MaxIterations = 2;
-            Assert.Throws<ApplicationException>(
-                delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, CancellationToken.None); } );
+            Assert.Throws<ApplicationException>(() => SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, CancellationToken.None));
         }
         
         [Test]
@@ -58,8 +61,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             string invalidXml = "function xss() { alert('injection'); } xss();";
             validation.Payload = invalidXml;
             options.MaxIterations = 2;
-            Assert.Throws<ApplicationException>(
-                delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, CancellationToken.None); } );
+            Assert.Throws<ApplicationException>(() =>  SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, CancellationToken.None) );
         }
         
         [Test]
@@ -68,28 +70,25 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             string unsecureUrl = "http://victim/cgi/%252E%252E%252F%252E%252E%252Fwinnt/system32/cmd.exe?/c+dir+c:\";";
             validation.Payload = unsecureUrl;
             options.MaxIterations = 2;
-            Assert.Throws<ApplicationException>(
-                delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, CancellationToken.None); } );
+            Assert.Throws<ApplicationException>(() =>  SecurityThreatDiagnostics.ChallengeUrlEncoding(validation, options, CancellationToken.None) );
         }
-        
+
         [Test]
-        public void GivenDoubleEncodedUrlInjectionInURIFormatWhenChallengingEncodingThenSecurityThreatDiagnosticsMustReturnIsValidStatus()
+        [Ignore("Ignore a test")]
+        public void GivenUnknownCharacterWhenChallengingEncodingThenSecurityThreatDiagnosticsMustRaiseException()
         {
-            string unsecureUrl = "http://victim/cgi/%252E%252E%252F%252E%252E%252Fwinnt/system32/cmd.exe?/c+dir+c:\";";
-            validation.Payload = unsecureUrl;
-            options.MaxIterations = 2;
-            Assert.Throws<ApplicationException>(
-                delegate { SecurityThreatDiagnostics.ChallengeCharacterEncoding(validation, options, CancellationToken.None); } );
+            string unknownCharacters = "ዩኒኮድ ወረጘ የጝ00F8يونِكود";
+            validation.Payload = unknownCharacters;
+            Assert.Throws<ApplicationException>(() => SecurityThreatDiagnostics.ChallengeCharacterEncoding(validation, options, CancellationToken.None));
         }
-        
+
         [Test]
         public void GivenUrlInjectionInURIFormatWhenChallengingValidationThenSecurityThreatDiagnosticsMustReturnIsValidStatus()
         {
             string unsecureUrl = "select * from Customers;`insert into";
             validation.Payload = unsecureUrl;
             options.MaxIterations = 2;
-            Assert.Throws<ApplicationException>(
-                delegate { SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, CancellationToken.None); } );
+            Assert.Throws<ApplicationException>(() => SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, CancellationToken.None));
         }
         
         [Test]
@@ -101,7 +100,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             whiteListedHeaders.AllowedHttpHeaders = new [] {"Authorization"};
             whiteListedHeaders.HttpHeaders = new Dictionary<string, string>();
             whiteListedHeaders.HttpHeaders.Add("Authorization: ", "Bearer <script>function attack(){ alert(\"i created XSS\"); } attack();</script>"); 
-            Assert.Throws<ApplicationException>(delegate { SecurityThreatDiagnostics.ChallengeSecurityHeaders(whiteListedHeaders, options, CancellationToken.None); });
+            Assert.Throws<ApplicationException>(() => SecurityThreatDiagnostics.ChallengeSecurityHeaders(whiteListedHeaders, options, CancellationToken.None));
         }
         
         [Test]
@@ -112,7 +111,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             string[] attributes = {invalidAttribute1, invalidAttribute2};
             validationAttributes.Attribute = attributes;
            
-            Assert.Throws<ApplicationException>(delegate { SecurityThreatDiagnostics.ChallengeAttributesAgainstSecurityThreats(validationAttributes, options, CancellationToken.None); });
+            Assert.Throws<ApplicationException>(() => SecurityThreatDiagnostics.ChallengeAttributesAgainstSecurityThreats(validationAttributes, options, CancellationToken.None));
         }
         
         [Test]
@@ -125,7 +124,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             string[] attributes = {invalidAttribute1, invalidAttribute2, invalidAttribute3, parallel};
             validationAttributes.Attribute = attributes;
            
-            Assert.Throws<ApplicationException>(delegate { SecurityThreatDiagnostics.ChallengeAttributesAgainstSecurityThreats(validationAttributes, options, CancellationToken.None); });
+            Assert.Throws<ApplicationException>(() => SecurityThreatDiagnostics.ChallengeAttributesAgainstSecurityThreats(validationAttributes, options, CancellationToken.None));
         }
         
         [Test]
@@ -138,7 +137,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             string[] attributes = {invalidAttribute1, invalidAttribute2, invalidAttribute3, parallel};
             validationAttributes.Attribute = attributes;
            
-            Assert.Throws<ApplicationException>(delegate { SecurityThreatDiagnostics.ChallengeAttributesAgainstSecurityThreats(validationAttributes, options, CancellationToken.None); });
+            Assert.Throws<ApplicationException>(() => SecurityThreatDiagnostics.ChallengeAttributesAgainstSecurityThreats(validationAttributes, options, CancellationToken.None));
         }
 
         [Test]
@@ -159,8 +158,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             allowedIpAddresses.WhiteListedIpAddress = allowedIPAddressesRegex;
             allowedIpAddresses.BlackListedIpAddresses = denyBroadcastIPAddressesRegex;
             allowedIpAddresses.Host = "127.0.0.1";
-            Assert.DoesNotThrow(
-                delegate { SecurityThreatDiagnostics.ChallengeIPAddresses(allowedIpAddresses, CancellationToken.None); } );
+            Assert.DoesNotThrow(() => SecurityThreatDiagnostics.ChallengeIPAddresses(allowedIpAddresses, CancellationToken.None));
         }
         
     }
