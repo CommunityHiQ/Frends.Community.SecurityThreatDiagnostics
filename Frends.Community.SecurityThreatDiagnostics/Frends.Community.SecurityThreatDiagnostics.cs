@@ -119,7 +119,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
             return asciiEncoded;
         }
 
-        private static SecurityThreatDiagnosticsResult VerifyCharacterSetEncoding(string payload, Options options)
+        private static SecurityThreatDiagnosticsResult ChallengeCharacterSetEncoding(string payload, Options options)
         {
             {
                 try
@@ -264,7 +264,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
 
             foreach (var entry in ruleDictionary)
             {
-                VerifyCharacterSetEncoding(validation.Payload, options);
+                ChallengeCharacterSetEncoding(validation.Payload, options);
                 string base64DecodedPayload = DecodeBase64Encoding(validation.Payload);
                 
                 if (entry.Value.Rule.IsMatch(validation.Payload) ||
@@ -384,7 +384,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
                     {
                         foreach (var rule in ruleDictionary)
                         {
-                            VerifyCharacterSetEncoding(HttpHeaderPair.Value, options);
+                            ChallengeCharacterSetEncoding(HttpHeaderPair.Value, options);
                             string base64DecodedHeaderValue = DecodeBase64Encoding(HttpHeaderPair.Value);
                             
                             if (rule.Value.Rule.IsMatch(HttpHeaderPair.Value) || base64DecodedHeaderValue.Length > 0 &&
@@ -481,7 +481,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
         {
             try
             {
-                VerifyCharacterSetEncoding(validation.Payload, options);
+                ChallengeCharacterSetEncoding(validation.Payload, options);
             }
             catch (Exception exception)
             {

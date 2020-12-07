@@ -20,7 +20,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         }
 
         [Test]
-        public void GivenValidTextWhenChallengingValidationThenSecurityThreatDiagnosticsMustReturnIsValidStatus()
+        public void GivenValidTextWhenChallengingValidationThenSecurityThreatDiagnosticsMustRaiseExceptionDueToFoundInjection()
         {
             string validXml = "This is a valid content.;function ' <script>  temp.txt";
             validation.Payload = validXml;
@@ -29,7 +29,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         }
         
         [Test]
-        public void GivenValidXMLWhenChallengingValidationThenSecurityThreatDiagnosticsMustReturnIsValidStatus()
+        public void GivenValidXMLWhenChallengingValidationThenSecurityThreatDiagnosticsMustRaiseException()
         {
             string validXml = "<xml><entity>1</entity></xml>";
             validation.Payload = validXml;    
@@ -38,7 +38,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         }
         
         [Test]
-        public void GivenScriptInjectedXMLWhenChallengingValidationThenSecurityThreatDiagnosticsMustReturnIsValidStatus()
+        public void GivenScriptInjectedXMLWhenChallengingValidationThenSecurityThreatDiagnosticsMustRaiseExceptionDueToInjectedXML()
         {
             string invalidXml = "<xml><entity><script>function xss() { alert('injection'); } xss();</script></entity></xml>";
             validation.Payload = invalidXml;
@@ -47,7 +47,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         }
         
         [Test]
-        public void GivenScriptInjectedXMLWithDoubleQuatesWhenChallengingValidationThenSecurityThreatDiagnosticsMustReturnIsValidStatus()
+        public void GivenScriptInjectedXMLWithDoubleQuatesWhenChallengingValidationThenSecurityThreatDiagnosticsMustRaiseExceptionDueToInjectedXML()
         {
             string invalidXml = "<xml><entity><script>function xss() { alert(\"injection\"); } xss();</script></entity></xml>";
             validation.Payload = invalidXml;
@@ -56,7 +56,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         }
         
         [Test]
-        public void GivenXSScriptAttackScriptAsAnAttributeWhenChallengingValidationThenSecurityThreatDiagnosticsMustReturnIsValidStatus()
+        public void GivenXSScriptAttackScriptAsAnAttributeWhenChallengingValidationThenSecurityThreatDiagnosticsMustRaiseExceptionDueToInjectedValue()
         {
             string invalidXml = "function xss() { alert('injection'); } xss();";
             validation.Payload = invalidXml;
@@ -65,7 +65,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         }
         
         [Test]
-        public void GivenDoubleEncodedUrlInjectionInURIFormatWhenChallengingValidationThenSecurityThreatDiagnosticsMustReturnIsValidStatus()
+        public void GivenDoubleEncodedUrlInjectionInURIFormatWhenChallengingValidationThenSecurityThreatDiagnosticsMustRaiseExceptionDueToDoubleEncodedURI()
         {
             string unsecureUrl = "http://victim/cgi/%252E%252E%252F%252E%252E%252Fwinnt/system32/cmd.exe?/c+dir+c:\";";
             validation.Payload = unsecureUrl;
@@ -75,7 +75,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
 
         [Test]
         [Ignore("Ignore a test")]
-        public void GivenUnknownCharacterWhenChallengingEncodingThenSecurityThreatDiagnosticsMustRaiseException()
+        public void GivenUnknownCharacterWhenChallengingEncodingThenSecurityThreatDiagnosticsMustRaiseExceptionDueToInvalidCharacterSet()
         {
             string unknownCharacters = "ዩኒኮድ ወረጘ የጝ00F8يونِكود";
             validation.Payload = unknownCharacters;
@@ -83,7 +83,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         }
 
         [Test]
-        public void GivenUrlInjectionInURIFormatWhenChallengingValidationThenSecurityThreatDiagnosticsMustReturnIsValidStatus()
+        public void GivenUrlInjectionInURIFormatWhenChallengingValidationThenSecurityThreatDiagnosticsMustRaiseExceptionDueToFoundSQLInjection()
         {
             string unsecureUrl = "select * from Customers;`insert into";
             validation.Payload = unsecureUrl;
@@ -93,7 +93,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         
         [Test]
         [Ignore("Ignore a test")]
-        public void GivenInjectedHeaderInWhenChallengingHeadersForValidationThenSecurityThreatDiagnosticsMustRaiseException()
+        public void GivenInjectedHeaderInWhenChallengingHeadersForValidationThenSecurityThreatDiagnosticsMustRaiseExceptionDueToInjectedHeaderValue()
         {
             WhiteListedHeaders whiteListedHeaders = new WhiteListedHeaders();
             whiteListedHeaders.HttpUri = "http://localhost";
@@ -104,7 +104,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         }
         
         [Test]
-        public void GivenInvalidAttributesWhenChallengingPayloadAttributesForValidationThenSecurityThreatDiagnosticsMustReturnFailedAttributes()
+        public void GivenInvalidAttributesWhenChallengingPayloadAttributesForValidationThenSecurityThreatDiagnosticsMustRaiseExceptionDueToInjectedAttributss()
         {
             string invalidAttribute1 = "<script>function xss() { alert('injection'); } xss();</script>";
             string invalidAttribute2 = "<script>function xss() { alert('injection'); } xss();</script>";
@@ -115,7 +115,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         }
         
         [Test]
-        public void GivenAttackVectorWithMultipleAttributesWhenChallengingPayloadAttributesForValidationThenSecurityThreatDiagnosticsMustReturnFailedAttributes()
+        public void GivenAttackVectorWithMultipleAttributesWhenChallengingPayloadAttributesForValidationThenSecurityThreatDiagnosticsMustRaiseExceptionDueToFoundAttackPattern()
         {
             string invalidAttribute1 = "{ payload : {Name" + ":" + "%27 %3E%3E";
             string invalidAttribute2 = "Address" + ":" + "%3Cscript%3E function attack() %7B alert(%27xss%27)%3B %7D";
@@ -128,7 +128,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         }
         
         [Test]
-        public void GivenAttackVectorWithCharacterEscapedAttributesWhenChallengingPayloadAttributesForValidationThenSecurityThreatDiagnosticsMustReturnFailedAttributes()
+        public void GivenAttackVectorWithCharacterEscapedAttributesWhenChallengingPayloadAttributesForValidationThenSecurityThreatDiagnosticsMustRaiseExceptionDueToInvalidException()
         {
             string invalidAttribute1 = "{ payload : {Name" + ":" + "U+00004oCZc2gxbjBiMXc0emgzcjM+Pmg0eDNkb2k=";
             string invalidAttribute2 = "Address : test";
@@ -136,12 +136,11 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             string parallel = invalidAttribute1 + invalidAttribute2 + invalidAttribute3;
             string[] attributes = {invalidAttribute1, invalidAttribute2, invalidAttribute3, parallel};
             validationAttributes.Attribute = attributes;
-           
             Assert.Throws<ApplicationException>(() => SecurityThreatDiagnostics.ChallengeAttributesAgainstSecurityThreats(validationAttributes, options, CancellationToken.None));
         }
 
         [Test]
-        public void GivenAllowedIPAddressWhenChallengingIPForValidationThenSecurityThreatDiagnosticsMustRaiseException() {
+        public void GivenAllowedIPAddressWhenChallengingIPForValidationThenSecurityThreatDiagnosticsMustNotRaiseExceptionDueToAllowedIPs() {
             AllowedIPAddresses allowedIpAddresses = new AllowedIPAddresses();
             //IPV4 and IPV6
             string[] allowedIPAddressesRegex =
