@@ -15,7 +15,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
         /// The payload or the attribute value to be validated.
         /// </summary>
         [DisplayFormat(DataFormatString = "Text")] 
-        [DefaultValue("#var.")]
+        [DefaultValue("##trigger.data.body.")]
         public string Payload { get; set; }
     }
     
@@ -28,7 +28,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
         /// The payload or the attribute value to be validated.
         /// </summary>
         [DisplayFormat(DataFormatString = "Text")] 
-        [DefaultValue("{{#trigger.data.body.payload.}}")]
+        [DefaultValue("{{#trigger.data.body.}}")]
         public string[] Attribute { get; set; }
     }
     
@@ -105,7 +105,21 @@ namespace Frends.Community.SecurityThreatDiagnostics
         /// </summary>
         [DisplayFormat(DataFormatString = "Text")]
         [DefaultValue("UTF-8")]
-        public string Encoding { get; set; }
+        public string SourceEncoding { get; set; }
+        
+        /// <summary>
+        /// Which encoding should be used, default UTF-8.
+        /// </summary>
+        [DisplayFormat(DataFormatString = "Text")]
+        [DefaultValue("UTF-8")]
+        public string DestinationEncoding { get; set; }
+        
+        /// <summary>
+        /// Should content be base 64 decoded, default UTF-8.
+        /// </summary>
+        [DisplayFormat(DataFormatString = "bool")]
+        public bool Base64Decode { get; set; }
+        
     }
     
 }

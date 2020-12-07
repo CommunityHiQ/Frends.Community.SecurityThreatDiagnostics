@@ -33,60 +33,65 @@ namespace Frends.Community.SecurityThreatDiagnostics
             Lazy = 
                 new Lazy<ConcurrentDictionary<string, SecurityRuleFilter>>
                 (() =>
-                 {
-                    lock (PadLock);
-                    XDocument xdoc = XDocument.Parse(SecurityFilters.SecurityRules);
-                    XmlReader reader = new XmlTextReader(new StringReader(xdoc.ToString()));
-                    try
-                    {
-                        ConcurrentDictionary<string, SecurityRuleFilter> concurrentRules = new ConcurrentDictionary<string, SecurityRuleFilter>();
-                        while (reader.Read())
+                 { 
+                    lock (PadLock) {
+                        XDocument xdoc = XDocument.Parse(SecurityFilters.SecurityRules);
+                        XmlReader reader = new XmlTextReader(new StringReader(xdoc.ToString()));
+                        try
                         {
-                            SecurityRuleFilter securityRuleFilter = new SecurityRuleFilter();
-                            string id = Guid.NewGuid().ToString();
-                            switch (reader.NodeType)
+                            ConcurrentDictionary<string, SecurityRuleFilter> concurrentRules = new ConcurrentDictionary<string, SecurityRuleFilter>();
+                            while (reader.Read())
                             {
-                                case XmlNodeType.CDATA:
-                                    securityRuleFilter.Id = id;
-                                    securityRuleFilter.Rule = new Regex(reader.Value, RegexOptions.IgnoreCase);
-                                    break;
-                                case XmlNodeType.Element:
+                                SecurityRuleFilter securityRuleFilter = new SecurityRuleFilter();
+                                string id = Guid.NewGuid().ToString();
+                                switch (reader.NodeType)
                                 {
-                                    securityRuleFilter.Description = reader.GetAttribute("description");
-                                    break;
-                                } 
-                           } 
-                           if (securityRuleFilter.Id != null) {
-                                concurrentRules.TryAdd(id, securityRuleFilter);
-                           }
+                                    case XmlNodeType.CDATA:
+                                        securityRuleFilter.Id = id;
+                                        securityRuleFilter.Rule = new Regex(reader.Value, RegexOptions.IgnoreCase);
+                                        break;
+                                    case XmlNodeType.Element:
+                                    {
+                                        securityRuleFilter.Description = reader.GetAttribute("description");
+                                        break;
+                                    } 
+                               } 
+                               if (securityRuleFilter.Id != null) {
+                                    concurrentRules.TryAdd(id, securityRuleFilter);
+                               }
+                            }
+                            return concurrentRules;
                         }
-                        return concurrentRules;
-                    }
-                    finally
-                    {
-                        if (reader != null)
-                            reader.Dispose();
+                        finally
+                        {
+                            if (reader != null)
+                                reader.Dispose();
+                        }
                     }
                 });
-        
-        public static ConcurrentDictionary<string, SecurityRuleFilter> Instance
+      
+    /// <summary>Gives instance access into the dictionary of security rule filters. Uses la
+    /// Documentation: https://github.com/CommunityHiQ/Frends.Community.SecurityThreatDiagnostics
+    /// Throws application exception if diagnostics finds a vulnerability from the challenged payload.
+    /// </summary>    
+    public static ConcurrentDictionary<string, SecurityRuleFilter> Instance
         {
             get
             {
+                
                 return Lazy.Value;
             }
         }
-
     }
 
     /// <summary>
     /// This is task which validates the common attack patterns against the underlying system.
     /// Documentation: https://github.com/CommunityHiQ/Frends.Community.SecurityThreatDiagnostics
-    /// Throws application exception if diagnostics find vulnerability from the payload challenge.
+    /// Throws application exception if diagnostics finds a vulnerability from the challenged payload.
     /// </summary>
     public static class SecurityThreatDiagnostics
     {
-        private static string encode(string payload, Options options)
+        private static string Decode(string payload, Options options)
         {
             for (int i = 0; i < options.MaxIterations; i++)
             {
@@ -94,25 +99,74 @@ namespace Frends.Community.SecurityThreatDiagnostics
             }
             return payload;
         }
-        
-        private static string encode(string encoding, Options options, string payload)
+
+        /// <summary>
+        /// If payload is Base-64 encoded it will be returned back as decoded. If message is not base 64 encoded the original string will be returned.
+        /// </summary>
+        private static string DecodeBase64Encoding(String payload)
+        {
+            string asciiEncoded = payload;
+            try
+            {
+                byte[] data = Convert.FromBase64String(payload);
+                asciiEncoded = ASCIIEncoding.ASCII.GetString(data);
+            }
+            catch (FormatException formatException)
+            {
+                // silent error, payload was not Base-64 encoded.
+            }
+
+            return asciiEncoded;
+        }
+
+        private static SecurityThreatDiagnosticsResult VerifyCharacterSetEncoding(string payload, Options options)
         {
             {
-                // Create two different encodings.
-                Encoding ascii = Encoding.GetEncoding(encoding);
-                Encoding unicode = Encoding.Unicode;
+                try
+                {
+                    // Create two different encodings.
+                    Encoding sourceEncoding = Encoding.GetEncoding(options.SourceEncoding);
+                    // Encoding of the underlying system.
+                    Encoding destinationEncoding = Encoding.GetEncoding(options.DestinationEncoding);
+                    // The actual conversion from source to destination encoding.
+                    String convertedPayload = sourceEncoding.GetString(destinationEncoding.GetBytes(payload));
+                    // Convert the string into a byte array.
+                    byte[] unicodeBytes = destinationEncoding.GetBytes(payload);
+                    // Perform the conversion from one encoding to the other.
+                    byte[] asciiBytes = Encoding.Convert(destinationEncoding, sourceEncoding, unicodeBytes);
 
-                // Convert the string into a byte array.
-                byte[] unicodeBytes = unicode.GetBytes(payload);
-
-                // Perform the conversion from one encoding to the other.
-                byte[] asciiBytes = Encoding.Convert(unicode, ascii, unicodeBytes);
-     
-                char[] asciiChars = new char[ascii.GetCharCount(asciiBytes, 0, asciiBytes.Length)];
-                ascii.GetChars(asciiBytes, 0, asciiBytes.Length, asciiChars, 0);
-                string asciiString = new string(asciiChars);
-                
-                return asciiString;
+                    char[] asciiChars = new char[sourceEncoding.GetCharCount(asciiBytes, 0, asciiBytes.Length)];
+                    sourceEncoding.GetChars(asciiBytes, 0, asciiBytes.Length, asciiChars, 0);
+                    new string(asciiChars);
+                }
+                catch (Exception exception)
+                {
+                    StringBuilder argumentExceptions =
+                        new StringBuilder("Security Threat Diagnostics vulnerability report invalid character encoding:");
+                    StringBuilder applicationExceptions =
+                        new StringBuilder("Security Threat Diagnostics deep scanned the following attack vectors: ");
+                    try
+                    {
+                        argumentExceptions.Append(exception.Message.ToString()).Append("\n");
+                        applicationExceptions.Append("Contains illegal characters: ").Append(payload).Append("\n");
+                        ApplicationException applicationException =
+                            new ApplicationException(argumentExceptions.ToString());
+                        ArgumentException argumentException = new ArgumentException(applicationExceptions.ToString());
+                        throw new ApplicationException(applicationException.ToString(), argumentException);
+                    }
+                    finally
+                    {
+                        if (applicationExceptions != null)
+                        {
+                            argumentExceptions.Clear();
+                            argumentExceptions.Clear();
+                        }
+                    }
+                }
+                SecurityThreatDiagnosticsResult securityThreatDiagnosticsResult = new SecurityThreatDiagnosticsResult();
+                securityThreatDiagnosticsResult.IsValid = true;
+        
+                return securityThreatDiagnosticsResult;
             }
         }
         
@@ -210,9 +264,11 @@ namespace Frends.Community.SecurityThreatDiagnostics
 
             foreach (var entry in ruleDictionary)
             {
-                string encoded = encode(validation.Payload, options);
+                VerifyCharacterSetEncoding(validation.Payload, options);
+                string base64DecodedPayload = DecodeBase64Encoding(validation.Payload);
+                
                 if (entry.Value.Rule.IsMatch(validation.Payload) ||
-                    entry.Value.Rule.IsMatch(encoded))
+                    entry.Value.Rule.IsMatch(base64DecodedPayload))
                 {
                     validationChallengeMessage
                         .Append("id [")
@@ -222,7 +278,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
                         .Append(entry.Value.Description)
                         .Append("], ")
                         .Append("encoded value [")
-                        .Append(encoded)
+                        .Append(base64DecodedPayload)
                         .Append("]");
                     dictionary.Add(entry.Key, validationChallengeMessage.ToString());
                     innerExceptionMessage
@@ -233,7 +289,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
                         .Append(entry.Value.Rule.ToString())
                         .Append("], ")
                         .Append("encoded value [")
-                        .Append(encoded)
+                        .Append(base64DecodedPayload)
                         .Append("]");
                 }
             }
@@ -258,7 +314,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
         /// </summary>
         /// <param name="allowedIpAddresses">Define IP addresses which can bypass the validation.</param>
         /// <param name="cancellationToken"></param>
-        /// <returns>{bool challanges}</returns>
+        /// <returns>{SecurityThreatDiagnosticsResult.IsValid challenge}</returns>
         public static SecurityThreatDiagnosticsResult ChallengeIPAddresses(
             [PropertyTab] AllowedIPAddresses allowedIpAddresses,
             CancellationToken cancellationToken)
@@ -303,7 +359,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
         /// <param name="whiteListedHeaders">Known HTTP headers to be bypassed in validation.</param>
         /// <param name="options">Configuration of the task</param>
         /// <param name="cancellationToken"></param>
-        /// <returns>{bool challanges}</returns>
+        /// <returns>{SecurityThreatDiagnosticsResult.IsValid challenge}</returns>
         public static SecurityThreatDiagnosticsResult ChallengeSecurityHeaders(
             [PropertyTab] WhiteListedHeaders whiteListedHeaders, 
             [PropertyTab] Options options, 
@@ -328,10 +384,11 @@ namespace Frends.Community.SecurityThreatDiagnostics
                     {
                         foreach (var rule in ruleDictionary)
                         {
-                            //string encoded = encode(options.Encoding ?? "UTF-8", HttpHeaderPair.Value);
-                            string encoded = encode(HttpHeaderPair.Value, options);
-                            if (rule.Value.Rule.IsMatch(HttpHeaderPair.Value) || encoded.Length > 0 &&
-                                rule.Value.Rule.IsMatch(encoded))
+                            VerifyCharacterSetEncoding(HttpHeaderPair.Value, options);
+                            string base64DecodedHeaderValue = DecodeBase64Encoding(HttpHeaderPair.Value);
+                            
+                            if (rule.Value.Rule.IsMatch(HttpHeaderPair.Value) || base64DecodedHeaderValue.Length > 0 &&
+                                rule.Value.Rule.IsMatch(base64DecodedHeaderValue))
                             if (rule.Value.Rule.IsMatch(HttpHeaderPair.Value))
                             {
                                 validationChallengeMessage
@@ -349,7 +406,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
                                     .Append(HttpHeaderPair.Value)
                                     .Append("], ")
                                     .Append("encoded value [")
-                                    .Append(encoded)
+                                    .Append(base64DecodedHeaderValue)
                                     .Append("]");
                             }
                         }
@@ -389,23 +446,25 @@ namespace Frends.Community.SecurityThreatDiagnostics
         /// <param name="validation">Known data to be bypassed into the validation.</param>
         /// <param name="options">Configuration parameters</param>
         /// <param name="cancellationToken"></param>
-        /// <returns>{bool challanges}</returns>
-        public static SecurityThreatDiagnosticsResult ChallengeCharacterEncoding(
+        /// <returns>{SecurityThreatDiagnosticsResult.IsValid challenge}</returns>
+        public static SecurityThreatDiagnosticsResult ChallengeUrlEncoding
+        (
             [PropertyTab] Validation validation,     
             [PropertyTab] Options options, 
             CancellationToken cancellationToken)
         {
             try
             {
-                encode(options.Encoding, options, validation.Payload);
+                validation.Payload = Decode(validation.Payload, options);  
+                ChallengeAgainstSecurityThreats(validation, options, cancellationToken);
             }
             catch (Exception exception)
             {
-                StringBuilder builder = new StringBuilder("Invalid encoding in character set [");
+                StringBuilder builder = new StringBuilder("Invalid URL encoding in character set [");
                 builder
                     .Append(validation.Payload)
                     .Append("]");
-                ArgumentException argumentException = new ArgumentException("Invalid encoding information "  + exception.ToString(), exception);
+                ArgumentException argumentException = new ArgumentException("Invalid URL encoding information "  + exception.ToString(), exception);
                 throw new ApplicationException(builder.ToString(), argumentException);                
             }
             SecurityThreatDiagnosticsResult securityThreatDiagnosticsResult = new SecurityThreatDiagnosticsResult();
@@ -413,6 +472,33 @@ namespace Frends.Community.SecurityThreatDiagnostics
             
             return securityThreatDiagnosticsResult;
         }
+
+        public static SecurityThreatDiagnosticsResult ChallengeCharacterEncoding
+        (
+            [PropertyTab] Validation validation,
+            [PropertyTab] Options options,
+            CancellationToken cancellationToken)
+        {
+            try
+            {
+                VerifyCharacterSetEncoding(validation.Payload, options);
+            }
+            catch (Exception exception)
+            {
+                StringBuilder builder = new StringBuilder("Invalid encoding in character set [");
+                builder
+                   .Append(validation.Payload)
+                   .Append("]");
+                ArgumentException argumentException = new ArgumentException("Invalid encoding information "  + exception.ToString(), exception);
+                throw new ApplicationException(builder.ToString(), argumentException);  
+            }
+            
+            SecurityThreatDiagnosticsResult securityThreatDiagnosticsResult = new SecurityThreatDiagnosticsResult();
+            securityThreatDiagnosticsResult.IsValid = true;
+            
+            return securityThreatDiagnosticsResult;
+        }
+
     }
     
 }
