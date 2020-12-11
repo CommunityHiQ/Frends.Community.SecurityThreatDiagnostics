@@ -8,7 +8,6 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -119,25 +118,26 @@ namespace Frends.Community.SecurityThreatDiagnostics
             return asciiEncoded;
         }
 
-        private static SecurityThreatDiagnosticsResult ChallengeCharacterSetEncoding(string payload, Options options)
+        private static String ChangeCharacterEncoding(string payload, Options options)
+        {
+            // Create two different encodings.
+            Encoding sourceEncoding = Encoding.GetEncoding(options.SourceEncoding);
+            // Encoding of the underlying system.
+            Encoding destinationEncoding = Encoding.GetEncoding(options.DestinationEncoding);
+            // Convert the string into a byte array.
+            byte[] destinationBytes = destinationEncoding.GetBytes(payload);
+            // Perform the conversion from one encoding to the other.
+            // byte[] asciiBytes = Encoding.Convert(destinationEncoding, sourceEncoding, destinationBytes);
+            // Turn into destination encoding
+            return destinationEncoding.GetString(destinationBytes);
+        }
+
+        public static SecurityThreatDiagnosticsResult ChallengeCharacterSetEncoding(string payload, Options options)
         {
             {
                 try
                 {
-                    // Create two different encodings.
-                    Encoding sourceEncoding = Encoding.GetEncoding(options.SourceEncoding);
-                    // Encoding of the underlying system.
-                    Encoding destinationEncoding = Encoding.GetEncoding(options.DestinationEncoding);
-                    // The actual conversion from source to destination encoding.
-                    String convertedPayload = sourceEncoding.GetString(destinationEncoding.GetBytes(payload));
-                    // Convert the string into a byte array.
-                    byte[] unicodeBytes = destinationEncoding.GetBytes(payload);
-                    // Perform the conversion from one encoding to the other.
-                    byte[] asciiBytes = Encoding.Convert(destinationEncoding, sourceEncoding, unicodeBytes);
-
-                    char[] asciiChars = new char[sourceEncoding.GetCharCount(asciiBytes, 0, asciiBytes.Length)];
-                    sourceEncoding.GetChars(asciiBytes, 0, asciiBytes.Length, asciiChars, 0);
-                    new string(asciiChars);
+                    ChangeCharacterEncoding(payload, options);
                 }
                 catch (Exception exception)
                 {
