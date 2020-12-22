@@ -27,7 +27,6 @@ namespace Frends.Community.SecurityThreatDiagnostics
         /// <summary>
         /// The payload or the attribute value to be validated.
         /// </summary>
-        [DisplayFormat(DataFormatString = "Text")] 
         [DefaultValue("{{#trigger.data.body.}}")]
         public string[] Attribute { get; set; }
     }
@@ -47,14 +46,12 @@ namespace Frends.Community.SecurityThreatDiagnostics
         /// <summary>
         /// Whitelisted IP addresses to be bypassed by the process engine's validation
         /// </summary>
-        [DisplayFormat(DataFormatString = "Text")] 
         [DefaultValue("\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}")]
         public string[] WhiteListedIpAddress { get; set; }
 
         /// <summary>
         /// Blacklisted IP addresses and ranges which will be blocked by the process execution engine 
         /// </summary>
-        [DisplayFormat(DataFormatString = "Text")] 
         [DefaultValue("\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}")]
         public string[] BlackListedIpAddresses { get; set; }
     }
@@ -76,7 +73,6 @@ namespace Frends.Community.SecurityThreatDiagnostics
         /// <summary>
         /// Define the allowed http headers
         /// </summary>
-        [DisplayFormat(DataFormatString = "Text")] 
         [DefaultValue("Cookie")]
         public string[] AllowedHttpHeaders { get; set; }
 
