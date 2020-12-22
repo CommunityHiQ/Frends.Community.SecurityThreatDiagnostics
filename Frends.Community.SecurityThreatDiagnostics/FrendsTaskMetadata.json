@@ -5,7 +5,7 @@
 			"TaskMethod": "Frends.Community.SecurityThreatDiagnostics.SecurityThreatDiagnostics.ChallengeAttributesAgainstSecurityThreats",
 			"TaskMethod": "Frends.Community.SecurityThreatDiagnostics.SecurityThreatDiagnostics.ChallengeIPAddresses",
 			"TaskMethod": "Frends.Community.SecurityThreatDiagnostics.SecurityThreatDiagnostics.ChallengeSecurityHeaders",
-			"TaskMethod": "Frends.Community.SecurityThreatDiagnostics.SecurityThreatDiagnostics.ChallengeCharacterEncoding"
+			"TaskMethod": "Frends.Community.SecurityThreatDiagnostics.SecurityThreatDiagnostics.ChallengeCharacterSetEncoding"
 		}
 	]
 }

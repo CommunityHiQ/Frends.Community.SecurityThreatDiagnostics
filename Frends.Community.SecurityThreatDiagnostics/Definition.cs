@@ -15,7 +15,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
         /// The payload or the attribute value to be validated.
         /// </summary>
         [DisplayFormat(DataFormatString = "Text")] 
-        [DefaultValue("##trigger.data.body.")]
+        [DefaultValue("{{#trigger.data.body.}}")]
         public string Payload { get; set; }
     }
     
@@ -62,8 +62,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
     /// <summary>
     /// Challenge against allowed HTTP headers
     /// </summary>
-    //[DisplayFormat(DataFormatString = "Text")] 
-    [DefaultValue("#trigger.data.httpHeaders")]
+    [DefaultValue("{{#trigger.data.httpHeaders}}")]
     public class WhiteListedHeaders
     {
         public string HttpUri { get; set; }

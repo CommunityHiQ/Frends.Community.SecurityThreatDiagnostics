@@ -77,7 +77,6 @@ namespace Frends.Community.SecurityThreatDiagnostics
         {
             get
             {
-                
                 return Lazy.Value;
             }
         }
@@ -127,17 +126,18 @@ namespace Frends.Community.SecurityThreatDiagnostics
             // Convert the string into a byte array.
             byte[] destinationBytes = destinationEncoding.GetBytes(payload);
             // Perform the conversion from one encoding to the other.
-            byte[] asciiBytes = Encoding.Convert(destinationEncoding, sourceEncoding, destinationBytes);
+            byte[] asciiBytes = Encoding.Convert(sourceEncoding,destinationEncoding, destinationBytes);
             // Turn into destination encoding
             return destinationEncoding.GetString(asciiBytes);
         }
-
+        
         public static SecurityThreatDiagnosticsResult ChallengeCharacterSetEncoding(string payload, Options options)
         {
+            string data = null;
             {
                 try
                 {
-                    ChangeCharacterEncoding(payload, options);
+                    data = ChangeCharacterEncoding(payload, options);
                 }
                 catch (Exception exception)
                 {
@@ -165,6 +165,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
                 }
                 SecurityThreatDiagnosticsResult securityThreatDiagnosticsResult = new SecurityThreatDiagnosticsResult();
                 securityThreatDiagnosticsResult.IsValid = true;
+                //securityThreatDiagnosticsResult.Data.Add("data", data);
         
                 return securityThreatDiagnosticsResult;
             }
@@ -467,32 +468,6 @@ namespace Frends.Community.SecurityThreatDiagnostics
                 ArgumentException argumentException = new ArgumentException("Invalid URL encoding information "  + exception.ToString(), exception);
                 throw new ApplicationException(builder.ToString(), argumentException);                
             }
-            SecurityThreatDiagnosticsResult securityThreatDiagnosticsResult = new SecurityThreatDiagnosticsResult();
-            securityThreatDiagnosticsResult.IsValid = true;
-            
-            return securityThreatDiagnosticsResult;
-        }
-
-        public static SecurityThreatDiagnosticsResult ChallengeCharacterEncoding
-        (
-            [PropertyTab] Validation validation,
-            [PropertyTab] Options options,
-            CancellationToken cancellationToken)
-        {
-            try
-            {
-                ChallengeCharacterSetEncoding(validation.Payload, options);
-            }
-            catch (Exception exception)
-            {
-                StringBuilder builder = new StringBuilder("Invalid encoding in character set [");
-                builder
-                   .Append(validation.Payload)
-                   .Append("]");
-                ArgumentException argumentException = new ArgumentException("Invalid encoding information "  + exception.ToString(), exception);
-                throw new ApplicationException(builder.ToString(), argumentException);  
-            }
-            
             SecurityThreatDiagnosticsResult securityThreatDiagnosticsResult = new SecurityThreatDiagnosticsResult();
             securityThreatDiagnosticsResult.IsValid = true;
             
