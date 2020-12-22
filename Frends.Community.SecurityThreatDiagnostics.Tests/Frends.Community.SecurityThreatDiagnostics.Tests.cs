@@ -17,6 +17,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         {
             options.SourceEncoding = "ISO-8859-1";
             options.DestinationEncoding = "ISO-8859-1";
+            options.Base64Decode = true;
         }
 
         [Test]
@@ -29,11 +30,13 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         }
         
         [Test]
-        public void GivenValidXMLWhenChallengingValidationThenSecurityThreatDiagnosticsMustRaiseException()
+        public void GivenValidXMLWhenChallengingValidationOfTheXMLThenSecurityThreatDiagnosticsMustNotRaiseException()
         {
-            string validXml = "<xml><entity>1</entity></xml>";
+            string validXml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><!DOCTYPE foo [<!ELEMENT foo ANY ><!ENTITY xxe SYSTEM \"file:///etc/passwd\" >]><foo>&xxe;</foo>";
             validation.Payload = validXml;    
             options.MaxIterations = 2;
+            SecurityThreatDiagnosticsResult result = SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, CancellationToken.None);
+            //Assert.IsTrue(result.IsValid);
             Assert.Throws<ApplicationException>(() => SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, CancellationToken.None));
         }
         

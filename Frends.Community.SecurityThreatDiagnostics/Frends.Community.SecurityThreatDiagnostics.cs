@@ -127,9 +127,9 @@ namespace Frends.Community.SecurityThreatDiagnostics
             // Convert the string into a byte array.
             byte[] destinationBytes = destinationEncoding.GetBytes(payload);
             // Perform the conversion from one encoding to the other.
-            // byte[] asciiBytes = Encoding.Convert(destinationEncoding, sourceEncoding, destinationBytes);
+            byte[] asciiBytes = Encoding.Convert(destinationEncoding, sourceEncoding, destinationBytes);
             // Turn into destination encoding
-            return destinationEncoding.GetString(destinationBytes);
+            return destinationEncoding.GetString(asciiBytes);
         }
 
         public static SecurityThreatDiagnosticsResult ChallengeCharacterSetEncoding(string payload, Options options)
