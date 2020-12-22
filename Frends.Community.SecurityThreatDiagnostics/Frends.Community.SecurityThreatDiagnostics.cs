@@ -181,6 +181,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
             [PropertyTab] Options options,
             CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             var invalidAttributes = new Dictionary<string, ArgumentException>();
             ConcurrentDictionary<string, SecurityRuleFilter> securityRuleFilters = SecurityFilterReader.Instance;
             foreach (var attribute in validationAttributes.Attribute)
@@ -248,6 +249,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
             [PropertyTab] Options options, 
             CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             Dictionary<string, string> dictionary = new Dictionary<string, string>();
             StringBuilder validationChallengeMessage = new StringBuilder();
             validationChallengeMessage
@@ -320,6 +322,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
             [PropertyTab] AllowedIPAddresses allowedIpAddresses,
             CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             List<string> invalidIPAddresses = new List<string>();
             allowedIpAddresses.WhiteListedIpAddress?.ToList().ForEach(
                 entry =>
@@ -340,12 +343,10 @@ namespace Frends.Community.SecurityThreatDiagnostics
                         invalidIPAddresses.Append(entry);
                     }
                 });
-            
             if (invalidIPAddresses.Count > 0)
             {
                 throw new ApplicationException("Invalid IP Address or range [" + allowedIpAddresses.Host + "]");
             }
-            
             SecurityThreatDiagnosticsResult securityThreatDiagnosticsResult = new SecurityThreatDiagnosticsResult();
             securityThreatDiagnosticsResult.IsValid = true;
             
@@ -366,6 +367,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
             [PropertyTab] Options options, 
             CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             Dictionary<string, string> dictionary = new Dictionary<string, string>();
             ConcurrentDictionary<string, SecurityRuleFilter> ruleDictionary = SecurityFilterReader.Instance;
             
@@ -454,9 +456,10 @@ namespace Frends.Community.SecurityThreatDiagnostics
             [PropertyTab] Options options, 
             CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             try
             {
-                validation.Payload = Decode(validation.Payload, options);  
+                validation.Payload = Decode(validation.Payload, options);
                 ChallengeAgainstSecurityThreats(validation, options, cancellationToken);
             }
             catch (Exception exception)

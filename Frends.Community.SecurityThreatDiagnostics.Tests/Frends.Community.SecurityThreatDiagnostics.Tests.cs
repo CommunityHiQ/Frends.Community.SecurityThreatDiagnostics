@@ -83,6 +83,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         {
             string unknownCharacters = "ዩኒኮድ ወረጘ የጝ00F800F8يونِكودö'>>ô!#€%&/()?@∂öيونِكود";
             validation.Payload = unknownCharacters;
+            Assert.DoesNotThrow(() => SecurityThreatDiagnostics.ChallengeCharacterSetEncoding(validation.Payload, options));
             //Assert.Throws<ApplicationException>(() => SecurityThreatDiagnostics.ChallengeCharacterSetEncoding(validation.Payload, options));
         }
 
