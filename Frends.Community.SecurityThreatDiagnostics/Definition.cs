@@ -117,7 +117,6 @@ namespace Frends.Community.SecurityThreatDiagnostics
         /// <summary>
         /// Should content be base 64 decoded, default UTF-8.
         /// </summary>
-        [DisplayFormat(DataFormatString = "bool")]
         public bool Base64Decode { get; set; }
         
     }
