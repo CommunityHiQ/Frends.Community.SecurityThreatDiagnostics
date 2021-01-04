@@ -271,7 +271,8 @@ namespace Frends.Community.SecurityThreatDiagnostics
                 string base64DecodedPayload = DecodeBase64Encoding(validation.Payload);
                 
                 if (entry.Value.Rule.IsMatch(validation.Payload) ||
-                    entry.Value.Rule.IsMatch(base64DecodedPayload))
+                    entry.Value.Rule.IsMatch(base64DecodedPayload) && 
+                    options.Base64Decode)
                 {
                     validationChallengeMessage
                         .Append("id [")
@@ -390,8 +391,10 @@ namespace Frends.Community.SecurityThreatDiagnostics
                             ChallengeCharacterSetEncoding(HttpHeaderPair.Value, options);
                             string base64DecodedHeaderValue = DecodeBase64Encoding(HttpHeaderPair.Value);
                             
-                            if (rule.Value.Rule.IsMatch(HttpHeaderPair.Value) || base64DecodedHeaderValue.Length > 0 &&
-                                rule.Value.Rule.IsMatch(base64DecodedHeaderValue))
+                            if (rule.Value.Rule.IsMatch(HttpHeaderPair.Value) || 
+                                base64DecodedHeaderValue.Length > 0 &&
+                                rule.Value.Rule.IsMatch(base64DecodedHeaderValue) &&
+                                options.Base64Decode)
                             if (rule.Value.Rule.IsMatch(HttpHeaderPair.Value))
                             {
                                 validationChallengeMessage
