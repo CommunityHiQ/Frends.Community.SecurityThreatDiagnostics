@@ -78,8 +78,8 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         }
 
         [Test]
-        //[Ignore("Ignore a test")]
-        public void GivenUnknownCharacterWhenChallengingEncodingThenSecurityThreatDiagnosticsMustRaiseExceptionDueToInvalidCharacterSet()
+        [Ignore("Ignore a test")]
+        public void GivenUnknownCharacterWhenChallengingEncodingThenSecurityThreatDiagnosticsByPassTheCharacterSetEncoding()
         {
             string unknownCharacters = "ዩኒኮድ ወረጘ የጝ00F800F8يونِكودö'>>ô!#€%&/()?@∂öيونِكود";
             validation.Payload = unknownCharacters;
