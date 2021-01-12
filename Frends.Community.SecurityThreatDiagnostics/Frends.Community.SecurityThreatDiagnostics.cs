@@ -327,11 +327,11 @@ namespace Frends.Community.SecurityThreatDiagnostics
             List<string> invalidIPAddresses = new List<string>();
             allowedIpAddresses.WhiteListedIpAddress?.ToList().ForEach(
                 entry =>
-                {
+                { 
                     Regex allowedInboundTrafficRule = new Regex(entry);
                     if  (!allowedInboundTrafficRule.IsMatch(allowedIpAddresses.Host)) 
                     {
-                        invalidIPAddresses.Append(entry);
+                        invalidIPAddresses.Add(entry);
                     }
                 });
             
@@ -341,7 +341,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
                     Regex allowedInboundTrafficRule = new Regex(entry);
                     if (allowedInboundTrafficRule.IsMatch(allowedIpAddresses.Host))
                     {
-                        invalidIPAddresses.Append(entry);
+                        invalidIPAddresses.Add(entry);
                     }
                 });
             if (invalidIPAddresses.Count > 0)

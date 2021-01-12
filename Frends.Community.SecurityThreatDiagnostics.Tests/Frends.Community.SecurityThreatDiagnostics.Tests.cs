@@ -150,8 +150,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             //IPV4 and IPV6
             string[] allowedIPAddressesRegex =
             {
-                "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}",
-                "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3},\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}"
+                "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}"
             };
             
             string[] denyBroadcastIPAddressesRegex =                                                        
