@@ -131,6 +131,11 @@ namespace Frends.Community.SecurityThreatDiagnostics
             return destinationEncoding.GetString(asciiBytes);
         }
         
+        /// <summary>
+        /// This is a task which challenges the payload attributes from client side character set encoding to target system character set encoding.
+        /// Documentation: https://github.com/CommunityHiQ/Frends.Community.SecurityThreatDiagnostics
+        /// Throws application exception if diagnostics find vulnerability from the payload challenge.
+        /// </summary>
         public static SecurityThreatDiagnosticsResult ChallengeCharacterSetEncoding(string payload, Options options)
         {
             string data = null;
