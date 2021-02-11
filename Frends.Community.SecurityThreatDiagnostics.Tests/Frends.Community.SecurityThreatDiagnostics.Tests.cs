@@ -31,14 +31,11 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         }
         
         [Test]
-        [Ignore("Ignore a test")]
-        public void GivenValidXMLWhenChallengingValidationOfTheXMLThenSecurityThreatDiagnosticsMustNotRaiseException()
+        public void GivenXXEInjectedXMLWhenChallengingValidationOfTheXMLThenSecurityThreatDiagnosticsMustNotRaiseException()
         {
             string validXml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><!DOCTYPE foo [<!ELEMENT foo ANY ><!ENTITY xxe SYSTEM \"file:///etc/passwd\" >]><foo>&xxe;</foo>";
             validation.Payload = validXml;    
             options.MaxIterations = 2;
-            SecurityThreatDiagnosticsResult result = SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, CancellationToken.None);
-            //Assert.IsTrue(result.IsValid);
             Assert.Throws<ApplicationException>(() => SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, CancellationToken.None));
         }
         
@@ -79,13 +76,11 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         }
 
         [Test]
-        [Ignore("Ignore a test")]
-        public void GivenUnknownCharacterWhenChallengingEncodingThenSecurityThreatDiagnosticsByPassTheCharacterSetEncoding()
+        public void GivenUnknownCharacterWhenChallengingEncodingThenSecurityThreatDiagnosticsMustConvertToKnownCharacterSetEncoding()
         {
-            string unknownCharacters = "ዩኒኮድ ወረጘ የጝ00F800F8يونِكودö'>>ô!#€%&/()?@∂öيونِكود";
+            string unknownCharacters = "ዩኒኮድ ወረጘ የጝ00F800F8يونِكودö'>>B$ôI#€%&/()?@∂öيونِكود";
             validation.Payload = unknownCharacters;
             Assert.DoesNotThrow(() => SecurityThreatDiagnostics.ChallengeCharacterSetEncoding(validation.Payload, options));
-            //Assert.Throws<ApplicationException>(() => SecurityThreatDiagnostics.ChallengeCharacterSetEncoding(validation.Payload, options));
         }
 
         [Test]

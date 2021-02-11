@@ -379,8 +379,13 @@ namespace Frends.Community.SecurityThreatDiagnostics
             StringBuilder innerExceptionMessage = new StringBuilder();
             innerExceptionMessage
                 .Append("HTTP headers challenged for input validation, \n");
+
+            Dictionary<string, string> httpHeaders = 
+                whiteListedHeaders != null 
+                    ? whiteListedHeaders?.HttpHeaders 
+                    : new Dictionary<string, string>(); 
             
-            foreach (KeyValuePair<string, string> HttpHeaderPair in whiteListedHeaders?.HttpHeaders)
+            foreach (KeyValuePair<string, string> HttpHeaderPair in httpHeaders)
             {
                 whiteListedHeaders?.AllowedHttpHeaders?.ToList().Select(allowedHeader =>
                 {
