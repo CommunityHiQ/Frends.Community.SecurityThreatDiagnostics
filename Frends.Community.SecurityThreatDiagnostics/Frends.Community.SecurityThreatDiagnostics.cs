@@ -164,7 +164,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
                         if (applicationExceptions != null)
                         {
                             argumentExceptions.Clear();
-                            argumentExceptions.Clear();
+                            applicationExceptions.Clear();
                         }
                     }
                 }
@@ -230,7 +230,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
                     if (applicationExceptions != null)
                     {
                         argumentExceptions.Clear();
-                        argumentExceptions.Clear();
+                        applicationExceptions.Clear();
                     }
                 }
             }
@@ -405,7 +405,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
                                 base64DecodedHeaderValue.Length > 0 &&
                                 rule.Value.Rule.IsMatch(base64DecodedHeaderValue) &&
                                 options.Base64Decode)
-                            if (rule.Value.Rule.IsMatch(HttpHeaderPair.Value))
+                            if (rule.Value.Rule.IsMatch(base64DecodedHeaderValue))
                             {
                                 validationChallengeMessage
                                     .Append("Header [")
