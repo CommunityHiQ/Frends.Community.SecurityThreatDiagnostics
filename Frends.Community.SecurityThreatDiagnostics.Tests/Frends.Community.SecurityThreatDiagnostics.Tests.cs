@@ -23,10 +23,11 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         [Test]
         public void GivenValidTextWhenChallengingValidationThenSecurityThreatDiagnosticsMustRaiseExceptionDueToFoundInjection()
         {
-            string validXml = "This is a valid content.;function ' <script>  temp.txt";
+            string validXml = "This is a valid content.";
             validation.Payload = validXml;
             options.MaxIterations = 2;
-            Assert.Throws<ApplicationException>(() => SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, CancellationToken.None) );
+            SecurityThreatDiagnosticsResult result = SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, CancellationToken.None);
+            Assert.IsTrue(result.IsValid);
         }
         
         [Test]
