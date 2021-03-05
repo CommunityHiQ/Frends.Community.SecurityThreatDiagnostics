@@ -9,60 +9,64 @@ namespace Frends.Community.SecurityThreatDiagnostics
     /// <summary>
     /// This class is responsible for transmitting the validation parameters from the runtime configuration into process of security diagnostics.
     /// </summary>
-    public class Validation
+    public class ValidationInput
     {
         /// <summary>
-        /// The payload or the attribute value to be validated.
+        /// The input to be validated.
         /// </summary>
         [DisplayFormat(DataFormatString = "Text")] 
-        [DefaultValue("{{#trigger.data.body.}}")]
+        [DefaultValue("{{#trigger.data.body}}")]
         public string Payload { get; set; }
     }
     
     /// <summary>
-    /// This class is responsible for transmitting the validation attributes from the runtime configuration into process of security diagnostics.
+    /// Validation input parameters
     /// </summary>
     public class ValidationAttributes
     {
         /// <summary>
-        /// The payload or the attribute value to be validated.
+        /// The input to be validated.
         /// </summary>
-        [DefaultValue("{{#trigger.data.body.}}")]
-        public string[] Attribute { get; set; }
+        [DefaultValue("{{#trigger.data.body}}")]
+        public string[] Attribute { get; set; } // TODO: Collections/arrays should be named plural: Attributes
     }
     
     /// <summary>
-    /// Challenge against allowed IP addresses
+    /// Allowed IP address validation input
     /// </summary>
-    public class AllowedIPAddresses
+    public class IpAddressValidationInput
     {
         /// <summary>
-        /// Current HTTP url where the message is coming from
+        /// IP address to validate
         /// </summary>
         [DisplayFormat(DataFormatString = "Text")] 
-        [DefaultValue("Current HTTP url")]
-        public string Host { get; set; }
+        [DefaultValue("{{#trigger.data.httpClientIp}}")]
+        public string IpAddressToValidate { get; set; }
 
         /// <summary>
-        /// Whitelisted IP addresses to be bypassed by the process engine's validation
+        /// Regular expression or value for allowed IP addresses, matching IPs pass validation
         /// </summary>
+        [DisplayFormat(DataFormatString = "Text")]
         [DefaultValue("\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}")]
-        public string[] WhiteListedIpAddress { get; set; }
+        public string[] WhiteListedIpAddresses { get; set; }
 
         /// <summary>
-        /// Blacklisted IP addresses and ranges which will be blocked by the process execution engine 
+        /// Regular expression or value for black listed IP addresses, matching IPs will always fail validation 
         /// </summary>
+        [DisplayFormat(DataFormatString = "Text")]
         [DefaultValue("\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}")]
         public string[] BlackListedIpAddresses { get; set; }
     }
 
     /// <summary>
-    /// Challenge against allowed HTTP headers
+    /// Input for validating HTTP header validation
     /// </summary>
-    [DefaultValue("{{#trigger.data.httpHeaders}}")]
-    public class WhiteListedHeaders
+    public class ChallengeSecurityHeadersInput
     {
+        // TODO: Why is this parameter here, it is not used for anything?
         public string HttpUri { get; set; }
+        
+        // TODO: Why is this parameter here, it is not used for anything?
         /// <summary>
         /// Define the HTTP(S) redirect url   
         /// </summary>
@@ -71,47 +75,54 @@ namespace Frends.Community.SecurityThreatDiagnostics
         public string HttpRedirectUri { get; set; }
         
         /// <summary>
-        /// Define the allowed http headers
+        /// Allowed HTTP header names, * to allow all headers
         /// </summary>
-        [DefaultValue("Cookie")]
+        [DisplayFormat(DataFormatString = "Text")]
+        [DefaultValue("*")]
         public string[] AllowedHttpHeaders { get; set; }
 
         /// <summary>
-        /// Request based http headers with a key value pair
+        /// Request based HTTP headers with a key value pair
         /// </summary>
-        public Dictionary<string, string> HttpHeaders { get; set; }
+        [DisplayFormat(DataFormatString = "Expression")]
+        [DefaultValue("#trigger.data.httpHeaders")]
+        public object HttpHeaders { get; set; }
 
     }
 
+    public class ChallengeUrlEncodingOptions: Options
+    {
+        /// <summary>
+        /// How many URL decoding iteration rounds will be executed for the input
+        /// </summary>
+        [DisplayFormat(DataFormatString = "Text")]
+        [DefaultValue("2")]
+        public int Iterations { get; set; }
+    }
+    
     /// <summary>
     /// Options class provides additional parameters.
     /// </summary>
     public class Options
     {
         /// <summary>
-        /// How many iteration round for decoding of the payloadx.
+        /// Which encoding should be used, default UTF-8.
         /// </summary>
         [DisplayFormat(DataFormatString = "Text")]
-        [DefaultValue("2")]
-        public int MaxIterations { get; set; }
+        [DefaultValue("UTF-8")]
+        public string SourceEncoding { get; set; } = "UTF-8";
         
         /// <summary>
         /// Which encoding should be used, default UTF-8.
         /// </summary>
         [DisplayFormat(DataFormatString = "Text")]
         [DefaultValue("UTF-8")]
-        public string SourceEncoding { get; set; }
+        public string DestinationEncoding { get; set; } = "UTF-8";
         
         /// <summary>
-        /// Which encoding should be used, default UTF-8.
+        /// Should content be Base64 decoded for validation
         /// </summary>
-        [DisplayFormat(DataFormatString = "Text")]
-        [DefaultValue("UTF-8")]
-        public string DestinationEncoding { get; set; }
-        
-        /// <summary>
-        /// Should content be base 64 decoded, default UTF-8.
-        /// </summary>
+        [DefaultValue(false)]
         public bool Base64Decode { get; set; }
         
     }

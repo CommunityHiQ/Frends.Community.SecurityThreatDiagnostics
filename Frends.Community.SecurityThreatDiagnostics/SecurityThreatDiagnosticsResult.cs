@@ -4,15 +4,16 @@ using System.Collections.Generic;
 namespace Frends.Community.SecurityThreatDiagnostics
 {
     
-    /// <summary>Gives response back in tasks. Uses la
+    /// <summary>
+    /// Result for the validation
     /// Documentation: https://github.com/CommunityHiQ/Frends.Community.SecurityThreatDiagnostics
     /// </summary>  
      public class SecurityThreatDiagnosticsResult
     {
-        // Is valid content
+        /// <summary>
+        /// Did the input pass validation
+        /// </summary>
         public bool IsValid;
-        // Result of the query
-        public Dictionary<String, Object> Data;
     }
 
 }
