@@ -1,11 +1,27 @@
 ﻿#pragma warning disable 1591
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Frends.Community.SecurityThreatDiagnostics
 {
+    
+    public class ValidationChallengeException: Exception 
+    {
+        public ValidationChallengeException(string message, IList<string> validationErrors): base(message)
+        {
+            ValidationErrors = validationErrors;
+        }
+
+        public ValidationChallengeException(string message): this(message, new List<string>())
+        {
+            
+        }
+        public  IList<string> ValidationErrors { get; private set; }
+    }
+
     /// <summary>
     /// This class is responsible for transmitting the validation parameters from the runtime configuration into process of security diagnostics.
     /// </summary>

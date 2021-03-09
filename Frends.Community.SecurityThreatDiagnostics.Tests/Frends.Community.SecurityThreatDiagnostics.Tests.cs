@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using System.Threading;
+using NUnit.Framework.Constraints;
 
 namespace Frends.Community.SecurityThreatDiagnostics.Tests
 {
@@ -51,10 +53,11 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         public void ChallengeAgentSecurityThreats_ShouldThrowFor(string input, int expectedFilterId)
         {
             _validationInput.Payload = input;
-            var result = Assert.Throws<Exception>(() =>
+            var result = Assert.Throws<ValidationChallengeException>(() =>
                 SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(_validationInput, _options,
                     CancellationToken.None));
-            StringAssert.Contains($"id [{expectedFilterId.ToString()}]",result.Message);
+            Assert.That(result.ValidationErrors.Any(e => e.Contains($"id [{expectedFilterId.ToString()}]")), Is.True);
+            //StringAssert.Contains($"",result.Message);
         }
 
         [Test]
@@ -68,7 +71,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             {
                 Iterations = 2
             };
-            var result = Assert.Throws<Exception>(() =>
+            var result = Assert.Throws<ValidationChallengeException>(() =>
                 SecurityThreatDiagnostics.ChallengeUrlEncoding(_validationInput, options, CancellationToken.None));
             
             StringAssert.Contains("Found dangerous URL encoded input for", result.Message);
@@ -94,11 +97,10 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             var unsecureUrl = "http://example.org/foo?q=select * from Customers;`insert into";
             _validationInput.Payload = unsecureUrl;
             
-            var result = Assert.Throws<Exception>(() =>
+            var result = Assert.Throws<ValidationChallengeException>(() =>
                 SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(_validationInput, _options,
                     CancellationToken.None));
-            
-            StringAssert.Contains("id [57]", result.Message);
+            Assert.That(result.ValidationErrors.Any(e => e.Contains($"id [57]")), Is.True);
         }
 
         [Test]
@@ -118,10 +120,10 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
                     }
                 }
             };
-            var exception = Assert.Throws<Exception>(() =>
+            var exception = Assert.Throws<ValidationChallengeException>(() =>
                 SecurityThreatDiagnostics.ChallengeSecurityHeaders(whiteListedHeaders, _options,
                     CancellationToken.None));
-            StringAssert.Contains("id [16]", exception.Message);
+            Assert.That(exception.ValidationErrors.Any(e => e.Contains($"id [16]")), Is.True);
         }
 
         [Test]
@@ -135,7 +137,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             
             _validationAttributes.Attribute = new []{ invalidAttribute1, invalidAttribute2 };
 
-            var result = Assert.Throws<Exception>(() =>
+            var result = Assert.Throws<ValidationChallengeException>(() =>
                 SecurityThreatDiagnostics.ChallengeAttributesAgainstSecurityThreats(_validationAttributes, _options,
                     CancellationToken.None));
         }
@@ -151,7 +153,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             string[] attributes = {invalidAttribute1, invalidAttribute2, parallel};
             _validationAttributes.Attribute = attributes;
 
-            Assert.Throws<Exception>(() =>
+            Assert.Throws<ValidationChallengeException>(() =>
                 SecurityThreatDiagnostics.ChallengeAttributesAgainstSecurityThreats(_validationAttributes, _options,
                     CancellationToken.None));
         }
@@ -167,7 +169,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             var parallel = invalidAttribute1 + validAttribute;
             string[] attributes = {invalidAttribute1, validAttribute, parallel}; // TODO: What is the point of this test? Why check them separately and concatenated? 
             _validationAttributes.Attribute = attributes;
-            var result = Assert.Throws<Exception>(() =>
+            var result = Assert.Throws<ValidationChallengeException>(() =>
                 SecurityThreatDiagnostics.ChallengeAttributesAgainstSecurityThreats(_validationAttributes, _options,
                     CancellationToken.None));
         }
@@ -198,7 +200,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
                 IpAddressToValidate = "255.255.255.255"
             };
 
-            var result = Assert.Throws<Exception>(() => SecurityThreatDiagnostics.ChallengeIPAddresses(allowedIpAddresses, CancellationToken.None));
+            var result = Assert.Throws<ValidationChallengeException>(() => SecurityThreatDiagnostics.ChallengeIPAddresses(allowedIpAddresses, CancellationToken.None));
             StringAssert.Contains("Invalid IP Address or range",result.Message);
         }
     }

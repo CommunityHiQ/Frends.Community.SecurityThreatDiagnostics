@@ -143,7 +143,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
                     $@"Security Threat Diagnostics vulnerability report invalid character encoding: {result.Error}
             Security Threat Diagnostics found the following attack vectors: Payload contains illegal characters: {payload}";
 
-                throw new Exception(errorMessage);
+                throw new ValidationChallengeException(errorMessage);
             }
 
             return new SecurityThreatDiagnosticsResult {IsValid = true};
@@ -172,11 +172,8 @@ namespace Frends.Community.SecurityThreatDiagnostics
 
             if (validationErrors.Any())
             {
-                var result =
-                    $"Security Threat Diagnostics vulnerability report for attributes contains the following invalid messages:" +
-                    string.Join("\n", validationErrors);
 
-                throw new Exception(result);
+                throw new ValidationChallengeException($"Security Threat Diagnostics vulnerability report for attributes contains the following invalid messages. See ValidationErrors for details.", validationErrors);
             }
 
             return new SecurityThreatDiagnosticsResult {IsValid = true};
@@ -202,7 +199,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
 
             if (validationErrors.Any())
             {
-                throw new Exception("Security threat validation failed:\n" + string.Join("\n", validationErrors));
+                throw new ValidationChallengeException("Security threat validation failed" ,validationErrors);
             }
 
             return new SecurityThreatDiagnosticsResult {IsValid = true};
@@ -275,11 +272,10 @@ namespace Frends.Community.SecurityThreatDiagnostics
 
             if (invalidIPAddresses.Any())
             {
-                throw new Exception($"Invalid IP Address or range [{ipAddressValidationInput?.IpAddressToValidate}]");
+                throw new ValidationChallengeException($"Invalid IP Address or range [{ipAddressValidationInput?.IpAddressToValidate}]");
             }
 
             return new SecurityThreatDiagnosticsResult {IsValid = true};
-            ;
         }
 
         /// <summary>
@@ -346,8 +342,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
 
             if (validationErrors.Any())
             {
-                throw new Exception("The following headers did not pass validation:\n" +
-                                    string.Join("\n", validationErrors));
+                throw new ValidationChallengeException("Some headers did not pass validation. See ValidationErrors for details.", validationErrors);
             }
 
             var securityThreatDiagnosticsResult = new SecurityThreatDiagnosticsResult {IsValid = true};
@@ -399,10 +394,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
 
             if (errors.Any())
             {
-                var result = $"Found dangerous URL encoded input for [{validationInput.Payload}]:\n" +
-                             string.Join("\n", errors);
-
-                throw new Exception(result);
+                throw new ValidationChallengeException($"Found dangerous URL encoded input for [{validationInput.Payload}]. See ValidationErrors for details.", errors);
             }
 
             return new SecurityThreatDiagnosticsResult
@@ -410,12 +402,6 @@ namespace Frends.Community.SecurityThreatDiagnostics
                 IsValid = true
             };
         }
-    }
-
-    public class ValidationResult
-    {
-        public string Message { get; set; }
-        public IList<string> Results { get; set; }
     }
 
     public class EncodingConversionResult
