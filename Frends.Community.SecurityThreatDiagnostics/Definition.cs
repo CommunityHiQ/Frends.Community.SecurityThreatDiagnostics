@@ -1,144 +1,109 @@
 ﻿#pragma warning disable 1591
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Frends.Community.SecurityThreatDiagnostics
 {
-    
-    public class ValidationChallengeException: Exception 
-    {
-        public ValidationChallengeException(string message, IList<string> validationErrors): base(message)
-        {
-            ValidationErrors = validationErrors;
-        }
-
-        public ValidationChallengeException(string message): this(message, new List<string>())
-        {
-            
-        }
-        public  IList<string> ValidationErrors { get; private set; }
-    }
-
     /// <summary>
     /// This class is responsible for transmitting the validation parameters from the runtime configuration into process of security diagnostics.
     /// </summary>
-    public class ValidationInput
+    public class Validation
     {
         /// <summary>
-        /// The input to be validated.
+        /// The payload or the attribute value to be validated.
         /// </summary>
         [DisplayFormat(DataFormatString = "Text")] 
-        [DefaultValue("{{#trigger.data.body}}")]
+        [DefaultValue("{{#trigger.data.body.}}")]
         public string Payload { get; set; }
     }
     
     /// <summary>
-    /// Validation input parameters
+    /// This class is responsible for transmitting the validation attributes from the runtime configuration into process of security diagnostics.
     /// </summary>
     public class ValidationAttributes
     {
         /// <summary>
-        /// The input to be validated.
+        /// The payload or the attribute value to be validated.
         /// </summary>
-        [DefaultValue("{{#trigger.data.body}}")]
-        public string[] Attribute { get; set; } // TODO: Collections/arrays should be named plural: Attributes
+        [DefaultValue("{{#trigger.data.body.}}")]
+        public string[] Attribute { get; set; }
     }
     
     /// <summary>
-    /// Allowed IP address validation input
+    /// Challenge against allowed IP addresses
     /// </summary>
-    public class IpAddressValidationInput
+    public class AllowedIPAddresses
     {
         /// <summary>
-        /// IP address to validate
+        /// Current HTTP url where the message is coming from
         /// </summary>
         [DisplayFormat(DataFormatString = "Text")] 
-        [DefaultValue("{{#trigger.data.httpClientIp}}")]
-        public string IpAddressToValidate { get; set; }
+        [DefaultValue("Current HTTP url")]
+        public string Host { get; set; }
 
         /// <summary>
-        /// Regular expression or value for allowed IP addresses, matching IPs pass validation
+        /// Whitelisted IP addresses to be bypassed by the process engine's validation
         /// </summary>
-        [DisplayFormat(DataFormatString = "Text")]
         [DefaultValue("\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}")]
-        public string[] WhiteListedIpAddresses { get; set; }
+        public string[] WhiteListedIpAddress { get; set; }
 
         /// <summary>
-        /// Regular expression or value for black listed IP addresses, matching IPs will always fail validation 
+        /// Blacklisted IP addresses and ranges which will be blocked by the process execution engine 
         /// </summary>
-        [DisplayFormat(DataFormatString = "Text")]
         [DefaultValue("\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}")]
         public string[] BlackListedIpAddresses { get; set; }
     }
 
     /// <summary>
-    /// Input for validating HTTP header validation
+    /// Challenge against allowed HTTP headers
     /// </summary>
-    public class ChallengeSecurityHeadersInput
+    [DefaultValue("{{#trigger.data.httpHeaders}}")]
+    public class WhiteListedHeaders
     {
-        // TODO: Why is this parameter here, it is not used for anything?
-        public string HttpUri { get; set; }
-        
-        // TODO: Why is this parameter here, it is not used for anything?
         /// <summary>
-        /// Define the HTTP(S) redirect url   
+        /// Define the allowed http headers
         /// </summary>
-        [DisplayFormat(DataFormatString = "Text")] 
-        [DefaultValue("https://somedomainforcesecure")]
-        public string HttpRedirectUri { get; set; }
-        
-        /// <summary>
-        /// Allowed HTTP header names, * to allow all headers
-        /// </summary>
-        [DisplayFormat(DataFormatString = "Text")]
-        [DefaultValue("*")]
+        [DefaultValue("Cookie")]
         public string[] AllowedHttpHeaders { get; set; }
 
         /// <summary>
-        /// Request based HTTP headers with a key value pair
+        /// Current TCP/IP HTTP headers with a key value pair
         /// </summary>
-        [DisplayFormat(DataFormatString = "Expression")]
-        [DefaultValue("#trigger.data.httpHeaders")]
-        public object HttpHeaders { get; set; }
+        public Dictionary<string, string> CurrentHttpHeaders { get; set; }
 
     }
 
-    public class ChallengeUrlEncodingOptions: Options
-    {
-        /// <summary>
-        /// How many URL decoding iteration rounds will be executed for the input
-        /// </summary>
-        [DisplayFormat(DataFormatString = "Text")]
-        [DefaultValue("2")]
-        public int Iterations { get; set; }
-    }
-    
     /// <summary>
     /// Options class provides additional parameters.
     /// </summary>
     public class Options
     {
         /// <summary>
-        /// Which encoding should be used, default UTF-8.
+        /// How many iteration round for decoding of the payloadx.
         /// </summary>
         [DisplayFormat(DataFormatString = "Text")]
-        [DefaultValue("UTF-8")]
-        public string SourceEncoding { get; set; } = "UTF-8";
+        [DefaultValue("2")]
+        public int MaxIterations { get; set; }
         
         /// <summary>
         /// Which encoding should be used, default UTF-8.
         /// </summary>
         [DisplayFormat(DataFormatString = "Text")]
         [DefaultValue("UTF-8")]
-        public string DestinationEncoding { get; set; } = "UTF-8";
+        public string SourceEncoding { get; set; }
         
         /// <summary>
-        /// Should content be Base64 decoded for validation
+        /// Which encoding should be used, default UTF-8.
         /// </summary>
-        [DefaultValue(false)]
+        [DisplayFormat(DataFormatString = "Text")]
+        [DefaultValue("UTF-8")]
+        public string DestinationEncoding { get; set; }
+        
+        /// <summary>
+        /// Should content be base 64 decoded, default UTF-8.
+        /// </summary>
         public bool Base64Decode { get; set; }
         
     }
