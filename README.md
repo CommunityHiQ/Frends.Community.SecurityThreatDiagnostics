@@ -70,7 +70,7 @@ A result object with parameters.
 | Property | Type | Description | Example |
 | -------- | -------- | -------- | -------- |
 | IsValid | `bool` | Challenged threats | new Frends.Community.SecurityThreatDiagnostics.SecurityThreatDiagnosticsResult() { IsValid = false } |
-| Data | `Dictionary` | Information about threats | <ID> = 79 |
+| Data | `Dictionary` | Information about threats | <Unique ID of the threat> = 79 |
 
 Challenge TCP/IP packages against known IP addresses (whitelisted IP) and blocked IP addresses (blacklisted IP).
 
