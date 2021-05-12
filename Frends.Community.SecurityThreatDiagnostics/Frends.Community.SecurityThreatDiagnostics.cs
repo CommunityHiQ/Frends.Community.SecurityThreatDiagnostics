@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Xml;
 using System.Xml.Linq;
 
 #pragma warning disable 1591
@@ -156,8 +152,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
                 }
                 SecurityThreatDiagnosticsResult securityThreatDiagnosticsResult = new SecurityThreatDiagnosticsResult();
                 securityThreatDiagnosticsResult.IsValid = true;
-                //securityThreatDiagnosticsResult.Data.Add("data", data);
-        
+                
                 return securityThreatDiagnosticsResult;
             }
         }
@@ -387,13 +382,12 @@ namespace Frends.Community.SecurityThreatDiagnostics
                LogInvalidHeaderName(nonViableHeader);
            }
 
-            if (disAllowedHeaders.ToList().Count > 0)
-            {
-                BuildHierarchicalExceptionMessage(innerExceptionMessage, disAllowedHeaders, validationChallengeMessage);
-            }
+           if (disAllowedHeaders.ToList().Count > 0)
+           {
+               BuildHierarchicalExceptionMessage(innerExceptionMessage, disAllowedHeaders, validationChallengeMessage);
+           }
             
             var securityThreatDiagnosticsResult = BuildResponseMessage();
-
             return securityThreatDiagnosticsResult;
         }
 
@@ -417,21 +411,20 @@ namespace Frends.Community.SecurityThreatDiagnostics
                                                               IEnumerable<string> disAllowedHeaders,
                                                               StringBuilder validationChallengeMessage)
         {
-            ArgumentException argumentException =
-                new ArgumentException("Invalid argument information " + innerExceptionMessage.ToString());
+            ArgumentException argumentException = new ArgumentException("Invalid argument information " + innerExceptionMessage.ToString());
             
             StringBuilder builder = new StringBuilder("Invalid Headers included in the request message [");
             builder.Append(disAllowedHeaders.ToList().Count).Append("]\n\n")
                    .Append(disAllowedHeaders.Select(header => header.ToString() + " "));
-            builder.Append(validationChallengeMessage.ToString());
+            builder.Append(validationChallengeMessage);
             throw new ApplicationException(builder.ToString(), argumentException);
         }
 
-        private static IEnumerable<string> GetCurrentDisallowedHeaders(WhiteListedHeaders whiteListedHeaders, Dictionary<string, string> httpHeaders)
+        private static IEnumerable<string> GetCurrentDisallowedHeaders(WhiteListedHeaders whiteListedHeaders, Dictionary<string, string> currentHttpHeaders)
         {
             var disallowedHeaders =
-                from header in whiteListedHeaders?.AllowedHttpHeaders
-                where httpHeaders.All(x => x.Key != httpHeaders.ToString())
+                from header in currentHttpHeaders.Keys
+                where !whiteListedHeaders.AllowedHttpHeaders.All(entry => header.Contains(entry))
                 select header;
             return disallowedHeaders;
         }
@@ -439,13 +432,13 @@ namespace Frends.Community.SecurityThreatDiagnostics
         private static Dictionary<string, string> GetCurrentAllowedHttpHeaders(WhiteListedHeaders whiteListedHeaders, Dictionary<string, string> httpHeaders)
         {
             var q = (from allowedHttpHeaders in whiteListedHeaders?.AllowedHttpHeaders
-             join currentHttpHeaders in httpHeaders on allowedHttpHeaders equals currentHttpHeaders.Key
-             orderby currentHttpHeaders.Key
-             select new
-                {
-                    currentHttpHeaders.Key,
-                    currentHttpHeaders.Value
-                }).ToDictionary(x => x.Key, y => y.Value);
+                     join currentHttpHeaders in httpHeaders on allowedHttpHeaders equals currentHttpHeaders.Key
+                     orderby currentHttpHeaders.Key
+                     select new
+                            {
+                                currentHttpHeaders.Key,
+                                currentHttpHeaders.Value
+                            }).ToDictionary(x => x.Key, y => y.Value);
             return q;
         }
 
@@ -457,32 +450,31 @@ namespace Frends.Community.SecurityThreatDiagnostics
             foreach (var rule in ruleDictionary)
             {
                 ChallengeCharacterSetEncoding(HttpHeaderPair.Value, options);
-                string base64DecodedHeaderValue = DecodeBase64Encoding(HttpHeaderPair.Value);
+                string base64DecodedHeaderValue = DecodeBase64Encoding(HttpHeaderPair.Value) ?? "";
 
                 if (rule.Value.Rule.IsMatch(HttpHeaderPair.Value) ||
-                    base64DecodedHeaderValue.Length > 0 &&
-                    rule.Value.Rule.IsMatch(base64DecodedHeaderValue) &&
-                    options.Base64Decode)
-                    if (options.Base64Decode && rule.Value.Rule.IsMatch(base64DecodedHeaderValue))
-                    {
-                        validationChallengeMessage
-                           .Append("Header [")
-                           .Append(rule.Key)
-                           .Append("]")
-                           .Append(" contains vulnerability [")
-                           .Append(rule.Value.Description)
-                           .Append("]");
-                        dictionary.Add(rule.Value.Id, innerExceptionMessage.ToString());
-                        innerExceptionMessage
-                           .Append("id [")
-                           .Append(HttpHeaderPair.Key)
-                           .Append("]")
-                           .Append(HttpHeaderPair.Value)
-                           .Append("], ");
-                        if (options.Base64Decode)
-                            innerExceptionMessage.Append("decoded value [")
-                                                 .Append(base64DecodedHeaderValue).Append("]");
-                    }
+                    options.Base64Decode && 
+                    base64DecodedHeaderValue.Length > 0 && 
+                    rule.Value.Rule.IsMatch(base64DecodedHeaderValue))
+                {
+                    validationChallengeMessage
+                       .Append("Header [")
+                       .Append(rule.Key)
+                       .Append("]")
+                       .Append(" contains vulnerability [")
+                       .Append(rule.Value.Description)
+                       .Append("]");
+                    dictionary.Add(rule.Value.Id, innerExceptionMessage.ToString());
+                    innerExceptionMessage
+                       .Append("id [")
+                       .Append(HttpHeaderPair.Key)
+                       .Append("]")
+                       .Append(HttpHeaderPair.Value)
+                       .Append("], ");
+                    if (options.Base64Decode)
+                        innerExceptionMessage.Append("decoded value [")
+                                             .Append(base64DecodedHeaderValue).Append("]");
+                }
             }
         }
 

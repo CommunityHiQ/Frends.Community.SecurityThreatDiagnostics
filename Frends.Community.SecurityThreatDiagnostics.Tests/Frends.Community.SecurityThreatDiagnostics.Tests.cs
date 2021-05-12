@@ -105,13 +105,12 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         private static String StaticHeader = "Authorization"; 
         
         [Test]
-        [Ignore("Not yet implemented")]
         public void GivenStandardHeaderInWhenChallengingHeadersForValidationThenSecurityThreatDiagnosticsMustByPassRelevantHeaders()
         {
             WhiteListedHeaders whiteListedHeaders = new WhiteListedHeaders();
             whiteListedHeaders.AllowedHttpHeaders = new [] {StaticHeader};
             whiteListedHeaders.CurrentHttpHeaders = new Dictionary<string, string>();
-            whiteListedHeaders.CurrentHttpHeaders.Add("Authorization: ", "Bearer hashme"); 
+            whiteListedHeaders.CurrentHttpHeaders.Add("Authorization: ", "Bearer"); 
             SecurityThreatDiagnosticsResult result = SecurityThreatDiagnostics.ChallengeSecurityHeaders(whiteListedHeaders, options, CancellationToken.None);
             Assert.IsTrue(result.IsValid);
         }
