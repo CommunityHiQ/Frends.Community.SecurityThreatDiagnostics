@@ -414,8 +414,8 @@ namespace Frends.Community.SecurityThreatDiagnostics
             ArgumentException argumentException = new ArgumentException("Invalid argument information " + innerExceptionMessage.ToString());
             
             StringBuilder builder = new StringBuilder("Invalid Headers included in the request message [");
-            builder.Append(disAllowedHeaders.ToList().Count).Append("]\n\n")
-                   .Append(disAllowedHeaders.ToList().Select(header => header.ToString() + " "));
+            builder.Append(disAllowedHeaders.ToList().Count).Append("]\n\n");
+            disAllowedHeaders.ToList().ForEach(header => builder.Append(header));
             builder.Append(validationChallengeMessage);
             throw new ApplicationException(builder.ToString(), argumentException);
         }
