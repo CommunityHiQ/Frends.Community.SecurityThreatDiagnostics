@@ -422,11 +422,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
 
         private static IEnumerable<string> GetCurrentDisallowedHeaders(WhiteListedHeaders whiteListedHeaders, Dictionary<string, string> currentHttpHeaders)
         {
-            var disallowedHeaders =
-                from header in currentHttpHeaders.Keys
-                where !whiteListedHeaders.AllowedHttpHeaders.All(entry => header.Contains(entry))
-                select header;
-            return disallowedHeaders;
+            return whiteListedHeaders.AllowedHttpHeaders.Except(currentHttpHeaders.Keys.ToList());
         }
 
         private static Dictionary<string, string> GetCurrentAllowedHttpHeaders(WhiteListedHeaders whiteListedHeaders, Dictionary<string, string> httpHeaders)

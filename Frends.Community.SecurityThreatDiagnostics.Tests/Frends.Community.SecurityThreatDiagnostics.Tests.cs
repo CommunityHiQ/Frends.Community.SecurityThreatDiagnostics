@@ -116,6 +116,31 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         }
         
         [Test]
+        public void GivenStandardHeadersInWhenChallengingHeadersForValidationThenSecurityThreatDiagnosticsMustByPassRelevantHeaders()
+        {
+            WhiteListedHeaders whiteListedHeaders = new WhiteListedHeaders();
+            whiteListedHeaders.AllowedHttpHeaders = new [] {"Connection", "Host", "Accept"};
+            whiteListedHeaders.CurrentHttpHeaders = new Dictionary<string, string>();
+            whiteListedHeaders.CurrentHttpHeaders.Add("Connection", "Bearer");
+            whiteListedHeaders.CurrentHttpHeaders.Add("Host", "Bearer");
+            whiteListedHeaders.CurrentHttpHeaders.Add("Accept", "Bearer");
+            SecurityThreatDiagnosticsResult result = SecurityThreatDiagnostics.ChallengeSecurityHeaders(whiteListedHeaders, options, CancellationToken.None);
+            Assert.IsTrue(result.IsValid);
+        }
+        
+        [Test]
+        public void GivenInjectedHeaderWithFalseHeaderNamingWhenChallengingHeadersForValidationThenSecurityThreatDiagnosticsMustRaiseExceptionDueToInjectedHeaderValue()
+        {
+            WhiteListedHeaders whiteListedHeaders = new WhiteListedHeaders();
+            whiteListedHeaders.AllowedHttpHeaders = new [] {"Authorization"};
+            whiteListedHeaders.CurrentHttpHeaders = new Dictionary<string, string>();
+            whiteListedHeaders.CurrentHttpHeaders.Add("Crack", "Bearer <script>function attack(){ alert(\"i created XSS\"); } attack();</script>");
+            whiteListedHeaders.CurrentHttpHeaders.Add("Foe", "hashme");
+            whiteListedHeaders.CurrentHttpHeaders.Add("Authorization", "Bearer <script>function attack(){ alert(\"i created XSS\"); } attack();</script>"); 
+            Assert.Throws<ApplicationException>(() => SecurityThreatDiagnostics.ChallengeSecurityHeaders(whiteListedHeaders, options, CancellationToken.None));
+        }
+        
+        [Test]
         public void GivenInvalidAttributesWhenChallengingPayloadAttributesForValidationThenSecurityThreatDiagnosticsMustRaiseExceptionDueToInjectedAttributss()
         {
             string invalidAttribute1 = "<script>function xss() { alert('injection'); } xss();</script>";
