@@ -110,7 +110,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             WhiteListedHeaders whiteListedHeaders = new WhiteListedHeaders();
             whiteListedHeaders.AllowedHttpHeaders = new [] {StaticHeader};
             whiteListedHeaders.CurrentHttpHeaders = new Dictionary<string, string>();
-            whiteListedHeaders.CurrentHttpHeaders.Add("Authorization: ", "Bearer"); 
+            whiteListedHeaders.CurrentHttpHeaders.Add("Authorization", "Bearer"); 
             SecurityThreatDiagnosticsResult result = SecurityThreatDiagnostics.ChallengeSecurityHeaders(whiteListedHeaders, options, CancellationToken.None);
             Assert.IsTrue(result.IsValid);
         }

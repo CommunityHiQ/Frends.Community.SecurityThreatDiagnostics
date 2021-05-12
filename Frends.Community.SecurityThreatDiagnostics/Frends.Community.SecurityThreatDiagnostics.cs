@@ -415,7 +415,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
             
             StringBuilder builder = new StringBuilder("Invalid Headers included in the request message [");
             builder.Append(disAllowedHeaders.ToList().Count).Append("]\n\n")
-                   .Append(disAllowedHeaders.Select(header => header.ToString() + " "));
+                   .Append(disAllowedHeaders.ToList().Select(header => header.ToString() + " "));
             builder.Append(validationChallengeMessage);
             throw new ApplicationException(builder.ToString(), argumentException);
         }
