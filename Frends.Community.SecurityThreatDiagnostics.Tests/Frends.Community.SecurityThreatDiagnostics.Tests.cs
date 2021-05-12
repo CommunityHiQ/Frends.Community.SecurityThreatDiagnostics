@@ -98,7 +98,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             WhiteListedHeaders whiteListedHeaders = new WhiteListedHeaders();
             whiteListedHeaders.AllowedHttpHeaders = new [] {"Authorization"};
             whiteListedHeaders.CurrentHttpHeaders = new Dictionary<string, string>();
-            whiteListedHeaders.CurrentHttpHeaders.Add("Authorization: ", "Bearer <script>function attack(){ alert(\"i created XSS\"); } attack();</script>"); 
+            whiteListedHeaders.CurrentHttpHeaders.Add("Authorization", "Bearer <script>function attack(){ alert(\"i created XSS\"); } attack();</script>"); 
             Assert.Throws<ApplicationException>(() => SecurityThreatDiagnostics.ChallengeSecurityHeaders(whiteListedHeaders, options, CancellationToken.None));
         }
         
