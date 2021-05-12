@@ -355,7 +355,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
             CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            Dictionary<string, string> ruleExceptionMessageDictionary = new Dictionary<string, string>();
             ConcurrentDictionary<string, SecurityRuleFilter> ruleDictionary = SecurityFilterReader.Instance;
             
             StringBuilder validationChallengeMessage = new StringBuilder();
@@ -374,7 +374,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
            
            foreach (var HttpHeaderPair in allowedHttpHeaders)
            {
-               ChallengeHeaderValue(options, ruleDictionary, HttpHeaderPair, validationChallengeMessage, dictionary, innerExceptionMessage);
+               ChallengeHeaderValue(options, ruleDictionary, HttpHeaderPair, validationChallengeMessage, ruleExceptionMessageDictionary, innerExceptionMessage);
            }
            
            foreach (var nonViableHeader in disAllowedHeaders)
@@ -382,7 +382,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
                LogInvalidHeaderName(nonViableHeader);
            }
 
-           if (disAllowedHeaders.ToList().Count > 0)
+           if (ruleExceptionMessageDictionary.Count > 0 || disAllowedHeaders.ToList().Count > 0)
            {
                BuildHierarchicalExceptionMessage(innerExceptionMessage, disAllowedHeaders, validationChallengeMessage);
            }
@@ -431,7 +431,8 @@ namespace Frends.Community.SecurityThreatDiagnostics
 
         private static Dictionary<string, string> GetCurrentAllowedHttpHeaders(WhiteListedHeaders whiteListedHeaders, Dictionary<string, string> httpHeaders)
         {
-            var q = (from allowedHttpHeaders in whiteListedHeaders?.AllowedHttpHeaders
+            var q = 
+                (from allowedHttpHeaders in whiteListedHeaders?.AllowedHttpHeaders
                      join currentHttpHeaders in httpHeaders on allowedHttpHeaders equals currentHttpHeaders.Key
                      orderby currentHttpHeaders.Key
                      select new
