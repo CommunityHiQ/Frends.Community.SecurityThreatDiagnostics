@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using NUnit.Framework;
 using System.Threading;
 
@@ -195,6 +196,17 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             allowedIpAddresses.BlackListedIpAddresses = denyBroadcastIPAddressesRegex;
             allowedIpAddresses.Host = "127.0.0.1";
             Assert.DoesNotThrow(() => SecurityThreatDiagnostics.ChallengeIPAddresses(allowedIpAddresses, CancellationToken.None));
+        }
+        
+        [Test]
+        public void GivenNullValueWhenChallengingNullValuesForValidationThenSecurityThreatDiagnosticsMustRaiseExceptionDueToDisallowedNullValues()
+        {
+            StringBuilder nullValues = new StringBuilder("\0");
+            nullValues.Append(Convert.ToChar(0x0).ToString())
+                      .Append("%5C0")
+                      .Append("%5C%20%255C0")
+                      .Append("");
+            Assert.Throws<ApplicationException>(() => SecurityThreatDiagnostics.ChallengeDataContentAgainstNullOrEmptyValues(nullValues.ToString(), options, CancellationToken.None));
         }
     }
 }

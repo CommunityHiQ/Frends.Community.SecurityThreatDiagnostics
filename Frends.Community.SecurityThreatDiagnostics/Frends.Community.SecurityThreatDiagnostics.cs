@@ -125,6 +125,11 @@ namespace Frends.Community.SecurityThreatDiagnostics
                 try
                 {
                     data = ChangeCharacterEncoding(payload, options);
+                    
+                    SecurityThreatDiagnosticsResult securityThreatDiagnosticsResult = new SecurityThreatDiagnosticsResult();
+                    securityThreatDiagnosticsResult.IsValid = true;
+                
+                    return securityThreatDiagnosticsResult;
                 }
                 catch (Exception exception)
                 {
@@ -150,10 +155,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
                         }
                     }
                 }
-                SecurityThreatDiagnosticsResult securityThreatDiagnosticsResult = new SecurityThreatDiagnosticsResult();
-                securityThreatDiagnosticsResult.IsValid = true;
-                
-                return securityThreatDiagnosticsResult;
+             
             }
         }
         
@@ -499,24 +501,68 @@ namespace Frends.Community.SecurityThreatDiagnostics
             CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
+            StringBuilder builder = new StringBuilder("Invalid URL encoding in character set [");
             try
             {
                 validation.Payload = Decode(validation.Payload, options);
                 ChallengeAgainstSecurityThreats(validation, options, cancellationToken);
+                
+                SecurityThreatDiagnosticsResult securityThreatDiagnosticsResult = new SecurityThreatDiagnosticsResult();
+                securityThreatDiagnosticsResult.IsValid = true;
+            
+                return securityThreatDiagnosticsResult;
+                
             }
             catch (Exception exception)
             {
-                StringBuilder builder = new StringBuilder("Invalid URL encoding in character set [");
                 builder
                     .Append(validation.Payload)
                     .Append("]");
                 ArgumentException argumentException = new ArgumentException("Invalid URL encoding information "  + exception.ToString(), exception);
                 throw new ApplicationException(builder.ToString(), argumentException);                
             }
+            finally
+            {
+                builder.Clear();
+            }
+        }
+        
+        public static SecurityThreatDiagnosticsResult ChallengeDataContentAgainstNullOrEmptyValues
+        (
+            string payload,     
+            Options options, 
+            CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
             SecurityThreatDiagnosticsResult securityThreatDiagnosticsResult = new SecurityThreatDiagnosticsResult();
-            securityThreatDiagnosticsResult.IsValid = true;
-            
-            return securityThreatDiagnosticsResult;
+            StringBuilder builder = new StringBuilder("Invalid URL encoding in character set [");
+            try
+            {
+                payload
+                   .Replace(Convert.ToChar(0x0).ToString(), "")
+                   .Replace("\0", "")
+                   .Replace("%5C0", "")
+                   .Replace("%5C%20%255C0", "");
+                if (payload.Length > 0 || String.IsNullOrEmpty(payload) || String.IsNullOrWhiteSpace(payload))
+                {
+                    throw new Exception("NULL value exposed.");
+                }
+                securityThreatDiagnosticsResult.IsValid = String.IsNullOrEmpty(payload);
+                return securityThreatDiagnosticsResult;
+            }
+            catch (Exception exception)
+            {
+                builder
+                   .Append("NULL value exposed.");
+                ArgumentException argumentException =
+                    new ArgumentException("Invalid URL encoding information " + exception.ToString(), exception);
+                throw new ApplicationException(builder.ToString(), argumentException);
+            }
+            finally
+            {
+                builder.Clear();
+            }
+           
         }
 
     }
