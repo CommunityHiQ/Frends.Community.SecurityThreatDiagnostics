@@ -128,6 +128,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
                     
                     SecurityThreatDiagnosticsResult securityThreatDiagnosticsResult = new SecurityThreatDiagnosticsResult();
                     securityThreatDiagnosticsResult.IsValid = true;
+                    securityThreatDiagnosticsResult.Data = data;
                 
                     return securityThreatDiagnosticsResult;
                 }
@@ -562,7 +563,6 @@ namespace Frends.Community.SecurityThreatDiagnostics
             {
                 builder.Clear();
             }
-           
         }
 
     }

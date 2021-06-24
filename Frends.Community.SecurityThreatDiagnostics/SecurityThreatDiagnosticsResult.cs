@@ -14,6 +14,8 @@ namespace Frends.Community.SecurityThreatDiagnostics
         /// Did the input pass validation
         /// </summary>
         public bool IsValid;
+
+        public object Data { get; set; }
     }
 
 }
