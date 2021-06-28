@@ -182,6 +182,8 @@ namespace Frends.Community.SecurityThreatDiagnostics
                     validation.Payload = attribute;
                     try
                     {
+                        if (!options.AllowsNullValues) 
+                            validationAttributes.Attribute.ToList().ForEach(entry => ChallengeDataContentAgainstNullOrEmptyValues(entry, options, cancellationToken));
                         ChallengeAgainstSecurityThreats(validation, options, cancellationToken);
                     }
                     catch (ArgumentException argumentException)
@@ -257,6 +259,8 @@ namespace Frends.Community.SecurityThreatDiagnostics
 
             foreach (var entry in ruleDictionary)
             {
+                //if (!options.AllowsNullValues) 
+                    //ChallengeDataContentAgainstNullOrEmptyValues(validation.Payload, options, cancellationToken);
                 ChallengeCharacterSetEncoding(validation.Payload, options);
                 string base64DecodedPayload = DecodeBase64Encoding(validation.Payload);
                 
@@ -537,33 +541,38 @@ namespace Frends.Community.SecurityThreatDiagnostics
         {
             cancellationToken.ThrowIfCancellationRequested();
             SecurityThreatDiagnosticsResult securityThreatDiagnosticsResult = new SecurityThreatDiagnosticsResult();
-            StringBuilder builder = new StringBuilder("Invalid URL encoding in character set [");
+            StringBuilder builder = new StringBuilder("NULL value exposed.");
             try
             {
-                payload
-                   .Replace(Convert.ToChar(0x0).ToString(), "")
-                   .Replace("\0", "")
-                   .Replace("%5C0", "")
-                   .Replace("%5C%20%255C0", "");
-                if (payload.Length > 0 || String.IsNullOrEmpty(payload) || String.IsNullOrWhiteSpace(payload))
+                if (!options.AllowsNullValues)
                 {
-                    throw new Exception("NULL value exposed.");
+                    payload
+                       .Replace(Convert.ToChar(0x0).ToString(), "")
+                       .Replace("\0", "")
+                       .Replace("%5C0", "")
+                       .Replace("%5C%20%255C0", "");
+                    if (payload.Length > 0 || String.IsNullOrEmpty(payload) ||
+                        options.AllowWhiteSpaces && String.IsNullOrWhiteSpace(payload))
+                    {
+                        throw new Exception(builder.ToString());
+                    }
+
+                    securityThreatDiagnosticsResult.IsValid = String.IsNullOrEmpty(payload);
+                    return securityThreatDiagnosticsResult;
                 }
-                securityThreatDiagnosticsResult.IsValid = String.IsNullOrEmpty(payload);
-                return securityThreatDiagnosticsResult;
             }
             catch (Exception exception)
             {
-                builder
-                   .Append("NULL value exposed.");
                 ArgumentException argumentException =
-                    new ArgumentException("Invalid URL encoding information " + exception.ToString(), exception);
+                    new ArgumentException(exception.ToString(), exception);
                 throw new ApplicationException(builder.ToString(), argumentException);
             }
             finally
             {
                 builder.Clear();
             }
+
+            return null;
         }
 
     }

@@ -106,6 +106,16 @@ namespace Frends.Community.SecurityThreatDiagnostics
         /// </summary>
         public bool Base64Decode { get; set; }
         
+        /// <summary>
+        /// Allow null characters.
+        /// </summary>
+        public bool AllowsNullValues { get; set; }
+        
+        /// <summary>
+        /// Allow white space characters.
+        /// </summary>
+        public bool AllowWhiteSpaces { get; set; }
+        
     }
     
 }

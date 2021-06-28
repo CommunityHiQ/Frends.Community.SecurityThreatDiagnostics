@@ -27,6 +27,8 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             string validXml = "This is a valid content.";
             validation.Payload = validXml;
             options.MaxIterations = 2;
+            options.AllowsNullValues = false;
+            options.AllowWhiteSpaces = false;
             SecurityThreatDiagnosticsResult result = SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, CancellationToken.None);
             Assert.IsTrue(result.IsValid);
         }
