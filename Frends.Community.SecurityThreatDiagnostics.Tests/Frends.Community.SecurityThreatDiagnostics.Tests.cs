@@ -195,7 +195,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             allowedIpAddresses.WhiteListedIpAddress = allowedIPAddressesRegex;
             allowedIpAddresses.BlackListedIpAddresses = denyBroadcastIPAddressesRegex;
             allowedIpAddresses.Host = "127.0.0.1";
-            Assert.DoesNotThrow(() => SecurityThreatDiagnostics.ChallengeIPAddresses(allowedIpAddresses, CancellationToken.None));
+            Assert.Throws<ApplicationException>(() => SecurityThreatDiagnostics.ChallengeAttributesAgainstSecurityThreats(validationAttributes, options, CancellationToken.None));
         }
         
         [Test]
