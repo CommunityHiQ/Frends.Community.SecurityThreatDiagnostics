@@ -315,7 +315,6 @@ namespace Frends.Community.SecurityThreatDiagnostics
         {
             cancellationToken.ThrowIfCancellationRequested();
             List<string> invalidIPAddresses = new List<string>();
-            List<string> IpsWhichdDidNotMatchButAreAllowed = new List<string>();
             List<string> AllowedIPAdderesses = new List<string>();
             
             allowedIpAddresses.WhiteListedIpAddress?.ToList().ForEach(
@@ -325,9 +324,6 @@ namespace Frends.Community.SecurityThreatDiagnostics
                     MatchCollection matchCollection = allowedInboundTrafficRule.Matches(allowedIpAddresses.Host);
                     if (matchCollection.Count > 0)
                         AllowedIPAdderesses.Add(entry);
-                        //IpsWhichdDidNotMatchButAreAllowed.Add(entry);
-                    //else
-                        
                 });
             
             allowedIpAddresses.BlackListedIpAddresses?.ToList().ForEach(
