@@ -179,12 +179,32 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         }
 
         [Test]
-        public void GivenAllowedIPAddressWhenChallengingIPForValidationThenSecurityThreatDiagnosticsMustNotRaiseExceptionDueToAllowedIPs() {
+        public void GivenUnknownIPAddressWhenChallengingIPForValidationThenSecurityThreatDiagnosticsMustRaiseExceptionDueToDisallowedIPs() {
             AllowedIPAddresses allowedIpAddresses = new AllowedIPAddresses();
             //IPV4 and IPV6
             string[] allowedIPAddressesRegex =
             {
-                "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}"
+                "127.0.0.2"
+            };
+            
+            string[] denyBroadcastIPAddressesRegex =                                                        
+            {                                                                                         
+                "255.255.255.255"
+            };                                                                                        
+            
+            allowedIpAddresses.WhiteListedIpAddress = allowedIPAddressesRegex;
+            allowedIpAddresses.BlackListedIpAddresses = denyBroadcastIPAddressesRegex;
+            allowedIpAddresses.Host = "127.0.0.1";
+            Assert.DoesNotThrow(() => SecurityThreatDiagnostics.ChallengeIPAddresses(allowedIpAddresses, CancellationToken.None));
+        }
+        
+        [Test]
+        public void GivenListOFAllowedIPAddressWhenChallengingIPForValidationThenSecurityThreatDiagnosticsMustNotRaiseExceptionDueToAllowedIPs() {
+            AllowedIPAddresses allowedIpAddresses = new AllowedIPAddresses();
+            //IPV4 and IPV6
+            string[] allowedIPAddressesRegex =
+            {
+                "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}", "127.0.0.1", "127.0.0.2", "127.0.0.1 127.0.0.2", "127.0.0.1|127.0.0.2"
             };
             
             string[] denyBroadcastIPAddressesRegex =                                                        
