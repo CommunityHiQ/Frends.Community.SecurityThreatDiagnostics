@@ -109,7 +109,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
         /// <summary>
         /// Allow null characters.
         /// </summary>
-        public bool AllowsNullValues { get; set; }
+        public bool AllowNullValues { get; set; }
         
         /// <summary>
         /// Allow white space characters.

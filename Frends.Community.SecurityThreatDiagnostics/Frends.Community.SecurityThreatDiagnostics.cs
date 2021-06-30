@@ -182,7 +182,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
                     validation.Payload = attribute;
                     try
                     {
-                        if (!options.AllowsNullValues) 
+                        if (!options.AllowNullValues) 
                             validationAttributes.Attribute.ToList().ForEach(entry => ChallengeDataContentAgainstNullOrEmptyValues(entry, options, cancellationToken));
                         ChallengeAgainstSecurityThreats(validation, options, cancellationToken);
                     }
@@ -544,13 +544,14 @@ namespace Frends.Community.SecurityThreatDiagnostics
             StringBuilder builder = new StringBuilder("NULL value exposed.");
             try
             {
-                if (!options.AllowsNullValues)
+                if (!options.AllowNullValues)
                 {
                     payload
                        .Replace(Convert.ToChar(0x0).ToString(), "")
                        .Replace("\0", "")
                        .Replace("%5C0", "")
-                       .Replace("%5C%20%255C0", "");
+                       .Replace("%5C%20%255C0", "")
+                       .Replace("null", "");
                     if (payload.Length > 0 || String.IsNullOrEmpty(payload) ||
                         options.AllowWhiteSpaces && String.IsNullOrWhiteSpace(payload))
                     {

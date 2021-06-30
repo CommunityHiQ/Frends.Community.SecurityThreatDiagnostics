@@ -27,7 +27,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             string validXml = "This is a valid content.";
             validation.Payload = validXml;
             options.MaxIterations = 2;
-            options.AllowsNullValues = false;
+            options.AllowNullValues = false;
             options.AllowWhiteSpaces = false;
             SecurityThreatDiagnosticsResult result = SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, CancellationToken.None);
             Assert.IsTrue(result.IsValid);
@@ -227,6 +227,7 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             nullValues.Append(Convert.ToChar(0x0).ToString())
                       .Append("%5C0")
                       .Append("%5C%20%255C0")
+                      .Append("\u0000") 
                       .Append("");
             Assert.Throws<ApplicationException>(() => SecurityThreatDiagnostics.ChallengeDataContentAgainstNullOrEmptyValues(nullValues.ToString(), options, CancellationToken.None));
         }
