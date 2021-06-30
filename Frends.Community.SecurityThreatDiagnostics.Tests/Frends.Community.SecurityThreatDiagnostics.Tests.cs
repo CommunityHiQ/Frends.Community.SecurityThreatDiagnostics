@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using NUnit.Framework;
 using System.Threading;
 
@@ -26,6 +27,8 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             string validXml = "This is a valid content.";
             validation.Payload = validXml;
             options.MaxIterations = 2;
+            options.AllowNullValues = false;
+            options.AllowWhiteSpaces = false;
             SecurityThreatDiagnosticsResult result = SecurityThreatDiagnostics.ChallengeAgainstSecurityThreats(validation, options, CancellationToken.None);
             Assert.IsTrue(result.IsValid);
         }
@@ -98,22 +101,46 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             WhiteListedHeaders whiteListedHeaders = new WhiteListedHeaders();
             whiteListedHeaders.AllowedHttpHeaders = new [] {"Authorization"};
             whiteListedHeaders.CurrentHttpHeaders = new Dictionary<string, string>();
-            whiteListedHeaders.CurrentHttpHeaders.Add("Authorization: ", "Bearer <script>function attack(){ alert(\"i created XSS\"); } attack();</script>"); 
+            whiteListedHeaders.CurrentHttpHeaders.Add("Authorization", "Bearer <script>function attack(){ alert(\"i created XSS\"); } attack();</script>"); 
             Assert.Throws<ApplicationException>(() => SecurityThreatDiagnostics.ChallengeSecurityHeaders(whiteListedHeaders, options, CancellationToken.None));
         }
         
         private static String StaticHeader = "Authorization"; 
         
         [Test]
-        [Ignore("Not yet implemented")]
         public void GivenStandardHeaderInWhenChallengingHeadersForValidationThenSecurityThreatDiagnosticsMustByPassRelevantHeaders()
         {
             WhiteListedHeaders whiteListedHeaders = new WhiteListedHeaders();
             whiteListedHeaders.AllowedHttpHeaders = new [] {StaticHeader};
             whiteListedHeaders.CurrentHttpHeaders = new Dictionary<string, string>();
-            whiteListedHeaders.CurrentHttpHeaders.Add("Authorization: ", "Bearer hashme"); 
+            whiteListedHeaders.CurrentHttpHeaders.Add("Authorization", "Bearer"); 
             SecurityThreatDiagnosticsResult result = SecurityThreatDiagnostics.ChallengeSecurityHeaders(whiteListedHeaders, options, CancellationToken.None);
             Assert.IsTrue(result.IsValid);
+        }
+        
+        [Test]
+        public void GivenStandardHeadersInWhenChallengingHeadersForValidationThenSecurityThreatDiagnosticsMustByPassRelevantHeaders()
+        {
+            WhiteListedHeaders whiteListedHeaders = new WhiteListedHeaders();
+            whiteListedHeaders.AllowedHttpHeaders = new [] {"Connection", "Host", "Accept"};
+            whiteListedHeaders.CurrentHttpHeaders = new Dictionary<string, string>();
+            whiteListedHeaders.CurrentHttpHeaders.Add("Connection", "Bearer");
+            whiteListedHeaders.CurrentHttpHeaders.Add("Host", "Bearer");
+            whiteListedHeaders.CurrentHttpHeaders.Add("Accept", "Bearer");
+            SecurityThreatDiagnosticsResult result = SecurityThreatDiagnostics.ChallengeSecurityHeaders(whiteListedHeaders, options, CancellationToken.None);
+            Assert.IsTrue(result.IsValid);
+        }
+        
+        [Test]
+        public void GivenInjectedHeaderWithFalseHeaderNamingWhenChallengingHeadersForValidationThenSecurityThreatDiagnosticsMustRaiseExceptionDueToInjectedHeaderValue()
+        {
+            WhiteListedHeaders whiteListedHeaders = new WhiteListedHeaders();
+            whiteListedHeaders.AllowedHttpHeaders = new [] {"Authorization"};
+            whiteListedHeaders.CurrentHttpHeaders = new Dictionary<string, string>();
+            whiteListedHeaders.CurrentHttpHeaders.Add("Crack", "Bearer <script>function attack(){ alert(\"i created XSS\"); } attack();</script>");
+            whiteListedHeaders.CurrentHttpHeaders.Add("Foe", "hashme");
+            whiteListedHeaders.CurrentHttpHeaders.Add("Authorization", "Bearer <script>function attack(){ alert(\"i created XSS\"); } attack();</script>"); 
+            Assert.Throws<ApplicationException>(() => SecurityThreatDiagnostics.ChallengeSecurityHeaders(whiteListedHeaders, options, CancellationToken.None));
         }
         
         [Test]
@@ -154,12 +181,32 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
         }
 
         [Test]
-        public void GivenAllowedIPAddressWhenChallengingIPForValidationThenSecurityThreatDiagnosticsMustNotRaiseExceptionDueToAllowedIPs() {
+        public void GivenUnknownIPAddressWhenChallengingIPForValidationThenSecurityThreatDiagnosticsMustRaiseExceptionDueToDisallowedIPs() {
             AllowedIPAddresses allowedIpAddresses = new AllowedIPAddresses();
             //IPV4 and IPV6
             string[] allowedIPAddressesRegex =
             {
-                "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}"
+                "127.0.0.2"
+            };
+            
+            string[] denyBroadcastIPAddressesRegex =                                                        
+            {                                                                                         
+                "255.255.255.255"
+            };                                                                                        
+            
+            allowedIpAddresses.WhiteListedIpAddress = allowedIPAddressesRegex;
+            allowedIpAddresses.BlackListedIpAddresses = denyBroadcastIPAddressesRegex;
+            allowedIpAddresses.Host = "127.0.0.1";
+            Assert.Throws<ApplicationException>(() => SecurityThreatDiagnostics.ChallengeAttributesAgainstSecurityThreats(validationAttributes, options, CancellationToken.None));
+        }
+        
+        [Test]
+        public void GivenListOFAllowedIPAddressWhenChallengingIPForValidationThenSecurityThreatDiagnosticsMustNotRaiseExceptionDueToAllowedIPs() {
+            AllowedIPAddresses allowedIpAddresses = new AllowedIPAddresses();
+            //IPV4 and IPV6
+            string[] allowedIPAddressesRegex =
+            {
+                "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}", "127.0.0.1", "127.0.0.2", "127.0.0.1 127.0.0.2", "127.0.0.1|127.0.0.2"
             };
             
             string[] denyBroadcastIPAddressesRegex =                                                        
@@ -171,6 +218,18 @@ namespace Frends.Community.SecurityThreatDiagnostics.Tests
             allowedIpAddresses.BlackListedIpAddresses = denyBroadcastIPAddressesRegex;
             allowedIpAddresses.Host = "127.0.0.1";
             Assert.DoesNotThrow(() => SecurityThreatDiagnostics.ChallengeIPAddresses(allowedIpAddresses, CancellationToken.None));
+        }
+        
+        [Test]
+        public void GivenNullValueWhenChallengingNullValuesForValidationThenSecurityThreatDiagnosticsMustRaiseExceptionDueToDisallowedNullValues()
+        {
+            StringBuilder nullValues = new StringBuilder("\0");
+            nullValues.Append(Convert.ToChar(0x0).ToString())
+                      .Append("%5C0")
+                      .Append("%5C%20%255C0")
+                      .Append("\u0000") 
+                      .Append("");
+            Assert.Throws<ApplicationException>(() => SecurityThreatDiagnostics.ChallengeDataContentAgainstNullOrEmptyValues(nullValues.ToString(), options, CancellationToken.None));
         }
     }
 }

@@ -2,15 +2,12 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Xml;
 using System.Xml.Linq;
 
 #pragma warning disable 1591
@@ -129,6 +126,12 @@ namespace Frends.Community.SecurityThreatDiagnostics
                 try
                 {
                     data = ChangeCharacterEncoding(payload, options);
+                    
+                    SecurityThreatDiagnosticsResult securityThreatDiagnosticsResult = new SecurityThreatDiagnosticsResult();
+                    securityThreatDiagnosticsResult.IsValid = true;
+                    securityThreatDiagnosticsResult.Data = data;
+                
+                    return securityThreatDiagnosticsResult;
                 }
                 catch (Exception exception)
                 {
@@ -154,11 +157,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
                         }
                     }
                 }
-                SecurityThreatDiagnosticsResult securityThreatDiagnosticsResult = new SecurityThreatDiagnosticsResult();
-                securityThreatDiagnosticsResult.IsValid = true;
-                //securityThreatDiagnosticsResult.Data.Add("data", data);
-        
-                return securityThreatDiagnosticsResult;
+             
             }
         }
         
@@ -183,6 +182,8 @@ namespace Frends.Community.SecurityThreatDiagnostics
                     validation.Payload = attribute;
                     try
                     {
+                        if (!options.AllowNullValues) 
+                            validationAttributes.Attribute.ToList().ForEach(entry => ChallengeDataContentAgainstNullOrEmptyValues(entry, options, cancellationToken));
                         ChallengeAgainstSecurityThreats(validation, options, cancellationToken);
                     }
                     catch (ArgumentException argumentException)
@@ -258,6 +259,8 @@ namespace Frends.Community.SecurityThreatDiagnostics
 
             foreach (var entry in ruleDictionary)
             {
+                //if (!options.AllowsNullValues) 
+                    //ChallengeDataContentAgainstNullOrEmptyValues(validation.Payload, options, cancellationToken);
                 ChallengeCharacterSetEncoding(validation.Payload, options);
                 string base64DecodedPayload = DecodeBase64Encoding(validation.Payload);
                 
@@ -316,26 +319,26 @@ namespace Frends.Community.SecurityThreatDiagnostics
         {
             cancellationToken.ThrowIfCancellationRequested();
             List<string> invalidIPAddresses = new List<string>();
+            List<string> AllowedIPAdderesses = new List<string>();
+            
             allowedIpAddresses.WhiteListedIpAddress?.ToList().ForEach(
                 entry =>
                 { 
                     Regex allowedInboundTrafficRule = new Regex(entry);
-                    if  (!allowedInboundTrafficRule.IsMatch(allowedIpAddresses.Host)) 
-                    {
-                        invalidIPAddresses.Add(entry);
-                    }
+                    MatchCollection matchCollection = allowedInboundTrafficRule.Matches(allowedIpAddresses.Host);
+                    if (matchCollection.Count > 0)
+                        AllowedIPAdderesses.Add(entry);
                 });
             
             allowedIpAddresses.BlackListedIpAddresses?.ToList().ForEach(
                 entry =>
                 {
                     Regex allowedInboundTrafficRule = new Regex(entry);
-                    if (allowedInboundTrafficRule.IsMatch(allowedIpAddresses.Host))
-                    {
+                    MatchCollection matchCollection = allowedInboundTrafficRule.Matches(allowedIpAddresses.Host);
+                    if (matchCollection.Count > 0)
                         invalidIPAddresses.Add(entry);
-                    }
                 });
-            if (invalidIPAddresses.Count > 0)
+            if (AllowedIPAdderesses.Count > 0 && invalidIPAddresses.Count > 0)
             {
                 throw new ApplicationException("Invalid IP Address or range [" + allowedIpAddresses.Host + "]");
             }
@@ -360,7 +363,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
             CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            Dictionary<string, string> ruleExceptionMessageDictionary = new Dictionary<string, string>();
             ConcurrentDictionary<string, SecurityRuleFilter> ruleDictionary = SecurityFilterReader.Instance;
             
             StringBuilder validationChallengeMessage = new StringBuilder();
@@ -379,7 +382,7 @@ namespace Frends.Community.SecurityThreatDiagnostics
            
            foreach (var HttpHeaderPair in allowedHttpHeaders)
            {
-               ChallengeHeaderValue(options, ruleDictionary, HttpHeaderPair, validationChallengeMessage, dictionary, innerExceptionMessage);
+               ChallengeHeaderValue(options, ruleDictionary, HttpHeaderPair, validationChallengeMessage, ruleExceptionMessageDictionary, innerExceptionMessage);
            }
            
            foreach (var nonViableHeader in disAllowedHeaders)
@@ -387,13 +390,12 @@ namespace Frends.Community.SecurityThreatDiagnostics
                LogInvalidHeaderName(nonViableHeader);
            }
 
-            if (disAllowedHeaders.ToList().Count > 0)
-            {
-                BuildHierarchicalExceptionMessage(innerExceptionMessage, disAllowedHeaders, validationChallengeMessage);
-            }
+           if (ruleExceptionMessageDictionary.Count > 0 || disAllowedHeaders.ToList().Count > 0)
+           {
+               BuildHierarchicalExceptionMessage(innerExceptionMessage, disAllowedHeaders, validationChallengeMessage);
+           }
             
             var securityThreatDiagnosticsResult = BuildResponseMessage();
-
             return securityThreatDiagnosticsResult;
         }
 
@@ -417,35 +419,31 @@ namespace Frends.Community.SecurityThreatDiagnostics
                                                               IEnumerable<string> disAllowedHeaders,
                                                               StringBuilder validationChallengeMessage)
         {
-            ArgumentException argumentException =
-                new ArgumentException("Invalid argument information " + innerExceptionMessage.ToString());
+            ArgumentException argumentException = new ArgumentException("Invalid argument information " + innerExceptionMessage.ToString());
             
             StringBuilder builder = new StringBuilder("Invalid Headers included in the request message [");
-            builder.Append(disAllowedHeaders.ToList().Count).Append("]\n\n")
-                   .Append(disAllowedHeaders.Select(header => header.ToString() + " "));
-            builder.Append(validationChallengeMessage.ToString());
+            builder.Append(disAllowedHeaders.ToList().Count).Append("]\n\n");
+            disAllowedHeaders.ToList().ForEach(header => builder.Append(" " + header));
+            builder.Append(validationChallengeMessage);
             throw new ApplicationException(builder.ToString(), argumentException);
         }
 
-        private static IEnumerable<string> GetCurrentDisallowedHeaders(WhiteListedHeaders whiteListedHeaders, Dictionary<string, string> httpHeaders)
+        private static IEnumerable<string> GetCurrentDisallowedHeaders(WhiteListedHeaders whiteListedHeaders, Dictionary<string, string> currentHttpHeaders)
         {
-            var disallowedHeaders =
-                from header in whiteListedHeaders?.AllowedHttpHeaders
-                where httpHeaders.All(x => x.Key != httpHeaders.ToString())
-                select header;
-            return disallowedHeaders;
+            return whiteListedHeaders.AllowedHttpHeaders.Except(currentHttpHeaders.Keys.ToList());
         }
 
         private static Dictionary<string, string> GetCurrentAllowedHttpHeaders(WhiteListedHeaders whiteListedHeaders, Dictionary<string, string> httpHeaders)
         {
-            var q = (from allowedHttpHeaders in whiteListedHeaders?.AllowedHttpHeaders
-             join currentHttpHeaders in httpHeaders on allowedHttpHeaders equals currentHttpHeaders.Key
-             orderby currentHttpHeaders.Key
-             select new
-                {
-                    currentHttpHeaders.Key,
-                    currentHttpHeaders.Value
-                }).ToDictionary(x => x.Key, y => y.Value);
+            var q = 
+                (from allowedHttpHeaders in whiteListedHeaders?.AllowedHttpHeaders
+                     join currentHttpHeaders in httpHeaders on allowedHttpHeaders equals currentHttpHeaders.Key
+                     orderby currentHttpHeaders.Key
+                     select new
+                            {
+                                currentHttpHeaders.Key,
+                                currentHttpHeaders.Value
+                            }).ToDictionary(x => x.Key, y => y.Value);
             return q;
         }
 
@@ -457,32 +455,31 @@ namespace Frends.Community.SecurityThreatDiagnostics
             foreach (var rule in ruleDictionary)
             {
                 ChallengeCharacterSetEncoding(HttpHeaderPair.Value, options);
-                string base64DecodedHeaderValue = DecodeBase64Encoding(HttpHeaderPair.Value);
+                string base64DecodedHeaderValue = DecodeBase64Encoding(HttpHeaderPair.Value) ?? "";
 
                 if (rule.Value.Rule.IsMatch(HttpHeaderPair.Value) ||
-                    base64DecodedHeaderValue.Length > 0 &&
-                    rule.Value.Rule.IsMatch(base64DecodedHeaderValue) &&
-                    options.Base64Decode)
-                    if (options.Base64Decode && rule.Value.Rule.IsMatch(base64DecodedHeaderValue))
-                    {
-                        validationChallengeMessage
-                           .Append("Header [")
-                           .Append(rule.Key)
-                           .Append("]")
-                           .Append(" contains vulnerability [")
-                           .Append(rule.Value.Description)
-                           .Append("]");
-                        dictionary.Add(rule.Value.Id, innerExceptionMessage.ToString());
-                        innerExceptionMessage
-                           .Append("id [")
-                           .Append(HttpHeaderPair.Key)
-                           .Append("]")
-                           .Append(HttpHeaderPair.Value)
-                           .Append("], ");
-                        if (options.Base64Decode)
-                            innerExceptionMessage.Append("decoded value [")
-                                                 .Append(base64DecodedHeaderValue).Append("]");
-                    }
+                    options.Base64Decode && 
+                    base64DecodedHeaderValue.Length > 0 && 
+                    rule.Value.Rule.IsMatch(base64DecodedHeaderValue))
+                {
+                    validationChallengeMessage
+                       .Append("Header [")
+                       .Append(rule.Key)
+                       .Append("]")
+                       .Append(" contains vulnerability [")
+                       .Append(rule.Value.Description)
+                       .Append("]");
+                    dictionary.Add(rule.Value.Id, innerExceptionMessage.ToString());
+                    innerExceptionMessage
+                       .Append("id [")
+                       .Append(HttpHeaderPair.Key)
+                       .Append("]")
+                       .Append(HttpHeaderPair.Value)
+                       .Append("], ");
+                    if (options.Base64Decode)
+                        innerExceptionMessage.Append("decoded value [")
+                                             .Append(base64DecodedHeaderValue).Append("]");
+                }
             }
         }
 
@@ -510,24 +507,73 @@ namespace Frends.Community.SecurityThreatDiagnostics
             CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
+            StringBuilder builder = new StringBuilder("Invalid URL encoding in character set [");
             try
             {
                 validation.Payload = Decode(validation.Payload, options);
                 ChallengeAgainstSecurityThreats(validation, options, cancellationToken);
+                
+                SecurityThreatDiagnosticsResult securityThreatDiagnosticsResult = new SecurityThreatDiagnosticsResult();
+                securityThreatDiagnosticsResult.IsValid = true;
+            
+                return securityThreatDiagnosticsResult;
+                
             }
             catch (Exception exception)
             {
-                StringBuilder builder = new StringBuilder("Invalid URL encoding in character set [");
                 builder
                     .Append(validation.Payload)
                     .Append("]");
                 ArgumentException argumentException = new ArgumentException("Invalid URL encoding information "  + exception.ToString(), exception);
                 throw new ApplicationException(builder.ToString(), argumentException);                
             }
+            finally
+            {
+                builder.Clear();
+            }
+        }
+        
+        public static SecurityThreatDiagnosticsResult ChallengeDataContentAgainstNullOrEmptyValues
+        (
+            string payload,     
+            Options options, 
+            CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
             SecurityThreatDiagnosticsResult securityThreatDiagnosticsResult = new SecurityThreatDiagnosticsResult();
-            securityThreatDiagnosticsResult.IsValid = true;
-            
-            return securityThreatDiagnosticsResult;
+            StringBuilder builder = new StringBuilder("NULL value exposed.");
+            try
+            {
+                if (!options.AllowNullValues)
+                {
+                    payload
+                       .Replace(Convert.ToChar(0x0).ToString(), "")
+                       .Replace("\0", "")
+                       .Replace("%5C0", "")
+                       .Replace("%5C%20%255C0", "")
+                       .Replace("null", "");
+                    if (payload.Length > 0 || String.IsNullOrEmpty(payload) ||
+                        options.AllowWhiteSpaces && String.IsNullOrWhiteSpace(payload))
+                    {
+                        throw new Exception(builder.ToString());
+                    }
+
+                    securityThreatDiagnosticsResult.IsValid = String.IsNullOrEmpty(payload);
+                    return securityThreatDiagnosticsResult;
+                }
+            }
+            catch (Exception exception)
+            {
+                ArgumentException argumentException =
+                    new ArgumentException(exception.ToString(), exception);
+                throw new ApplicationException(builder.ToString(), argumentException);
+            }
+            finally
+            {
+                builder.Clear();
+            }
+
+            return null;
         }
 
     }
